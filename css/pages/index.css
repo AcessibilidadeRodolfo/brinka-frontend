@@ -1,0 +1,55 @@
+:root{
+    --bg:#272727;
+    --muted:#070707;
+    --accent:#ff8fb0; /* rosa do carrinho */
+    --btn-bg:#2f2f2f;
+}
+
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial, Helvetica, sans-serif;background:#272727}
+
+.site-header{
+    margin-top: 20px;
+    background:var(--bg);
+    color:#fff;
+    padding:18px 24px;
+}
+
+.header-inner{
+    max-width:1100px;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.logo{height:56px}
+.logo-wrap{margin-right:  0;}
+
+.search-wrap{flex:1 1 400px; display:flex; justify-content:center}
+.search-input{
+    width:40%;
+    max-width:400px;
+    background:#e4e4e4;
+    border:1px solid #e4e4e4;
+    padding:10px 16px;
+    border-radius:24px;
+    outline:none;
+    
+}
+.search-input::placeholder{color:var(--bg)}
+
+.actions-wrap{flex:0 0 auto; display:flex; align-items:center; gap:12px}
+.btn{font-size:14px;padding:8px 14px;border-radius:20px;cursor:pointer;border:none}
+.btn-login{background:#6e6e6e57;color:#fff;border:1px solid rgba(255,255,255,0.12); }
+.btn-cart{background:var(--accent);color:#3b1b33;padding:8px 14px;font-weight:600}
+.cart-count{background:#fff;color:var(--accent);border-radius:50%;padding:2px 8px;margin-left:8px;font-weight:700}
+
+/* Mobile adjustments */
+@media (max-width:640px){
+    .header-inner{padding:0 6px}
+    .search-input{width:100%}
+    .logo{height:32px}
+    .btn-login{padding:6px 10px}
+    .btn-cart{padding:6px 10px}
+}
