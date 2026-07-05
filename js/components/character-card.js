@@ -17,6 +17,7 @@ character-card.js
             const to = this.getAttribute('color-to') || '#222';
             const desc = this.getAttribute('desc') || '';
             const favorited = this.hasAttribute('favorited');
+            const img = this.getAttribute('img') || 'https://placehold.co/200x260/transparent/ffffff?text=%20';
 
             this.style.background = '';
 
@@ -32,7 +33,7 @@ character-card.js
                 >${favorited ? '✓' : '+'}</button>
                 </div>
                 <img
-                src="https://placehold.co/200x260/transparent/ffffff?text=%20"
+                src="${img}"
                 alt="Avatar de ${name}: ${desc}"
                 >
             </article>
