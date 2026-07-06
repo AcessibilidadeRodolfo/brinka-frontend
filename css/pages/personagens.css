@@ -25,14 +25,13 @@
     border-radius: 999px;
 }
 
-
 /* ---------- filtros (tabs) ---------- */
 .personagens-section [role="tablist"] {
     display: flex;
     gap: 12px;
     margin-bottom: 32px;
     flex-wrap: wrap;
-}   
+}
 .personagens-section [role="tab"] {
     background: transparent;
     border: 1px solid #555;
@@ -42,13 +41,13 @@
     font-size: 0.95rem;
     cursor: pointer;
     font-family: inherit;
-}   
+}
 .personagens-section [role="tab"][aria-selected="true"] {
     background: #fff;
     color: #111;
     border-color: #fff;
     font-weight: 600;
-}   
+}
 .personagens-section [role="tab"]:focus-visible {
     outline: 3px solid #6cb6ff;
     outline-offset: 2px;
@@ -71,61 +70,10 @@
     gap: 24px;
     margin: 0;
     padding: 0;
-}   
+}
 .personagens-section .catalog-card-grid > li {
     display: contents;
-}   
+}
 .personagens-section character-card {
     display: block;
-}
-
-
-/* ---------- estilos internos do card (o componente renderiza em light DOM,
-   então estes estilos se aplicam normalmente, sem Shadow DOM) ---------- */
-.character-card {
-    border-radius: 16px;
-    padding: 16px;
-    position: relative;
-    min-height: 280px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}   
-.character-card .ps-card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    right: 16px;
-}   
-.character-card h3 {
-    margin: 0;
-    font-size: 1.05rem;
-    color: #fff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, .4);
-}   
-.character-card .ps-fav-button {
-    background: #fff;
-    color: #111;
-    border: none;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    flex-shrink: 0;
-}   
-.character-card .ps-fav-button:focus-visible {
-    outline: 3px solid #6cb6ff;
-    outline-offset: 2px;
-}   
-.character-card img {
-    position: absolute;
-    bottom: 0;
-    right: 8px;
-    width: 70%;
-    max-height: 80%;
-    object-fit: contain;
 }
