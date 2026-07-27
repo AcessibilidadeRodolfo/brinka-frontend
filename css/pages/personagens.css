@@ -1,0 +1,79 @@
+.personagens-section {
+    background: #1e1e1e;
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+    padding: 32px;
+    border-radius: 12px;
+}
+.personagens-section .ps-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.personagens-section .ps-title {
+    font-size: 1.8rem;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+.personagens-section .status-catalog {
+    background: #8fae3b;
+    color: #142b00;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 6px 14px;
+    border-radius: 999px;
+}
+
+/* ---------- filtros (tabs) ---------- */
+.personagens-section [role="tablist"] {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+.personagens-section [role="tab"] {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-family: inherit;
+}
+.personagens-section [role="tab"][aria-selected="true"] {
+    background: #fff;
+    color: #111;
+    border-color: #fff;
+    font-weight: 600;
+}
+.personagens-section [role="tab"]:focus-visible {
+    outline: 3px solid #6cb6ff;
+    outline-offset: 2px;
+}
+
+/* ---------- live region (visualmente oculta, acessível) ---------- */
+.personagens-section .ps-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.personagens-section .catalog-card-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4,190px);
+    gap: 54px;
+    margin: 0;
+    padding: 0;
+}
+.personagens-section .catalog-card-grid > li {
+    display: contents;
+}
+.personagens-section character-card {
+    display: block;
+}
