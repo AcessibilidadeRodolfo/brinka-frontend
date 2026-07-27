@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fazer Login | Brinka</title>
+  <meta name="description" content="Faça login na Brinka e comece a explorar o seu vilarejo." />
+
+  <link rel="stylesheet" href="css/pages/login.css" />
+</head>
+<body>
+
+  <!-- Skip link: permite que usuários de teclado pulem direto para o formulário -->
+  <a class="skip-link" href="#login-form">Pular para o formulário de login</a>
+
+  <main class="login-page">
+
+    <section class="login-panel" aria-labelledby="login-title">
+      <img
+        class="login-panel__logo"
+        src="assets/images/logo.png"
+        alt="Brinka"
+        width="176"
+        height="88"
+      />
+
+      <h1 id="login-title" class="login-panel__title">Fazer Login</h1>
+      <p class="login-panel__subtitle">
+        Insira suas informações para prosseguirmos com seu login
+      </p>
+
+      <form id="login-form" class="login-form" novalidate>
+
+        <!-- Região usada para anunciar erros de validação a leitores de tela -->
+        <div
+          id="form-feedback"
+          class="form-feedback"
+          role="alert"
+          aria-live="assertive"
+        ></div>
+
+        <div class="field">
+          <label for="email" class="field__label">E-mail</label>
+          <div class="field__control">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="field__input"
+              placeholder="E-mail"
+              autocomplete="email"
+              required
+              aria-required="true"
+              aria-describedby="email-error"
+            />
+            <svg class="field__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+              <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.4 0-8 2.2-8 5v1h16v-1c0-2.8-3.6-5-8-5Z"/>
+            </svg>
+          </div>
+          <p id="email-error" class="field__error" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="password" class="field__label">Senha</label>
+          <div class="field__control">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="field__input"
+              placeholder="Senha"
+              autocomplete="current-password"
+              required
+              aria-required="true"
+              aria-describedby="password-error"
+            />
+            <button
+              type="button"
+              id="toggle-password"
+              class="field__icon field__icon--button"
+              aria-pressed="false"
+              aria-label="Mostrar senha"
+            >
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                <path d="M12 5c-5 0-9.3 3.1-11 7 1.7 3.9 6 7 11 7s9.3-3.1 11-7c-1.7-3.9-6-7-11-7Zm0 11.5A4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 0 1 0 9Z"/>
+              </svg>
+            </button>
+          </div>
+          <p id="password-error" class="field__error" hidden></p>
+        </div>
+
+        <button type="submit" class="btn-primary">Avançar</button>
+
+      </form>
+    </section>
+
+    <aside class="login-side" aria-hidden="true">
+      <span class="login-side__text">Seu vilarejo começa aqui!</span>
+    </aside>
+
+  </main>
+
+  <script src="js/pages/login.js"></script>
+</body>
+</html>
