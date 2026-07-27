@@ -81,7 +81,7 @@ input:focus-visible {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--space-5) clamp(var(--space-4), 8vw, 96px);
+  padding: 10px 90px 70px 120px;
   max-width: 760px;
 }
 
@@ -222,7 +222,7 @@ input:focus-visible {
   font-family: var(--font-display);
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  font-size: clamp(1.5rem, 2.5vw, 3.5rem);
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
