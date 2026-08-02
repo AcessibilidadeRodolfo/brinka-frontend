@@ -51,7 +51,7 @@
 }
 
 .encomende-btn:focus-visible {
-    outline: 3px solid #fff;
+    outline: 4px solid var(--accent);
     outline-offset: 4px;
 }
 
