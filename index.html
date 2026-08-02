@@ -90,22 +90,26 @@
         <section class="personagens-section">
 
             <header class="ps-header">
-                <h2  id="personagens-heading-1" class="ps-title">
-                    Nossos Personagens
+                <h2 id="personagens-heading-1" class="ps-title">
+                    <img
+                        src="assets/icons/nossosP.svg"
+                        alt="Nossos Personagens"
+                        class="ps-title-svg"
+                    >
                 </h2>
+
                 <span class="status-catalog">Disponível</span>
             </header>
 
-            <div role="tablist" aria-label="Categorias" class="catalog-tabs">
-                <button role="tab" aria-selected="true" tabindex="0">Todos</button>
-                <button role="tab" aria-selected="false" tabindex="-1">Clássicos</button>
-                <button role="tab" aria-selected="false" tabindex="-1">Especiais</button>
-                <button role="tab" aria-selected="false" tabindex="-1">Novos</button>
-                <button role="tab" aria-selected="false" tabindex="-1">Promoções</button>
+            <div class="catalog-tabs" role="group" aria-label="Categorias">
+                <button type="button" aria-pressed="true">Todos</button>
+                <button type="button" aria-pressed="false">Clássicos</button>
+                <button type="button" aria-pressed="false">Especiais</button>
+                <button type="button" aria-pressed="false">Novos</button>
+                <button type="button" aria-pressed="false">Promoções</button>
             </div>
 
             <div class="ps-live-region ps-sr-only" role="status" aria-live="polite"></div>
-
             <ul class="catalog-card-grid" aria-labelledby="personagens-heading-1">
                 <li><character-card name="Mari Marrão" color-from="#DF7A96" color-to="#F6356B" img="assets/images/mari-marrao.png" desc="boina branca, cabelo cacheado castanho, jardineira jeans"></character-card></li>
                 <li><character-card name="Erick Santos" color-from="#26AACE" color-to="#287488" img="assets/images/erick-santos.png" desc="moletom cinza com manchas verdes, fazendo sinal de paz"></character-card></li>
