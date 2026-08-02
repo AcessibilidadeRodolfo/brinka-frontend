@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             button.classList.add('active');
             button.setAttribute('aria-pressed', 'true');
+
+            document.getElementById(button.dataset.target)?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
         });
     });
 });

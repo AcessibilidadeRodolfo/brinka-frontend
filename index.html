@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brika-Landing</title>
     <link rel="stylesheet" href="css/components/header.css">
+    <script src="js/components/home.js"></script>
+    <link rel="stylesheet" href="css/components/footer.css">
+    <link rel="stylesheet" href="css/components/encomenda.css">
     <link rel="stylesheet" href="css/components/home.css">
     <link rel="stylesheet" href="css/pages/index.css">
     <link rel="stylesheet" href="css/components/character-card.css">
@@ -71,11 +74,21 @@
             </h1>
 
             <div class="home-buttons" aria-label="Ações principais">
-                <button class="home-btn active" type="button" aria-pressed="true">
+                <button
+                    class="home-btn active"
+                    type="button"
+                    aria-pressed="true"
+                    data-target="personagens"
+                >
                     Ver coleção
                 </button>
 
-                <button class="home-btn" type="button" aria-pressed="false">
+                <button
+                    class="home-btn"
+                    type="button"
+                    aria-pressed="false"
+                    data-target="encomenda"
+                >
                     Encomendar
                 </button>
             </div>
@@ -87,7 +100,7 @@
                 aria-hidden="true"
             >
         </section>
-        <section class="personagens-section">
+        <section id="personagens" class="personagens-section">
 
             <header class="ps-header">
                 <h2 id="personagens-heading-1" class="ps-title">
@@ -121,6 +134,49 @@
             </ul>
 
         </section>
+
+        <section id="encomenda" class="encomende-section" aria-labelledby="encomende-title">
+            <div class="encomende-content">
+                <h2 id="encomende-title">
+                    <img
+                        src="assets/icons/encomende.svg"
+                        alt="Encomende"
+                        class="encomende-svg"
+                    >
+                </h2>
+
+                <button class="encomende-btn" type="button">
+                    Encomendar
+
+                    <svg class="encomende-btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M16.69 12.47 3.51 13.26c-.31 0-.47.16-.47.31L1.15 20.02c-.31.79-.16 1.88.63 2.5.63.47 1.73.58 2.35.32l17.58-8.8c.94-.47 1.41-1.41 1.26-2.36L4.13 1.16c-.78-.26-1.73-.16-2.35.31-.79.63-.94 1.57-.63 2.52l1.89 6.44c0 .16.31.32.47.32l13.18.79s.47 0 .47.47-.47.47-.47.47Z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="links-wrap">
+                    <nav class="footer-links" aria-label="Links rápidos">
+                        <h2>Links rápidos</h2>
+                        <a href="#">Home</a>
+                        <a href="#">Carrinho</a>
+                        <a href="#">Encomendar</a>
+                    </nav>
+
+                    <div class="footer-contact">
+                        <h2>Contatos</h2>
+                        <p>@brinka</p>
+                        <p>11 95064-6508</p>
+                    </div>
+                </div>
+
+                <div class="footer-logo">
+                    <img src="assets/icons/logo.svg" alt="Brinka" class="footer-logo-img">
+                </div>
+            </div>
+        </footer>
     </main>
 </body>
 </html>
