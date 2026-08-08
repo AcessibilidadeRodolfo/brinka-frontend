@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fazer Cadastro | Brinka</title>
+  <meta name="description" content="Crie sua conta Brinka para começar a comprar no seu vilarejo." />
+
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/components/buttons.css" />
+  <link rel="stylesheet" href="../css/components/inputs.css" />
+  <link rel="stylesheet" href="../css/components/stepper.css" />
+  <link rel="stylesheet" href="../css/components/auth-layout.css" />
+  <link rel="stylesheet" href="../css/pages/cadastro.css" />
+</head>
+<body>
+  <div class="auth-layout">
+    <a href="login.html" class="btn btn--pink auth-layout__switch-action">
+      Fazer Login
+    </a>
+
+    <main class="auth-layout__content">
+      <div class="auth-layout__card">
+        <header class="cadastro-header">
+          <!-- Substitua pelo asset exportado do Figma quando disponível:
+               <img class="cadastro-header__logo" src="../assets/images/logo-brinka.svg" alt="Brinka" /> -->
+          <p class="cadastro-header__logo cadastro-header__logo--text" aria-hidden="true">
+            <span>B</span><span>r</span><span>i</span><span>n</span><span>k</span><span>a</span>
+          </p>
+          <h1 class="cadastro-header__title">Fazer Cadastro</h1>
+          <p class="cadastro-header__subtitle">
+            Insira suas informações para prosseguirmos com seu cadastro
+          </p>
+        </header>
+
+        <p id="cadastro-status" class="sr-only" role="status" aria-live="polite"></p>
+
+        <form id="cadastro-form" class="cadastro-form" novalidate>
+          <!-- Etapa 1 — Dados pessoais -->
+          <fieldset class="cadastro-step" data-step="0" id="step-0">
+            <legend class="sr-only">Dados pessoais</legend>
+
+            <div class="input-field">
+              <label class="input-field__label sr-only" for="nome">Nome</label>
+              <input
+                class="input-field__control"
+                type="text"
+                id="nome"
+                name="nome"
+                placeholder="Nome"
+                autocomplete="name"
+                aria-describedby="nome-erro"
+              />
+              <svg class="input-field__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.6" />
+                <path d="M4.5 19.5c1.6-3.4 4.4-5.1 7.5-5.1s5.9 1.7 7.5 5.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+              </svg>
+              <p class="input-field__error" id="nome-erro" role="alert"></p>
+            </div>
+
+            <div class="input-field">
+              <label class="input-field__label sr-only" for="email">E-mail</label>
+              <input
+                class="input-field__control"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="E-mail"
+                autocomplete="email"
+                aria-describedby="email-erro"
+              />
+              <svg class="input-field__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.6" />
+                <path d="M4.5 19.5c1.6-3.4 4.4-5.1 7.5-5.1s5.9 1.7 7.5 5.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+              </svg>
+              <p class="input-field__error" id="email-erro" role="alert"></p>
+            </div>
+
+            <div class="input-field">
+              <label class="input-field__label sr-only" for="telefone">Telefone</label>
+              <input
+                class="input-field__control"
+                type="tel"
+                id="telefone"
+                name="telefone"
+                placeholder="Telefone"
+                inputmode="tel"
+                autocomplete="tel"
+                aria-describedby="telefone-erro"
+              />
+              <svg class="input-field__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 4.5h3.2l1.3 3.6-1.9 1.7a11 11 0 0 0 6.6 6.6l1.7-1.9 3.6 1.3V19a1.5 1.5 0 0 1-1.6 1.5C11.4 19.9 4.1 12.6 3.5 6.1A1.5 1.5 0 0 1 5 4.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+              </svg>
+              <p class="input-field__error" id="telefone-erro" role="alert"></p>
+            </div>
+          </fieldset>
+
+          <!-- Etapa 2 — Endereço -->
+          <fieldset class="cadastro-step" data-step="1" id="step-1" hidden aria-hidden="true">
+            <legend class="sr-only">Endereço</legend>
+
+            <div class="input-field">
+              <label class="input-field__label sr-only" for="cep">CEP</label>
+              <input
+                class="input-field__control"
+                type="text"
+                id="cep"
+                name="cep"
+                placeholder="CEP"
+                inputmode="numeric"
+                autocomplete="postal-code"
+                aria-describedby="cep-erro"
+              />
+              <svg class="input-field__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 21s6.5-5.8 6.5-11A6.5 6.5 0 0 0 5.5 10c0 5.2 6.5 11 6.5 11Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                <circle cx="12" cy="10" r="2.1" stroke="currentColor" stroke-width="1.6" />
+              </svg>
+              <p class="input-field__error" id="cep-erro" role="alert"></p>
+            </div>
+
+            <div class="cadastro-form__row">
+              <div class="input-field input-field--sm">
+                <label class="input-field__label sr-only" for="uf">Estado</label>
+                <input
+                  class="input-field__control input-field__control--plain"
+                  type="text"
+                  id="uf"
+                  name="uf"
+                  placeholder="SP"
+                  maxlength="2"
+                  autocomplete="address-level1"
+                  aria-describedby="uf-erro"
+                />
+                <p class="input-field__error" id="uf-erro" role="alert"></p>
+              </div>
+
+              <div class="input-field input-field--grow">
+                <label class="input-field__label sr-only" for="cidade">Cidade</label>
+                <input
+                  class="input-field__control input-field__control--plain"
+                  type="text"
+                  id="cidade"
+                  name="cidade"
+                  placeholder="Cidade"
+                  autocomplete="address-level2"
+                  aria-describedby="cidade-erro"
+                />
+                <p class="input-field__error" id="cidade-erro" role="alert"></p>
+              </div>
+
+              <div class="input-field input-field--sm">
+                <label class="input-field__label sr-only" for="numero">Número</label>
+                <input
+                  class="input-field__control input-field__control--plain"
+                  type="text"
+                  id="numero"
+                  name="numero"
+                  placeholder="N°"
+                  inputmode="numeric"
+                  autocomplete="address-line2"
+                  aria-describedby="numero-erro"
+                />
+                <p class="input-field__error" id="numero-erro" role="alert"></p>
+              </div>
+            </div>
+
+            <div class="input-field">
+              <label class="input-field__label sr-only" for="bairro">Bairro</label>
+              <input
+                class="input-field__control input-field__control--plain"
+                type="text"
+                id="bairro"
+                name="bairro"
+                placeholder="Bairro"
+                autocomplete="address-level3"
+                aria-describedby="bairro-erro"
+              />
+              <p class="input-field__error" id="bairro-erro" role="alert"></p>
+            </div>
+
+            <div class="input-field">
+              <label class="input-field__label sr-only" for="rua">Rua</label>
+              <input
+                class="input-field__control input-field__control--plain"
+                type="text"
+                id="rua"
+                name="rua"
+                placeholder="Rua"
+                autocomplete="address-line1"
+                aria-describedby="rua-erro"
+              />
+              <p class="input-field__error" id="rua-erro" role="alert"></p>
+            </div>
+          </fieldset>
+
+          <ol class="stepper" aria-hidden="true">
+            <li class="stepper__item" data-state="active"></li>
+            <li class="stepper__item" data-state="upcoming"></li>
+          </ol>
+
+          <div class="cadastro-form__actions">
+            <button type="button" id="btn-voltar" class="btn btn--ghost" hidden>
+              Voltar
+            </button>
+            <button type="submit" id="btn-avancar" class="btn btn--cyan cadastro-form__submit">
+              Avançar
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <aside class="auth-layout__brand-panel" aria-hidden="true">
+      <p class="auth-layout__brand-text">
+        <span class="auth-layout__brand-title">Seu Vilarejo</span>
+        <span class="auth-layout__brand-subtitle">Começa aqui!</span>
+      </p>
+    </aside>
+  </div>
+
+  <script type="module" src="../js/pages/cadastro.js"></script>
+</body>
+</html>
