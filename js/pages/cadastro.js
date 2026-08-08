@@ -1,9 +1,4 @@
-/**
- * js/pages/cadastro.js
- * Controlador da tela "Fazer Cadastro". Conecta os componentes genéricos
- * (Stepper) e utilitários (masks, validators, cepService) às regras
- * específicas desta página.
- */
+
 import { Stepper } from "../components/stepper.js";
 import { attachMask, maskTelefone, maskCep, maskUf } from "../utils/masks.js";
 import {
@@ -144,8 +139,7 @@ form.addEventListener("submit", (event) => {
 });
 
 function submitCadastro(values) {
-  // Integração com a API de cadastro fica a cargo do serviço correspondente
-  // (ex.: js/services/authService.js) quando o endpoint estiver definido.
+
   btnAvancar.disabled = true;
   statusRegion.textContent = "Enviando cadastro...";
 
@@ -154,7 +148,7 @@ function submitCadastro(values) {
   window.setTimeout(() => {
     statusRegion.textContent = "Cadastro concluído com sucesso!";
     btnAvancar.disabled = false;
-    // window.location.href = "boas-vindas.html";
+
   }, 600);
 }
 

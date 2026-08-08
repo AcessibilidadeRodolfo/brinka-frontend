@@ -1,13 +1,3 @@
-/**
- * components/auth-layout.css
- * Layout de tela dividida usado nas telas de autenticação/onboarding
- * (login, cadastro, recuperação de senha...). Fundo escuro à esquerda com o
- * cartão de formulário, faixa rosa à direita com o texto de marca rotacionado
- * e um botão "pill" que atravessa a linha de divisão entre as duas áreas.
- *
- * Proporção medida no Figma: ≈ 71,3% (conteúdo) / 28,7% (faixa de marca).
- */
-
 .auth-layout {
   position: relative;
   min-height: 100vh;
@@ -70,11 +60,6 @@
   padding-bottom: 0.35em;
 }
 
-/* ---------- Botão "pill" que cavalga a divisa entre as duas áreas ----------
- * Ancorado pela borda direita a uma distância fixa dentro da faixa rosa
- * (medida no Figma: ≈ 38px de sobreposição), crescendo para a esquerda com
- * a largura do próprio conteúdo — não depende da largura do botão, então
- * continua correto se o texto mudar (ex.: outro idioma). */
 .auth-layout__switch-action {
   position: absolute;
   top: 50%;

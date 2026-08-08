@@ -1,9 +1,3 @@
-/**
- * base.css
- * Reset mínimo e defaults globais. Se o projeto já possuir um reset global
- * próprio, mescle as regras abaixo nele em vez de carregar os dois arquivos.
- */
-
 @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap");
 
 *,

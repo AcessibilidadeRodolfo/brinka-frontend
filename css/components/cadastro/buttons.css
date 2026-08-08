@@ -1,8 +1,3 @@
-/**
- * components/buttons.css
- * Botões em formato "pill" usados em toda a aplicação (CTA primário ciano,
- * CTA de marca rosa, botão secundário/ghost). Reutilizável em qualquer página.
- */
 
 .btn {
   display: inline-flex;

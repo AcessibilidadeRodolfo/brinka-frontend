@@ -1,10 +1,3 @@
-/**
- * components/stepper.css
- * Indicador de progresso em "barrinhas" usado em fluxos de múltiplas etapas
- * (hoje: cadastro em 2 etapas). Reutilizável para qualquer wizard futuro —
- * basta renderizar um <li> por etapa.
- */
-
 .stepper {
   display: flex;
   gap: var(--space-2);

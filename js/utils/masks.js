@@ -1,11 +1,5 @@
-/**
- * js/utils/masks.js
- * Máscaras de digitação reutilizáveis. Sem dependências externas.
- */
 
 /**
- * Formata um telefone brasileiro enquanto o usuário digita.
- * Aceita fixo (10 dígitos) e celular (11 dígitos).
  * @param {string} value
  * @returns {string}
  */
@@ -23,7 +17,6 @@ export function maskTelefone(value) {
 }
 
 /**
- * Formata um CEP no padrão 00000-000.
  * @param {string} value
  * @returns {string}
  */
@@ -34,7 +27,6 @@ export function maskCep(value) {
 }
 
 /**
- * Limita e normaliza a sigla de estado (UF) para maiúsculas, 2 letras.
  * @param {string} value
  * @returns {string}
  */
@@ -46,9 +38,6 @@ export function maskUf(value) {
 }
 
 /**
- * Aplica uma função de máscara a um <input> a cada evento "input",
- * preservando a posição do cursor no fim do valor (suficiente para os
- * padrões usados neste projeto, que só formatam para a frente).
  * @param {HTMLInputElement} input
  * @param {(value: string) => string} maskFn
  */

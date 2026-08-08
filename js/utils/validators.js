@@ -1,8 +1,3 @@
-/**
- * js/utils/validators.js
- * Validadores puros e reutilizáveis. Cada função retorna uma mensagem de erro
- * em português (para exibir na UI) ou null quando o valor é válido.
- */
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -43,7 +38,7 @@ export function validUf(value) {
 }
 
 /**
- * Executa um mapa { campo: validador } contra um FormData/objeto de valores.
+ * 
  * @param {Record<string, string>} values
  * @param {Record<string, (v: string) => string | null>} rules
  * @returns {Record<string, string>} mapa de erros (vazio se tudo válido)

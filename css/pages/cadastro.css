@@ -1,10 +1,3 @@
-/**
- * pages/cadastro.css
- * Estilos específicos da tela "Fazer Cadastro" (wizard de 2 etapas).
- * Depende de: tokens.css, components/auth-layout.css, components/inputs.css,
- * components/buttons.css, components/stepper.css.
- */
-
 .cadastro-header {
   margin-bottom: var(--space-6);
 }

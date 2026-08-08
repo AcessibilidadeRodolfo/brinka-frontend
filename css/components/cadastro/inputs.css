@@ -1,17 +1,3 @@
-/**
- * components/inputs.css
- * Campo de formulário no padrão Brinka: retângulo cinza com cantos
- * arredondados, borda clara sutil e ícone opcional alinhado à direita.
- * Reutilizável em qualquer formulário do projeto (cadastro, login, checkout...).
- *
- * Uso:
- * <div class="input-field">
- *   <label class="input-field__label" for="nome">Nome</label>
- *   <input class="input-field__control" id="nome" placeholder="Nome">
- *   <svg class="input-field__icon" aria-hidden="true">...</svg>
- *   <p class="input-field__error" id="nome-erro" role="alert"></p>
- * </div>
- */
 
 .input-field {
   position: relative;
@@ -69,8 +55,6 @@
   box-shadow: 0 0 0 3px rgba(255, 138, 138, 0.3);
 }
 
-/* Campos sem ícone (ex.: Bairro, Rua, Cidade, UF, Número) não precisam do
-   espaço reservado à direita — mantém o padding simétrico ao da esquerda. */
 .input-field__control--plain {
   padding-right: var(--space-5);
 }
@@ -86,7 +70,6 @@
   pointer-events: none;
 }
 
-/* Move o ícone para o centro vertical do input quando o campo tem rótulo visível */
 .input-field__control:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -99,8 +82,6 @@
   font-size: 0.8rem;
   color: var(--color-danger);
 }
-
-/* Variantes de largura, usadas na linha "SP / Cidade / N°" da etapa de endereço */
 .input-field--sm {
   flex: 0 0 78px;
 }

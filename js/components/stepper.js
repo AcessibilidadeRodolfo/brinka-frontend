@@ -1,12 +1,4 @@
-/**
- * js/components/stepper.js
- * Controlador genérico de formulários em múltiplas etapas ("wizard").
- * Não conhece regras de negócio de nenhuma página específica — recebe os
- * elementos das etapas e do indicador de progresso e apenas orquestra
- * visibilidade, atributos de acessibilidade e foco.
- *
- * Reutilizável em qualquer fluxo futuro com mais de uma etapa.
- */
+
 export class Stepper {
   /**
    * @param {Object} options
