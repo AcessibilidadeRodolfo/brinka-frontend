@@ -1,0 +1,77 @@
+/**
+ * tokens.css
+ * Design tokens globais do Brinka — cores, tipografia, espaçamento, raios e sombras.
+ * Extraídos pixel a pixel do protótipo Figma (telas "Fazer Cadastro").
+ * Todas as páginas e componentes devem consumir estas variáveis em vez de
+ * valores "mágicos", para manter consistência visual e facilitar telas futuras.
+ */
+
+:root {
+  /* ---------- Cor: superfícies ---------- */
+  --color-bg: #272727;              /* fundo principal (painel escuro) */
+  --color-surface: #5c5c5c;         /* preenchimento dos inputs */
+  --color-surface-border: #e4e4e4;  /* borda clara dos inputs */
+  --color-surface-border-focus: #ffffff;
+
+  /* ---------- Cor: marca ---------- */
+  --color-brand-pink: #fd8fb4;      /* painel/CTA "Fazer Login" */
+  --color-brand-pink-dark: #e0699a; /* hover/active do rosa */
+  --color-brand-cyan: #26a8cb;      /* CTA primário "Avançar" */
+  --color-brand-cyan-dark: #1f87a3; /* hover/active do ciano */
+  --color-progress-inactive: #454545;
+
+  /* ---------- Cor: texto ---------- */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #f2f2f2;
+  --color-text-muted: #cccbcb;
+  --color-text-placeholder: #a9a9a9;
+  --color-text-on-brand: #ffffff;
+
+  /* ---------- Cor: feedback ---------- */
+  --color-danger: #ff8a8a;
+  --color-focus-ring: #7ad0e6;
+
+  /* ---------- Tipografia ---------- */
+  --font-display: "Baloo 2", "Poppins", system-ui, sans-serif; /* títulos, logo, botões: fonte arredondada e lúdica */
+  --font-body: "Poppins", "Segoe UI", system-ui, sans-serif;   /* textos de apoio e inputs */
+
+  --fs-title: clamp(1.75rem, 1.35rem + 1.6vw, 2.25rem);
+  --fs-subtitle: clamp(0.9rem, 0.85rem + 0.2vw, 1rem);
+  --fs-input: 0.95rem;
+  --fs-button: 1.05rem;
+  --fs-banner-title: clamp(2rem, 1.2rem + 3.2vw, 3.5rem);
+  --fs-banner-subtitle: clamp(0.85rem, 0.6rem + 1vw, 1.3rem);
+
+  /* ---------- Espaçamento ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* ---------- Raios ---------- */
+  --radius-input: 12px;
+  --radius-pill: 999px;
+  --radius-card: 20px;
+
+  /* ---------- Sombra ---------- */
+  --shadow-button: 0 6px 16px rgba(0, 0, 0, 0.28);
+  --shadow-panel: -12px 0 32px rgba(0, 0, 0, 0.25);
+
+  /* ---------- Layout ---------- */
+  --auth-panel-width: 30%;     /* proporção medida no Figma (≈ 71,3% / 28,7%) */
+  --auth-content-max-width: 460px;
+
+  /* ---------- Movimento ---------- */
+  --transition-fast: 150ms ease;
+  --transition-step: 260ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-step: 0ms;
+  }
+}

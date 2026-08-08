@@ -1,0 +1,112 @@
+/**
+ * pages/cadastro.css
+ * Estilos específicos da tela "Fazer Cadastro" (wizard de 2 etapas).
+ * Depende de: tokens.css, components/auth-layout.css, components/inputs.css,
+ * components/buttons.css, components/stepper.css.
+ */
+
+.cadastro-header {
+  margin-bottom: var(--space-6);
+}
+
+.cadastro-header__logo {
+  display: block;
+  height: 34px;
+  width: auto;
+  margin-bottom: var(--space-5);
+}
+
+/* Fallback textual caso o asset de logo ainda não tenha sido exportado do Figma */
+.cadastro-header__logo--text {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  display: inline-flex;
+}
+.cadastro-header__logo--text span:nth-child(1) { color: #ffd23f; }
+.cadastro-header__logo--text span:nth-child(2) { color: #ff5c8a; }
+.cadastro-header__logo--text span:nth-child(3) { color: #29b6f6; }
+.cadastro-header__logo--text span:nth-child(4) { color: #29b6f6; }
+.cadastro-header__logo--text span:nth-child(5) { color: #66bb6a; }
+.cadastro-header__logo--text span:nth-child(6) { color: #ff5c8a; }
+
+.cadastro-header__title {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-title);
+  color: var(--color-text-primary);
+}
+
+.cadastro-header__subtitle {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-subtitle);
+  color: var(--color-text-secondary);
+}
+
+.cadastro-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.cadastro-step {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.cadastro-step[hidden] {
+  display: none;
+}
+
+/* Animação sutil de entrada ao trocar de etapa (desabilitada em prefers-reduced-motion via token) */
+.cadastro-step {
+  animation: cadastro-step-in var(--transition-step) ease both;
+}
+
+@keyframes cadastro-step-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Linha "CEP" isolada + linha "SP / Cidade / N°" */
+.cadastro-form__row {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.cadastro-form__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+.cadastro-form__submit {
+  flex: 1 1 auto;
+}
+
+@media (max-width: 420px) {
+  .cadastro-form__row {
+    flex-wrap: wrap;
+  }
+
+  .input-field--sm {
+    flex: 1 1 90px;
+  }
+
+  .input-field--grow {
+    flex: 1 1 100%;
+    order: -1;
+  }
+}
