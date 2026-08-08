@@ -25,9 +25,7 @@
         <header class="cadastro-header">
           <!-- Substitua pelo asset exportado do Figma quando disponível:
                <img class="cadastro-header__logo" src="../assets/images/logo-brinka.svg" alt="Brinka" /> -->
-          <p class="cadastro-header__logo cadastro-header__logo--text" aria-hidden="true">
-            <span>B</span><span>r</span><span>i</span><span>n</span><span>k</span><span>a</span>
-          </p>
+            <img src="../assets/icons/logo.svg" alt="Brinka" class="logo" width="210" height="150" />
           <h1 class="cadastro-header__title">Fazer Cadastro</h1>
           <p class="cadastro-header__subtitle">
             Insira suas informações para prosseguirmos com seu cadastro
@@ -52,10 +50,6 @@
                 autocomplete="name"
                 aria-describedby="nome-erro"
               />
-              <svg class="input-field__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.6" />
-                <path d="M4.5 19.5c1.6-3.4 4.4-5.1 7.5-5.1s5.9 1.7 7.5 5.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-              </svg>
               <p class="input-field__error" id="nome-erro" role="alert"></p>
             </div>
 
@@ -70,10 +64,6 @@
                 autocomplete="email"
                 aria-describedby="email-erro"
               />
-              <svg class="input-field__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.6" />
-                <path d="M4.5 19.5c1.6-3.4 4.4-5.1 7.5-5.1s5.9 1.7 7.5 5.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-              </svg>
               <p class="input-field__error" id="email-erro" role="alert"></p>
             </div>
 
@@ -89,9 +79,6 @@
                 autocomplete="tel"
                 aria-describedby="telefone-erro"
               />
-              <svg class="input-field__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M5 4.5h3.2l1.3 3.6-1.9 1.7a11 11 0 0 0 6.6 6.6l1.7-1.9 3.6 1.3V19a1.5 1.5 0 0 1-1.6 1.5C11.4 19.9 4.1 12.6 3.5 6.1A1.5 1.5 0 0 1 5 4.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-              </svg>
               <p class="input-field__error" id="telefone-erro" role="alert"></p>
             </div>
           </fieldset>
@@ -112,10 +99,6 @@
                 autocomplete="postal-code"
                 aria-describedby="cep-erro"
               />
-              <svg class="input-field__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M12 21s6.5-5.8 6.5-11A6.5 6.5 0 0 0 5.5 10c0 5.2 6.5 11 6.5 11Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-                <circle cx="12" cy="10" r="2.1" stroke="currentColor" stroke-width="1.6" />
-              </svg>
               <p class="input-field__error" id="cep-erro" role="alert"></p>
             </div>
 
