@@ -1,4 +1,3 @@
-
 import { Stepper } from "../components/stepper.js";
 import { attachMask, maskTelefone, maskCep, maskUf } from "../utils/masks.js";
 import {
@@ -7,20 +6,26 @@ import {
   validTelefone,
   validCep,
   validUf,
+  validSenha,
+  validConfirmaSenha,
   required,
   validateFields,
 } from "../utils/validators.js";
 import { buscarEnderecoPorCep } from "../services/cepService.js";
-
+import { signUp } from "../services/authService.js";
+import { setToken } from "../utils/session.js";
 const form = document.getElementById("cadastro-form");
 const btnAvancar = document.getElementById("btn-avancar");
 const btnVoltar = document.getElementById("btn-voltar");
 const statusRegion = document.getElementById("cadastro-status");
+const feedback = document.getElementById("cadastro-feedback");
 
 const fields = {
   nome: document.getElementById("nome"),
   email: document.getElementById("email"),
   telefone: document.getElementById("telefone"),
+  senha: document.getElementById("senha"),
+  "confirmar-senha": document.getElementById("confirmar-senha"),
   cep: document.getElementById("cep"),
   uf: document.getElementById("uf"),
   cidade: document.getElementById("cidade"),
@@ -29,8 +34,42 @@ const fields = {
   rua: document.getElementById("rua"),
 };
 
+const toggleSenha = document.getElementById("toggle-senha");
+const toggleConfirmarSenha = document.getElementById(
+  "toggle-confirmar-senha"
+);
+
+toggleSenha.addEventListener("click", () => {
+  const isVisible = fields.senha.type === "text";
+
+  fields.senha.type = isVisible ? "password" : "text";
+
+  toggleSenha.setAttribute("aria-pressed", String(!isVisible));
+
+  toggleSenha.setAttribute(
+    "aria-label",
+    isVisible ? "Mostrar senha" : "Ocultar senha"
+  );
+});
+
+toggleConfirmarSenha.addEventListener("click", () => {
+  const isVisible = fields["confirmar-senha"].type === "text";
+
+  fields["confirmar-senha"].type = isVisible ? "password" : "text";
+
+  toggleConfirmarSenha.setAttribute(
+    "aria-pressed",
+    String(!isVisible)
+  );
+
+  toggleConfirmarSenha.setAttribute(
+    "aria-label",
+    isVisible ? "Mostrar senha" : "Ocultar senha"
+  );
+});
+
 const STEP_RULES = [
-  { nome: validNome, email: validEmail, telefone: validTelefone },
+  { nome: validNome, email: validEmail, telefone: validTelefone, senha: validSenha,"confirmar-senha": (v) => validConfirmaSenha(v, fields.senha.value), },
   {
     cep: validCep,
     uf: validUf,
@@ -138,18 +177,31 @@ form.addEventListener("submit", (event) => {
   submitCadastro(currentStepValues());
 });
 
-function submitCadastro(values) {
-
+async function submitCadastro(values) {
+  feedback.textContent = "";
   btnAvancar.disabled = true;
   statusRegion.textContent = "Enviando cadastro...";
 
-  console.info("Cadastro pronto para envio:", values);
+  const payload = {
+    nome: values.nome.trim(),
+    telefone: values.telefone.replace(/\D/g, ""),
+    email: values.email.trim(),
+    senha: values.senha,
+  };
 
-  window.setTimeout(() => {
+  try {
+    const { token } = await signUp(payload);
+
+    setToken(token);
+
     statusRegion.textContent = "Cadastro concluído com sucesso!";
-    btnAvancar.disabled = false;
 
-  }, 600);
+    window.location.href = "../index.html";
+  } catch (error) {
+    feedback.textContent = error.message;
+    statusRegion.textContent = "Não foi possível concluir o cadastro.";
+    btnAvancar.disabled = false;
+  }
 }
 
 syncActionsWithStep();
