@@ -53,3 +53,8 @@ feat: adiciona filtro de produtos por categoria
 fix: corrige cálculo do frete no checkout
 chore: atualiza dependências
 ```
+
+---
+Agradecemos ao professor Rodolfo Gonçalves da Silva pela proposta da atividade e pelo suporte durante o desenvolvimento deste projeto.
+
+Este trabalho foi desenvolvido com fins exclusivamente acadêmicos para a disciplina de Desenvolvimento de Aplicações Dinâmicas, com o objetivo de aplicar conceitos de desenvolvimento full-stack, código acessível e trabalho em equipe num cenário prático.
