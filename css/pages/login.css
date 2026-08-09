@@ -230,8 +230,21 @@ input:focus-visible {
   text-align: center;
 }
 
+/* ===== Tablets / telas médias ===== */
+@media (max-width: 1024px) {
+  .login-page {
+    margin-left: 0;
+  }
+
+  .login-panel {
+    padding: var(--space-4) var(--space-4) 48px 64px;
+  }
+}
+
+/* ===== Mobile (empilha o painel rosa acima do formulário) ===== */
 @media (max-width: 800px) {
   .login-page {
+    margin-left: 0;
     grid-template-columns: 1fr;
   }
 
@@ -250,11 +263,47 @@ input:focus-visible {
     padding: var(--space-4);
   }
 
+  .login-form {
+    max-width: none;
+  }
+
   .btn-primary {
     width: 100%;
     min-width: 0;
+    margin-left: 0;
+    margin-top: var(--space-4);
   }
 }
+
+/* ===== Telas pequenas (celulares estreitos) ===== */
+@media (max-width: 420px) {
+  .login-panel {
+    padding: var(--space-3);
+  }
+
+  .login-panel__title {
+    font-size: 1.75rem;
+  }
+
+  .login-panel__subtitle {
+    font-size: 1rem;
+  }
+
+  .field__input {
+    padding: 16px 48px 16px var(--space-3);
+    font-size: 1rem;
+  }
+
+  .field__icon {
+    right: var(--space-3);
+  }
+
+  .btn-primary {
+    font-size: 1.15rem;
+    padding: 16px 32px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
