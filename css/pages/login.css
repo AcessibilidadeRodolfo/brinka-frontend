@@ -230,7 +230,7 @@ input:focus-visible {
   text-align: center;
 }
 
-/* ===== Tablets / telas médias ===== */
+
 @media (max-width: 1024px) {
   .login-page {
     margin-left: 0;
@@ -241,7 +241,6 @@ input:focus-visible {
   }
 }
 
-/* ===== Mobile (empilha o painel rosa acima do formulário) ===== */
 @media (max-width: 800px) {
   .login-page {
     margin-left: 0;
@@ -275,7 +274,6 @@ input:focus-visible {
   }
 }
 
-/* ===== Telas pequenas (celulares estreitos) ===== */
 @media (max-width: 420px) {
   .login-panel {
     padding: var(--space-3);
