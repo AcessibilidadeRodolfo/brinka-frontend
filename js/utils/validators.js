@@ -51,3 +51,22 @@ export function validateFields(values, rules) {
   }
   return errors;
 }
+
+
+export function validSenha(value){
+  if(!value) return "Informe uma senha.";
+  if(value.length <8) return "A senha deve ter pelo menos 8 caracteres.";
+  if (!/[A-Z]/.test(value)) return "A senha deve conter ao menos uma letra maiúscula.";
+  if (!/[a-z]/.test(value)) return "A senha deve conter ao menos uma letra minúscula.";
+  if (!/\d/.test(value)) return "A senha deve conter ao menos um número.";
+  if (!/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value)) {
+    return "A senha deve conter ao menos um caractere especial.";
+  }
+  return null;
+}
+
+export function validConfirmaSenha(value, senha){
+  if(!value) return "Confirme sua senha.";
+  if(value !== senha) return "As senhas não coincidem.";
+  return null;
+}

@@ -1,3 +1,6 @@
+import { login } from "../services/authService.js";
+import { setToken, clearToken } from "../utils/session.js";
+
 (() => {
   "use strict";
  
@@ -73,15 +76,32 @@
     return true;
   }
  
-  form.addEventListener("submit", (event) => {
+  const submitBtn = form.querySelector("button[type=submit]");
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
  
     if (!validate()) {
       return;
     }
- 
-    // Ponto de integração: chamar o serviço de autenticação aqui.
-    // Ex.: js/services/auth.js -> login({ email, password })
-    console.log("Formulário válido, pronto para enviar ao serviço de login.");
+
+    submitBtn.disabled=true;
+    feedback.textContent = "";
+
+    try{
+
+      clearToken();
+      
+      const{ token } = await login(
+        emailInput.value.trim(),
+        passwordInput.value
+      );
+
+      setToken(token);
+      window.location.href = "../index.html";
+    } catch(error){
+      console.error("Erro no login:", error);
+      feedback.textContent = error.message;
+      submitBtn.disabled = false;
+    }
   });
 })();
