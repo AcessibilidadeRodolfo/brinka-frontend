@@ -2,7 +2,7 @@
 
 Frontend do projeto **Brinka**, uma plataforma de e-commerce desenvolvida com HTML, CSS e JavaScript, projetada para oferecer uma experiência de compra acessível, inclusiva e intuitiva para todos os usuários.
 
-## ♿ Sobre o Projeto
+## Sobre o Projeto
 
 O Brinka é um e-commerce que tem a acessibilidade digital como um dos seus principais pilares.
 
@@ -20,18 +20,41 @@ O desenvolvimento seguirá boas práticas de acessibilidade, promovendo uma expe
 - Estrutura clara de títulos e conteúdos.
 - Formulários acessíveis.
 - Design responsivo e adaptável.
+---
+### Stack Utilizada
 
-## ♿ Diretrizes de Desenvolvimento
+- JavaScript Vanilla
+- HTML5
+- CSS3
 
-Durante o desenvolvimento, toda nova funcionalidade deverá considerar requisitos de acessibilidade.
+### Estrutura de Pastas
+```
+src/
+├── assets/ 
+    ├── icons/ 
+    ├── images/ 
+├── css/
+    ├── components/
+    ├── pages/         
+├── js/
+    ├── components/
+    ├── pages/
+    ├── services/
+    ├── utils/          
+├── pages/       
+└── index.html          
+```
 
-### Checklist Básico
+### Padrões de commit
+Utilizamos [Conventional Commits](https://www.conventionalcommits.org/):
+ 
+```
+feat: adiciona filtro de produtos por categoria
+fix: corrige cálculo do frete no checkout
+chore: atualiza dependências
+```
 
-- [ ] Utilizar tags HTML semânticas.
-- [ ] Garantir navegação por teclado.
-- [ ] Adicionar atributos `aria-*` quando necessário.
-- [ ] Definir textos alternativos em imagens.
-- [ ] Garantir contraste adequado.
-- [ ] Associar labels aos campos de formulário.
-- [ ] Evitar depender apenas de cores para transmitir informações.
-- [ ] Testar a navegação utilizando apenas teclado.
+---
+Agradecemos ao professor Rodolfo Gonçalves da Silva pela proposta da atividade e pelo suporte durante o desenvolvimento deste projeto.
+
+Este trabalho foi desenvolvido com fins exclusivamente acadêmicos para a disciplina de Desenvolvimento de Aplicações Dinâmicas, com o objetivo de aplicar conceitos de desenvolvimento full-stack, código acessível e trabalho em equipe num cenário prático.
