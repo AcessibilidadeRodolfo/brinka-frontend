@@ -31,7 +31,7 @@
         </header>
 
         <p id="cadastro-status" class="sr-only" role="status" aria-live="polite"></p>
-
+        <div id="cadastro-feedback" class="form-feedback" role="alert" aria-live="assertive"></div>
         <form id="cadastro-form" class="cadastro-form" novalidate>
           <!-- Etapa 1 — Dados pessoais -->
           <fieldset class="cadastro-step" data-step="0" id="step-0">
@@ -78,6 +78,56 @@
                 aria-describedby="telefone-erro"
               />
               <p class="input-field__error" id="telefone-erro" role="alert"></p>
+            </div>
+
+            <div class="input-field">
+              <label class="input-field__label sr-only" for="senha">Senha</label>
+              <input
+                class="input-field__control"
+                type="password"
+                id="senha"
+                name="senha"
+                placeholder="Senha"
+                autocomplete="new-password"
+                aria-describedby="senha-erro"
+              />
+              <button
+                type="button"
+                id="toggle-senha"
+                class="input-field__icon input-field__icon--button"
+                aria-pressed="false"
+                aria-label="Mostrar senha"
+              >
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                  <path d="M12 5c-5 0-9.3 3.1-11 7 1.7 3.9 6 7 11 7s9.3-3.1 11-7c-1.7-3.9-6-7-11-7Zm0 11.5A4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 0 1 0 9Z" fill="currentColor"/>
+                </svg>
+              </button>
+              <p class="input-field__error" id="senha-erro" role="alert"></p>
+            </div>
+            
+            <div class="input-field">
+              <label class="input-field__label sr-only" for="confirmar-senha">Confirmar senha</label>
+              <input
+                class="input-field__control"
+                type="password"
+                id="confirmar-senha"
+                name="confirmar-senha"
+                placeholder="Confirmar senha"
+                autocomplete="new-password"
+                aria-describedby="confirmar-senha-erro"
+              />
+              <button
+                type="button"
+                id="toggle-confirmar-senha"
+                class="input-field__icon input-field__icon--button"
+                aria-pressed="false"
+                aria-label="Mostrar senha"
+              >
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                  <path d="M12 5c-5 0-9.3 3.1-11 7 1.7 3.9 6 7 11 7s9.3-3.1 11-7c-1.7-3.9-6-7-11-7Zm0 11.5A4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 0 1 0 9Z" fill="currentColor"/>
+                </svg>
+              </button>
+              <p class="input-field__error" id="confirmar-senha-erro" role="alert"></p>
             </div>
           </fieldset>
 
