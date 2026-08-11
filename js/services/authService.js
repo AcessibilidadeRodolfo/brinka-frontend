@@ -1,6 +1,6 @@
-import { BRINKA_CONFIG } from "../utils/config.js";
-
-const AUTH_URL = `${BRINKA_CONFIG.API_BASE_URL}/auth`;
+function getAuthUrl() {
+  return `${window.BRINKA_CONFIG.API_BASE_URL}/auth`;
+}
 
 /**
  * Lê o corpo de uma resposta de erro da API (formato { message: string })
@@ -49,7 +49,7 @@ async function extractErrorMessage(response) {
  * @throws {Error} com a mensagem de erro devolvida pela API.
  */
 export async function login(email, senha) {
-    const response = await fetch(`${AUTH_URL}/login`, {
+    const response = await fetch(`${getAuthUrl()}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,12 +68,12 @@ export async function login(email, senha) {
   }
 
 /**
- * @param {{ nome: string, telefone: string, email: string, senha: string }} dados
+ * @param {{ nome: string, telefone: string, email: string, senha: string, address?: { cep: string, rua: string, numero: string, complemento?: string, cidade: string, estado: string } }} dados
  * @returns {Promise<{token: string}>}
  * @throws {Error} com a mensagem de erro devolvida pela API 
  */
 export async function signUp(dados) {
-  const response = await fetch(`${AUTH_URL}/signup`, {
+  const response = await fetch(`${getAuthUrl()}/signup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dados),
