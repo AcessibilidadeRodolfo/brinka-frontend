@@ -1,0 +1,128 @@
+.auth-layout {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr var(--auth-panel-width);
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.auth-layout__content {
+  display: flex;
+  align-items: center;
+  padding: var(--space-7) clamp(var(--space-5), 6vw, 96px);
+}
+
+.auth-layout__card {
+  width: 100%;
+  max-width: var(--auth-content-max-width);
+}
+
+/* ---------- Faixa de marca (painel rosa) ---------- */
+.auth-layout__brand-panel {
+  position: relative;
+  background: var(--color-brand-pink);
+  box-shadow: var(--shadow-panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.auth-layout__brand-text {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6em;
+  white-space: nowrap;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  color: var(--color-text-on-brand);
+}
+
+.auth-layout__brand-title,
+.auth-layout__brand-subtitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.auth-layout__brand-title {
+  font-size: var(--fs-banner-title);
+  line-height: 0.9;
+}
+
+.auth-layout__brand-subtitle {
+  font-size: var(--fs-banner-subtitle);
+  line-height: 1.1;
+  padding-bottom: 0.35em;
+}
+
+.auth-layout__switch-action {
+  position: absolute;
+  top: 50%;
+  right: calc(var(--auth-panel-width) - 2.25rem);
+  transform: translateY(-50%);
+  z-index: 2;
+  padding: 1.15em 2.4em;
+  font-size: 1.15rem;
+}
+
+@media (max-width: 1023px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .auth-layout__content {
+    order: 2;
+    padding: var(--space-6) var(--space-5) var(--space-7);
+    justify-content: center;
+  }
+
+  .auth-layout__brand-panel {
+    order: 1;
+    min-height: 132px;
+    box-shadow: none;
+  }
+
+  .auth-layout__brand-text {
+    transform: none;
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .auth-layout__brand-title {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+  }
+
+  .auth-layout__brand-subtitle {
+    font-size: clamp(0.8rem, 2.6vw, 1rem);
+    padding-bottom: 0;
+  }
+
+  .auth-layout__switch-action {
+    position: static;
+    transform: none;
+    order: 0;
+    align-self: flex-end;
+    margin: var(--space-4) var(--space-5) 0 auto;
+    font-size: 1rem;
+    padding: 0.75em 1.6em;
+  }
+
+  .auth-layout__content {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root {
+    --auth-panel-width: 26%;
+  }
+}

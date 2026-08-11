@@ -1,0 +1,80 @@
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-button);
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  padding: 0.9em 1.9em;
+  transition: transform var(--transition-fast), filter var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn:not(:disabled):hover {
+  filter: brightness(1.08);
+}
+
+.btn:not(:disabled):active {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* Foco visível — obrigatório para WCAG 2.1 AA (2.4.7) em fundo escuro */
+.btn:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+/* CTA primário do formulário: "Avançar" / "Concluir cadastro" */
+.btn--cyan {
+  background: var(--color-brand-cyan);
+  color: var(--color-text-on-brand);
+  box-shadow: var(--shadow-button);
+}
+
+.btn--cyan:not(:disabled):hover {
+  background: var(--color-brand-cyan-dark);
+}
+
+/* CTA de marca: "Fazer Login" */
+.btn--pink {
+  background: var(--color-brand-pink);
+  color: var(--color-text-on-brand);
+}
+
+.btn--pink:not(:disabled):hover {
+  background: var(--color-brand-pink-dark);
+}
+
+/* Botão secundário: "Voltar" */
+.btn--ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-surface-border);
+  padding: 0.9em 1.6em;
+}
+
+.btn--ghost:not(:disabled):hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn--sm {
+  font-size: 0.9rem;
+  padding: 0.65em 1.3em;
+}

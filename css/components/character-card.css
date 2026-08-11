@@ -1,5 +1,3 @@
-/* ---------- estilos internos do card (o componente renderiza em light DOM,
-   então estes estilos se aplicam normalmente, sem Shadow DOM) ---------- */
 .character-card {
     border-radius: 16px;
     padding: 16px;
