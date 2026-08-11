@@ -1,46 +1,45 @@
 .encomende-section {
-    padding: 45px 100px 60px;
-    background: #1e1e1e;
+    padding-block: clamp(2.5rem, 6vw, 3.75rem);
+    padding-inline: clamp(1rem, 6vw, 6.25rem);
+    background: var(--bg2);
 }
 
 .encomende-content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-}
-
-.encomende-content h2 {
-    margin: 0;
+    gap: clamp(1rem, 3vw, 1.5rem);
 }
 
 .encomende-svg {
-    display: block;
-    width: 100%;
-    max-width: 700px;
-    height: auto;
+    inline-size: min(100%, 60.25rem);
 }
 
 .encomende-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 30px;
-    margin-top: 20px;
-    padding: 14px 48px;
-    border: 5px solid #fff;
-    border-radius: 40px;
+    justify-content: center;
+    gap: clamp(0.75rem, 3vw, 1.875rem);
+    max-inline-size: 100%;
+    min-block-size: 2.75rem;
+    padding-block: clamp(0.625rem, 2vw, 0.875rem);
+    padding-inline: clamp(1rem, 6vw, 3rem);
+    border: clamp(0.1875rem, 0.6vw, 0.3125rem) solid #fff;
+    border-radius: 999px;
     background: transparent;
     color: #fff;
     cursor: pointer;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 33px;
+    font-size: clamp(1.25rem, 5vw, 2.0625rem);
     font-weight: 600;
-    transition: all 0.3s ease;
+    line-height: 1.1;
 }
 
 .encomende-btn-icon {
-    width: 40px;
-    height: 40px;
-    padding: 10px;
+    flex: 0 0 auto;
+    inline-size: clamp(2rem, 8vw, 2.5rem);
+    block-size: clamp(2rem, 8vw, 2.5rem);
+    padding: clamp(0.4375rem, 1.8vw, 0.625rem);
     border-radius: 50%;
     background: var(--accent);
 }
@@ -51,25 +50,6 @@
 }
 
 .encomende-btn:focus-visible {
-    outline: 4px solid var(--accent);
+    outline: 3px solid #fff;
     outline-offset: 4px;
-}
-
-@media (max-width: 768px) {
-    .encomende-section {
-        padding: 40px 20px;
-    }
-
-    .encomende-btn {
-        gap: 16px;
-        padding: 12px 24px;
-        border-width: 3px;
-        font-size: 22px;
-    }
-
-    .encomende-btn-icon {
-        width: 32px;
-        height: 32px;
-        padding: 8px;
-    }
 }
