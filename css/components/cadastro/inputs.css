@@ -79,7 +79,17 @@
   width: 18px;
   height: 18px;
   color: var(--color-text-muted);
-  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.input-field__icon--button {
+  pointer-events: auto;
 }
 
 .input-field__control:disabled {
