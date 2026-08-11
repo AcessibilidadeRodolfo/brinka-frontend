@@ -1,18 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.home-btn');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    buttons.forEach((button) => {
+    buttons.forEach((button, index) => {
+        button.classList.toggle('active', index === 0);
+
         button.addEventListener('click', () => {
-            buttons.forEach((item) => {
-                item.classList.remove('active');
-                item.setAttribute('aria-pressed', 'false');
-            });
-
+            buttons.forEach((item) => item.classList.remove('active'));
             button.classList.add('active');
-            button.setAttribute('aria-pressed', 'true');
 
-            document.getElementById(button.dataset.target)?.scrollIntoView({
-                behavior: 'smooth',
+            const targetSelector = button.dataset.scrollTarget;
+            const target = targetSelector ? document.querySelector(targetSelector) : null;
+
+            target?.scrollIntoView({
+                behavior: reduceMotion.matches ? 'auto' : 'smooth',
                 block: 'start'
             });
         });
