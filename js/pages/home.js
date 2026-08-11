@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const targetSelector = button.dataset.scrollTarget;
             const target = targetSelector ? document.querySelector(targetSelector) : null;
-
             target?.scrollIntoView({
                 behavior: reduceMotion.matches ? 'auto' : 'smooth',
                 block: 'start'
