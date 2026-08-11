@@ -32,3 +32,10 @@ export function authHeader() {
   const token = getToken();
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
+
+/*
+ * Também expõe essas funções em window.brinkaSession para que scripts
+ * clássicos (não-módulo), como cart-drawer.js, consigam checar login e
+ * montar o header Authorization sem precisar de `import`.
+ */
+window.brinkaSession = { setToken, getToken, clearToken, isAuthenticated, authHeader };
