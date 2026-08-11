@@ -19,13 +19,17 @@
   <a class="skip-link" href="#login-form">Pular para o formulário de login</a>
 
   <div class="auth-layout">
+    <a href="cadastro.html" class="btn btn--pink auth-layout__switch-action">
+      Fazer Cadastro
+    </a>
+
     <main class="auth-layout__content">
       <div class="auth-layout__card">
         <header class="auth-header">
           <img
-            class="auth-header__logo"
-            src="/assets/icons/logo.svg"
+            src="../assets/icons/logo.svg"
             alt="Brinka"
+            class="auth-header__logo"
             width="210"
             height="150"
           />
@@ -35,12 +39,8 @@
           </p>
         </header>
 
-        <div
-          id="form-feedback"
-          class="form-feedback"
-          role="alert"
-          aria-live="assertive"
-        ></div>
+        <p id="login-status" class="sr-only" role="status" aria-live="polite"></p>
+        <div id="login-feedback" class="form-feedback" role="alert" aria-live="assertive"></div>
 
         <form id="login-form" class="cadastro-form" novalidate>
 
@@ -53,11 +53,9 @@
               name="email"
               placeholder="E-mail"
               autocomplete="email"
-              required
-              aria-required="true"
-              aria-describedby="email-error"
+              aria-describedby="email-erro"
             />
-            <p id="email-error" class="input-field__error" role="alert"></p>
+            <p class="input-field__error" id="email-erro" role="alert"></p>
           </div>
 
           <div class="input-field">
@@ -69,9 +67,7 @@
               name="password"
               placeholder="Senha"
               autocomplete="current-password"
-              required
-              aria-required="true"
-              aria-describedby="password-error"
+              aria-describedby="password-erro"
             />
             <button
               type="button"
@@ -84,11 +80,11 @@
                 <path d="M12 5c-5 0-9.3 3.1-11 7 1.7 3.9 6 7 11 7s9.3-3.1 11-7c-1.7-3.9-6-7-11-7Zm0 11.5A4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 0 1 0 9Z" fill="currentColor"/>
               </svg>
             </button>
-            <p id="password-error" class="input-field__error" role="alert"></p>
+            <p class="input-field__error" id="password-erro" role="alert"></p>
           </div>
 
           <div class="cadastro-form__actions">
-            <button type="submit" class="btn btn--cyan cadastro-form__submit">Avançar</button>
+            <button type="submit" class="btn btn--cyan cadastro-form__submit">Entrar</button>
           </div>
 
         </form>
@@ -97,7 +93,7 @@
 
     <aside class="auth-layout__brand-panel" aria-hidden="true">
       <p class="auth-layout__brand-text">
-        <span class="auth-layout__brand-title">Seu vilarejo começa aqui!</span>
+        <span class="auth-layout__brand-title">Seu Vilarejo COMEÇA AQUI!</span>
       </p>
     </aside>
   </div>
