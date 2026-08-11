@@ -1,150 +1,494 @@
 .personagens-section {
-    padding: 60px 50px;
-    border-radius: 40px 40px 0 0;
-    background: #1e1e1e;
+    padding-block: clamp(2.5rem, 7vw, 4.5rem);
+    padding-inline: clamp(1rem, 4vw, 3rem);
+    border-radius: clamp(1.5rem, 5vw, 2.5rem) clamp(1.5rem, 5vw, 2.5rem) 0 0;
+    background: var(--bg2);
     color: #fff;
     font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
 }
 
 .personagens-section .ps-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-top: 40px;
-    margin-bottom: 24px;
+    display: grid;
+    gap: 0.75rem;
+    margin-block: 0 1.5rem;
 }
 
 .personagens-section .ps-title {
+    max-inline-size: min(100%, 39rem);
     margin: 0;
 }
 
 .personagens-section .ps-title-svg {
-    display: block;
-    width: 100%;
-    max-width: 500px;
-    height: auto;
+    inline-size: min(100%, 38.9375rem);
 }
 
 .personagens-section .status-catalog {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 130px;
-    height: 45px;
+    inline-size: fit-content;
+    min-block-size: 2.75rem;
+    padding-inline: 1rem;
     border: 1px solid #acc40f;
     border-radius: 999px;
-    background: #52582b;
+    background: #52582b77;
     color: #acc40f;
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 600;
+    white-space: nowrap;
+}
+
+.personagens-section .catalog-filter-toggle {
+    display: none;
+    align-items: center;
+    gap: 0.625rem;
+    min-block-size: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.personagens-section .catalog-filter-icon {
+    inline-size: 2rem;
+    block-size: 2rem;
+}
+
+.personagens-section .catalog-filter-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+.catalog-filter-modal,
+.catalog-filter-dialog {
+    display: contents;
+}
+
+.catalog-filter-backdrop,
+.catalog-filter-dialog-header {
+    display: none;
 }
 
 .personagens-section .catalog-tabs {
     display: flex;
     flex-wrap: wrap;
-    gap: 19px;
-    margin-bottom: 32px;
+    gap: 0.625rem;
+    margin-block-end: 1.5rem;
 }
 
-.personagens-section .catalog-tabs button {
-    padding: 10px 42px;
+.personagens-section .catalog-filter-option {
+    flex: 0 1 auto;
+    min-block-size: 2.75rem;
+    padding-block: 0.625rem;
+    padding-inline: 1rem;
     border: 1px solid #fff;
     border-radius: 999px;
-    background: #55555557;
+    background: rgba(255, 255, 255, 0.15);
     color: #fff;
     cursor: pointer;
     font-family: inherit;
     font-size: 0.95rem;
+    line-height: 1.2;
 }
 
-.personagens-section .catalog-tabs button[aria-pressed="true"] {
+.personagens-section .catalog-filter-option[aria-pressed="true"] {
     border-color: #fff;
     background: #fff;
     color: #111;
     font-weight: 600;
 }
 
-.personagens-section .catalog-tabs button:focus-visible {
+.personagens-section .catalog-filter-option:focus-visible {
     outline: 2px solid var(--accent);
-    outline-offset: 2px;
-}
-
-.personagens-section .ps-sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
+    outline-offset: 3px;
 }
 
 .personagens-section .catalog-card-grid {
     display: grid;
-    grid-template-columns: repeat(4, 290px);
-    justify-content: center;
-    gap: 34px;
-    margin: 60px 0 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));    
+    row-gap: clamp(1rem, 3vw, 2rem);      
+    column-gap: 0.75rem;
+    inline-size: 100%;
+    max-inline-size: 73rem;
     padding: 0;
+    margin: clamp(1.5rem, 5vw, 3.5rem) auto 0;
     list-style: none;
 }
 
 .personagens-section .catalog-card-grid > li {
     display: flex;
+    min-inline-size: 0;
     justify-content: center;
 }
 
 .personagens-section character-card {
     display: block;
-    width: 240px;
+    inline-size: min(100%, 15rem);
 }
 
-@media (max-width: 1200px) {
-    .personagens-section .catalog-card-grid {
-        grid-template-columns: repeat(3, 240px);
-    }
-}
-
-@media (max-width: 900px) {
-    .personagens-section {
-        padding: 24px;
-    }
-
-    .personagens-section .catalog-card-grid {
-        grid-template-columns: repeat(2, 240px);
-        gap: 40px;
-    }
-}
-
-@media (max-width: 640px) {
-    .personagens-section {
-        padding: 16px;
-        border-radius: 8px;
-    }
-
+@media (min-width: 34rem) {
     .personagens-section .ps-header {
-        align-items: flex-start;
-        flex-direction: column;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+
+@media (min-width: 48rem) {
+    .personagens-section .catalog-tabs {
+        gap: 0.875rem;
     }
 
-    .personagens-section .status-catalog {
-        width: auto;
-        height: auto;
-        padding: 8px 14px;
-        font-size: 0.9rem;
+    .personagens-section .catalog-filter-option {
+        padding-inline: 1.5rem;
+    }
+}
+
+@media (min-width: 64rem) {
+    .personagens-section .catalog-card-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+@media (max-width: 47.99rem) {
+    .personagens-section .catalog-filter-toggle {
+        display: inline-flex;
+        margin-block-end: 0.75rem;
+    }
+
+    .catalog-filter-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1100;
+        display: none;
+        place-items: center;
+        padding: 1rem;
+    }
+
+    .catalog-filter-modal.is-open {
+        display: grid;
+    }
+
+    .catalog-filter-backdrop {
+        position: absolute;
+        inset: 0;
+        display: block;
+        inline-size: 100%;
+        block-size: 100%;
+        padding: 0;
+        border: 0;
+        background: rgba(0, 0, 0, 0.68);
+        cursor: default;
+    }
+
+    .catalog-filter-dialog {
+        position: relative;
+        z-index: 1;
+        display: block;
+        inline-size: min(100%, 22rem);
+        max-block-size: calc(100dvh - 2rem);
+        overflow-y: auto;
+        padding: 1.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 1.25rem;
+        background: #303030;
+        box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.45);
+    }
+
+    .catalog-filter-dialog-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-block-end: 1.25rem;
+    }
+
+    .catalog-filter-dialog-header h2 {
+        margin: 0;
+        font-size: 1.25rem;
+    }
+
+    .catalog-filter-close {
+        display: inline-grid;
+        flex: 0 0 auto;
+        place-items: center;
+        inline-size: 2.5rem;
+        block-size: 2.5rem;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: #444;
+        color: #fff;
+        cursor: pointer;
+        font: inherit;
+        font-size: 1.5rem;
+        line-height: 1;
+    }
+
+    .catalog-filter-close:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
     }
 
     .personagens-section .catalog-tabs {
-        gap: 8px;
-        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        margin: 0;
     }
 
-    .personagens-section .catalog-tabs button {
-        padding: 8px 16px;
-        font-size: 0.85rem;
+    .personagens-section .catalog-filter-option {
+        inline-size: 100%;
     }
 
     .personagens-section .catalog-card-grid {
-        grid-template-columns: 240px;
-        gap: 32px;
+        max-inline-size: 17rem;
+        column-gap: clamp(0.85rem, 4vw, 1.25rem);
+        row-gap: 1rem;
+    }
+
+    .personagens-section character-card {
+        inline-size: 100%;
+    }
+}
+
+body.has-open-filter-modal {
+    overflow: hidden;
+}
+
+.product-details-overlay {
+    position: fixed;
+    z-index: 1200;
+    inset: 0;
+    display: block;
+    background: rgba(0, 0, 0, 0.68);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 400ms ease-out;
+}
+
+.product-details-overlay.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.product-details-overlay.is-open-from-cart {
+    z-index: 2100;
+}
+
+.product-details-modal {
+    position: absolute;
+    inset-block: 1rem;
+    inset-inline-start: 0;
+    inline-size: min(92vw, 38rem);
+    overflow-y: auto;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border-radius: 0 2rem 2rem 0;
+    background: #292929;
+    color: #fff;
+    box-shadow: 1rem 0 2.5rem rgba(0, 0, 0, 0.42);
+    transform: translateX(-105%);
+    transition: transform 400ms ease-out;
+}
+
+.product-details-overlay.is-open .product-details-modal {
+    transform: translateX(0);
+}
+
+.product-details-close {
+    position: absolute;
+    z-index: 2;
+    inset-block-start: 0.75rem;
+    inset-inline-end: 0.75rem;
+    display: inline-grid;
+    place-items: center;
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.75rem;
+    line-height: 1;
+}
+
+.product-details-close:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+}
+
+.product-details-layout {
+    display: grid;
+    grid-template-columns: minmax(11rem, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: clamp(1.25rem, 3vw, 2rem);
+    min-block-size: 100%;
+}
+
+.product-details-visual {
+    align-self: center;
+    aspect-ratio: 7 / 10;
+    overflow: hidden;
+    border-radius: 0.75rem;
+}
+
+.product-details-image {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: contain;
+    object-position: center bottom;
+}
+
+.product-details-content {
+    min-inline-size: 0;
+}
+
+.product-details-content h2 {
+    margin: 0 2.75rem 0.4rem 0;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.05;
+}
+
+.product-details-label,
+.product-details-comments h3,
+.product-details-price span {
+    margin: 0;
+    color: #c8c8c8;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.product-details-description {
+    margin: 0.25rem 0 0.9rem;
+    color: #fff;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.product-details-rating {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+    color: #c8c8c8;
+    font-size: 0.9rem;
+}
+
+.product-details-rating strong {
+    color: #fff;
+}
+
+.product-details-stars,
+.product-comment-stars {
+    color: #fff;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.product-details-content hr {
+    margin: 0.75rem 0;
+    border: 0;
+    border-block-start: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.product-details-comments h3 {
+    margin-block-end: 0.65rem;
+}
+
+.product-details-comments-list {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.product-comment {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr) auto;
+    gap: 0.55rem;
+    align-items: center;
+    padding: 0.55rem;
+    border-radius: 0.5rem;
+    background: #6b6b6b;
+}
+
+.product-comment-avatar {
+    display: grid;
+    place-items: center;
+    inline-size: 2rem;
+    block-size: 2rem;
+    border-radius: 0.35rem;
+    background: #3d3d3d;
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.product-comment strong,
+.product-comment p {
+    display: block;
+    margin: 0;
+}
+
+.product-comment strong {
+    color: #2e2e2e;
+    font-size: 0.7rem;
+}
+
+.product-comment p {
+    overflow: hidden;
+    color: #303030;
+    font-size: 0.6rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.product-comment-stars {
+    align-self: start;
+    color: #fff;
+    font-size: 0.7rem;
+}
+
+.product-details-price {
+    display: grid;
+    gap: 0.05rem;
+    margin-block-start: 1rem;
+}
+
+.product-details-price strong {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    line-height: 1;
+}
+
+@media (max-width: 42rem) {
+    .product-details-modal {
+        inline-size: min(95vw, 38rem);
+        padding: 3.75rem 1.25rem 1.25rem;
+        border-radius: 0 1.25rem 1.25rem 0;
+    }
+
+    .product-details-layout {
+        grid-template-columns: 1fr;
+        align-items: start;
+    }
+
+    .product-details-visual {
+        inline-size: min(100%, 16rem);
+        justify-self: center;
+    }
+}
+
+@media (min-width: 64rem) {
+    body.cart-drawer-open .product-details-overlay.is-open-from-cart {
+        background: transparent;
+    }
+
+    body.cart-drawer-open .product-details-overlay.is-open-from-cart .product-details-modal {
+        inline-size: min(38rem, calc(100vw - 29rem));
     }
 }

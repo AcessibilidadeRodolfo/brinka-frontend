@@ -4,7 +4,7 @@
     --accent: #ff8fb0;
     --btn-bg: #2f2f2f;
     --bg2: #1e1e1e;
-    --header-offset: 8.25rem;
+    --header-offset: 5rem;
 }
 
 * {
@@ -43,8 +43,7 @@ button {
     touch-action: manipulation;
 }
 
-.ps-sr-only,
-.sr-only {
+.ps-sr-only {
     position: absolute;
     inline-size: 1px;
     block-size: 1px;

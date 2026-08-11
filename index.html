@@ -3,131 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brika-Landing</title>
-    <link rel="stylesheet" href="css/components/header.css">
-    <script src="js/components/home.js"></script>
-    <link rel="stylesheet" href="css/components/footer.css">
-    <link rel="stylesheet" href="css/components/encomenda.css">
-    <link rel="stylesheet" href="css/components/home.css">
+    <title>Brinka | Personagens para o seu vilarejo</title>
+    <meta name="description" content="Conheça os personagens da Brinka, monte sua coleção e encomende opções personalizadas para deixar seu vilarejo ainda mais divertido.">
+    <meta name="application-name" content="Brinka">
+    <meta name="theme-color" content="#272727">
+    <meta property="og:title" content="Brinka | Personagens para o seu vilarejo">
+    <meta property="og:description" content="Conheça os personagens da Brinka, monte sua coleção e encomende opções personalizadas.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Brinka",
+            "description": "Personagens para colecionar, encomendar e dar vida ao seu vilarejo.",
+            "inLanguage": "pt-BR"
+        }
+    </script>
     <link rel="stylesheet" href="css/pages/index.css">
+    <link rel="stylesheet" href="css/components/header.css">     
     <link rel="stylesheet" href="css/components/character-card.css">
+    <link rel="stylesheet" href="css/components/cart-drawer.css">
+    <link rel="stylesheet" href="css/components/voice-navigation.css">
+    <link rel="stylesheet" href="css/pages/home.css">
     <link rel="stylesheet" href="css/pages/personagens.css">
+    <link rel="stylesheet" href="css/pages/encomenda.css">
+    <link rel="stylesheet" href="css/pages/footer.css">
+    <script src="js/pages/home.js"></script>
     <script src="js/components/character-card.js"></script>
+    <script src="js/components/cart-drawer.js"></script>
+    <script src="js/services/api-config.js"></script>
+    <script src="js/services/catalog-api.js"></script>
     <script src="js/pages/personagens.js"></script>
+    <script src="js/components/voice-navigation.js"></script>
 </head>
-<body id = "topo">
+<body id="topo">
     <header class="site-header">
         <div class="header-inner">
             <div class="logo-wrap">
                 <img src="assets/icons/logo.svg" alt="Brinka" class="logo">
             </div>
-
-            <div class="search-wrap" role="search" aria-label="Buscar por categoria">
-                <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-
-                <input
-                    class="search-input"
-                    type="search"
-                    placeholder="Buscar por categoria"
-                    aria-label="Buscar por categoria"
-                >
-            </div>
-
             <div class="actions-wrap">
-                <button class="btn btn-login" type="button">
-                    <svg class="btn-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <button class="btn btn-login" type="button" aria-label="Entrar">
+                    <svg class="btn-icon" aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
-                    Entrar
+                    <span class="btn-label">Entrar</span>
                 </button>
-
-                <button class="btn btn-cart" type="button">
-                    <svg class="btn-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <button
+                    class="btn btn-cart"
+                    type="button"
+                    aria-label="Carrinho, 0 itens"
+                    aria-controls="cart-drawer"
+                    aria-expanded="false"
+                    aria-haspopup="dialog"
+                >
+                    <svg class="btn-icon" aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="9" cy="21" r="1"></circle>
                         <circle cx="20" cy="21" r="1"></circle>
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
-                    Carrinho <span class="cart-count">0</span>
+                    <span class="btn-label">Carrinho</span>
+                    <span class="cart-count" aria-hidden="true">0</span>
                 </button>
             </div>
         </div>
     </header>
-    <main>
-        <section class="home-section" aria-label="Início">
-            <img
-                src="assets/icons/Group 81.svg"
-                alt=""
-                class="home-background-svg"
-                aria-hidden="true"
-            >
 
-            <h1 class="home-heading">
-                <img
-                    src="assets/icons/title-home.svg"
-                    alt="Brinka"
-                    class="home-title-svg"
-                >
-            </h1>
+    <div class="cart-overlay" aria-hidden="true" inert>
+        <aside id="cart-drawer" class="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title" tabindex="-1">
+            <header class="cart-drawer-header">
+                <div class="cart-drawer-heading">
+                    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="20" r="1"></circle>
+                        <circle cx="19" cy="20" r="1"></circle>
+                        <path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6"></path>
+                    </svg>
+                    <h2 id="cart-drawer-title">Carrinho</h2>
+                </div>
+                <button class="cart-drawer-close" type="button" aria-label="Fechar carrinho">×</button>
+            </header>
 
-            <div class="home-buttons" aria-label="Ações principais">
-               <button class="home-btn" type="button" data-scroll-target="#personagens">Ver coleção</button>
-                <button class="home-btn" type="button" data-scroll-target="#encomendar">Encomendar</button>
+            <div class="cart-drawer-body">
+                <div class="cart-empty">
+                    <img src="assets/icons/bee.svg" alt="">
+                    <h3>Seu carrinho está vazio</h3>
+                    <p>Adicione personagens incríveis para começar!</p>
+                </div>
+
+                <ul class="cart-items" aria-label="Produtos no carrinho" hidden></ul>
             </div>
 
-            <img
-                src="assets/icons/personagnes.svg"
-                alt=""
-                class="home-bottom-svg"
-                aria-hidden="true"
-            >
+            <footer class="cart-drawer-footer">
+                <div class="cart-total-row">
+                    <span>Total</span>
+                    <strong class="cart-total">R$ 0,00</strong>
+                </div>
+                <button class="cart-checkout" type="button">Finalizar compra <span aria-hidden="true">→</span></button>
+            </footer>
+
+            <p class="cart-live-region ps-sr-only" role="status" aria-live="polite"></p>
+        </aside>
+    </div>
+
+    <section class="voice-navigation" data-state="inactive" aria-labelledby="voice-navigation-title">
+        <h2 id="voice-navigation-title" class="ps-sr-only">Navegação por voz</h2>
+
+        <button
+            class="voice-toggle"
+            type="button"
+            aria-pressed="false"
+            aria-describedby="voice-status"
+        >
+            <svg class="voice-toggle-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="2" width="6" height="12" rx="3"></rect>
+                <path d="M5 10a7 7 0 0 0 14 0"></path>
+                <path d="M12 17v5"></path>
+                <path d="M8 22h8"></path>
+            </svg>
+            <span class="voice-toggle-label">Ativar comandos de voz</span>
+        </button>
+
+        <div class="voice-feedback">
+            <p id="voice-status" class="voice-status" role="status" aria-live="polite">
+                Comandos de voz desativados.
+            </p>
+            <p class="voice-transcript" hidden></p>
+
+            <details class="voice-help">
+                <summary>Exemplos de comandos</summary>
+                <ul>
+                    <li>“Adicionar Erick no carrinho”</li>
+                    <li>“Abrir carrinho”</li>
+                    <li>“Ver detalhes da Mari”</li>
+                    <li>“Aumentar quantidade do Erick”</li>
+                    <li>“Remover Erick do carrinho”</li>
+                    <li>“Desativar comandos de voz”</li>
+                </ul>
+            </details>
+        </div>
+    </section>
+
+    <main>
+        <section class="home-section">
+            <img src="assets/icons/Group 81.svg" alt="" class="home-background-svg" aria-hidden="true">
+            <h1 class="home-title">
+                <img src="assets/icons/title-home.svg" alt="Seu vilarejo começa aqui" class="home-title-svg">
+            </h1>
+            <div class="home-buttons">
+                <button class="home-btn" type="button" data-scroll-target="#personagens">Ver coleção</button>
+                <button class="home-btn" type="button" data-scroll-target="#encomendar">Encomendar</button>
+            </div>
+            <img src="assets/icons/personagnes.svg" alt="" class="home-bottom-svg" aria-hidden="true">
         </section>
+        
         <section id="personagens" class="personagens-section">
 
             <header class="ps-header">
                 <h2 id="personagens-heading-1" class="ps-title">
-                    <img
-                        src="assets/icons/nossosP.svg"
-                        alt="Nossos Personagens"
-                        class="ps-title-svg"
-                    >
+                    <img src="assets/icons/nossosP.svg" alt="Nossos Personagens" class="ps-title-svg">
                 </h2>
-
                 <span class="status-catalog">Disponível</span>
             </header>
 
-            <div class="catalog-tabs" role="group" aria-label="Categorias">
-                <button type="button" aria-pressed="true">Todos</button>
-                <button type="button" aria-pressed="false">Clássicos</button>
-                <button type="button" aria-pressed="false">Especiais</button>
-                <button type="button" aria-pressed="false">Novos</button>
-                <button type="button" aria-pressed="false">Promoções</button>
+            <button
+                class="catalog-filter-toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="catalog-filter-modal"
+            >
+                <span>Filtrar por</span>
+                <svg class="catalog-filter-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <path d="M3 5h18"></path>
+                    <path d="M7 12h14"></path>
+                    <path d="M12 19h9"></path>
+                </svg>
+            </button>
+
+            <div id="catalog-filter-modal" class="catalog-filter-modal">
+                <button class="catalog-filter-backdrop" type="button" aria-label="Fechar filtros"></button>
+
+                <section class="catalog-filter-dialog" aria-labelledby="catalog-filter-title">
+                    <div class="catalog-filter-dialog-header">
+                        <h2 id="catalog-filter-title">Filtrar personagens</h2>
+                        <button class="catalog-filter-close" type="button" aria-label="Fechar filtros">×</button>
+                    </div>
+
+                    <div id="catalog-tabs" role="group" aria-label="Categorias" class="catalog-tabs">
+                        <button type="button" class="catalog-filter-option" data-filter="all" aria-pressed="true">Todos</button>
+                        <button type="button" class="catalog-filter-option" data-filter="classicos" aria-pressed="false">Clássicos</button>
+                        <button type="button" class="catalog-filter-option" data-filter="especiais" aria-pressed="false">Especiais</button>
+                        <button type="button" class="catalog-filter-option" data-filter="novos" aria-pressed="false">Novos</button>
+                        <button type="button" class="catalog-filter-option" data-filter="promocoes" aria-pressed="false">Promoções</button>
+                    </div>
+                </section>
             </div>
 
             <div class="ps-live-region ps-sr-only" role="status" aria-live="polite"></div>
-            <ul class="catalog-card-grid" aria-labelledby="personagens-heading-1">
-            </ul>
+
+            <ul class="catalog-card-grid" aria-labelledby="personagens-heading-1"></ul>
 
         </section>
 
-        <section id="encomendar" class="encomende-section" aria-labelledby="encomende-title">
+        <div class="product-details-overlay" aria-hidden="true" inert>
+            <aside class="product-details-modal" role="dialog" aria-modal="true" aria-labelledby="product-details-title" aria-describedby="product-details-description" tabindex="-1">
+                <button class="product-details-close" type="button" aria-label="Fechar detalhes">×</button>
+
+                <div class="product-details-layout">
+                    <div class="product-details-visual">
+                        <img class="product-details-image" src="" alt="">
+                    </div>
+
+                    <div class="product-details-content">
+                        <h2 id="product-details-title"></h2>
+                        <p class="product-details-label">Descrição</p>
+                        <p id="product-details-description" class="product-details-description"></p>
+
+                        <div class="product-details-rating">
+                            <span>Média de avaliações:</span>
+                            <strong class="product-details-average"></strong>
+                            <span class="product-details-stars" aria-label=""></span>
+                        </div>
+
+                        <hr>
+
+                        <section class="product-details-comments" aria-labelledby="product-comments-title">
+                            <h3 id="product-comments-title">Comentários sobre o produto</h3>
+                            <div class="product-details-comments-list"></div>
+                        </section>
+
+                        <div class="product-details-price">
+                            <span>Preço</span>
+                            <strong></strong>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <section id="encomendar" class="encomende-section">
             <div class="encomende-content">
-                <h2 id="encomende-title">
-                    <img
-                        src="assets/icons/encomende.svg"
-                        alt="Encomende"
-                        class="encomende-svg"
-                    >
+                <h2 class="encomende-heading">
+                    <img src="assets/icons/encomende.svg" alt="Encomende seu personagem" class="encomende-svg">
                 </h2>
-
                 <button class="encomende-btn" type="button">
-                    Encomendar
-
+                    <span>Encomendar</span>
                     <svg class="encomende-btn-icon" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M16.69 12.47 3.51 13.26c-.31 0-.47.16-.47.31L1.15 20.02c-.31.79-.16 1.88.63 2.5.63.47 1.73.58 2.35.32l17.58-8.8c.94-.47 1.41-1.41 1.26-2.36L4.13 1.16c-.78-.26-1.73-.16-2.35.31-.79.63-.94 1.57-.63 2.52l1.89 6.44c0 .16.31.32.47.32l13.18.79s.47 0 .47.47-.47.47-.47.47Z" fill="currentColor"/>
+                        <path d="M16.6915026,12.4744748 L3.50612381,13.2599618 C3.19218622,13.2599618 3.03521743,13.4170592 3.03521743,13.5741566 L1.15159189,20.0151496 C0.8376543,20.8006365 0.99,21.89 1.77946707,22.52 C2.41,22.99 3.50612381,23.1 4.13399899,22.8429026 L21.714504,14.0454487 C22.6563168,13.5741566 23.1272231,12.6315722 22.9702544,11.6889879 L4.13399899,1.16346272 C3.34915502,0.9 2.40734225,1.00636533 1.77946707,1.4776575 C0.994623095,2.10604706 0.837654326,3.0486314 1.15159189,3.99701575 L3.03521743,10.4380088 C3.03521743,10.5951061 3.34915502,10.7522035 3.50612381,10.7522035 L16.6915026,11.5376904 C16.6915026,11.5376904 17.1624089,11.5376904 17.1624089,12.0089825 C17.1624089,12.4744748 16.6915026,12.4744748 16.6915026,12.4744748 Z" fill="white"/>
                     </svg>
                 </button>
             </div>
@@ -136,20 +261,20 @@
         <footer class="site-footer">
             <div class="footer-content">
                 <div class="links-wrap">
-                    <nav class="footer-links" aria-label="Links rápidos">
-                        <h2>Links rápidos</h2>
-                        <a href="#topo">Home</a>
-                        <a href="#">Carrinho</a>
-                        <a href="#encomendar">Encomendar</a>
-                    </nav>
-
-                    <div class="footer-contact">
-                        <h2>Contatos</h2>
-                        <p>@brinka</p>
-                        <p>11 95064-6508</p>
-                    </div>
+    
+                
+                <div class="footer-links">
+                    <h3>Links rápidos</h3>
+                    <a href="#topo">Home</a>
+                    <a href="#cart-drawer" class="footer-cart-link">Carrinho</a>
+                    <a href="#encomendar">Encomendar</a>
                 </div>
-
+                <div class="footer-contact">
+                    <h3>Contatos</h3>
+                    <p>📱 @brinka</p>
+                    <p> 11950646508</p>
+                </div>
+            </div>
                 <div class="footer-logo">
                     <img src="assets/icons/logo.svg" alt="Brinka" class="footer-logo-img">
                 </div>
