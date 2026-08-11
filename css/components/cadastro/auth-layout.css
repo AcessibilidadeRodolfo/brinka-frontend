@@ -11,7 +11,7 @@
 .auth-layout__content {
   display: flex;
   align-items: center;
-  padding: var(--space-7) clamp(var(--space-5), 6vw, 96px);
+  padding: var(--space-4) clamp(var(--space-4), 4vw, 48px);
 }
 
 .auth-layout__card {
@@ -72,12 +72,14 @@
 
 /* ---------- Cabeçalho compartilhado (Login e Cadastro) ---------- */
 .auth-header {
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-3);
 }
 
 .auth-header__logo {
   display: block;
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-2);
+  width: 140px;
+  height: auto;
 }
 
 .auth-header__title {

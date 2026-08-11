@@ -33,15 +33,15 @@
 
 .input-field__control {
   width: 100%;
-  height: 40px;
+  height: 36px;
   background: var(--color-surface);
   border: 1px solid var(--color-surface-border);
   border-radius: var(--radius-input);
   color: var(--color-text-primary);
   font-family: var(--font-body);
   font-size: var(--fs-input);
-  padding: 0 var(--space-4);
-  padding-right: 38px; /* espaço reservado para o ícone */
+  padding: 0 var(--space-3);
+  padding-right: 36px; /* espaço reservado para o ícone */
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -101,7 +101,7 @@
   min-height: 1.1em;
   margin: var(--space-1) 2px 0;
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--color-danger);
 }
 .input-field--sm {
