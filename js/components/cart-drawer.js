@@ -179,6 +179,68 @@
         return row;
     }
 
+    function isLoggedIn() {
+        return Boolean(window.brinkaSession?.isAuthenticated?.());
+    }
+
+    /*
+     * Guarda a cor (colorFrom) de cada produto assim que ele é adicionado
+     * pela UI (character-card.js manda `color` no evento cart:add). O
+     * backend não guarda essa informação (é só decoração visual), então
+     * usamos esse cache pra manter a cor do item mesmo depois de sincronizar
+     * com o servidor.
+     */
+    const colorCache = new Map();
+
+    /** Chama a brinka-api anexando o token (quando existir) e tratando erros comuns. */
+    async function apiRequest(path, options = {}) {
+        const baseUrl = (window.BRINKA_CONFIG?.API_BASE_URL || '').replace(/\/$/, '');
+        if (!baseUrl) throw new Error('API não configurada (window.BRINKA_CONFIG.API_BASE_URL).');
+
+        const response = await fetch(`${baseUrl}${path}`, {
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...(window.brinkaSession?.authHeader?.() || {}),
+                ...(options.headers || {})
+            }
+        });
+
+        if (response.status === 401) {
+            window.brinkaSession?.clearToken?.();
+            throw new Error('Sessão expirada.');
+        }
+
+        if (!response.ok) {
+            throw new Error(`Erro ${response.status} ao acessar ${path}`);
+        }
+
+        return response.status === 204 ? null : response.json();
+    }
+
+    /** Reconstrói o Map local a partir de um CartResponse vindo da API ({ items, total }). */
+    function applyServerCart(cartResponse, { animate = false } = {}) {
+        cart.clear();
+
+        (cartResponse?.items || []).forEach(item => {
+            const id = String(item.productId);
+            const product = normalizeProduct({
+                id,
+                name: item.nome,
+                image: item.imagem,
+                price: item.preco,
+                color: colorCache.get(id) || ''
+            });
+
+            if (product) cart.set(id, { product, quantity: item.quantidade });
+        });
+
+        renderCart(animate);
+        document.dispatchEvent(new CustomEvent('cart:updated', {
+            detail: { cart: getCartSnapshot() }
+        }));
+    }
+
     function initCartDrawer() {
         const openButton = document.querySelector('.btn-cart');
         const overlay = document.querySelector('.cart-overlay');
@@ -264,9 +326,22 @@
             const item = cart.get(productId);
             if (!item) return;
 
-            const finishRemoval = () => {
+            const finishRemoval = async () => {
                 cart.delete(productId);
-                syncCart();
+
+                if (isLoggedIn()) {
+                    try {
+                        await apiRequest(`/usuarios/carrinho/${encodeURIComponent(productId)}`, { method: 'DELETE' });
+                    } catch (err) {
+                        console.warn('Não foi possível remover o item no servidor.', err);
+                    }
+
+                    renderCart();
+                    document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: getCartSnapshot() } }));
+                } else {
+                    syncCart();
+                }
+
                 announce(`${item.product.name} removido do carrinho.`);
             };
 
@@ -280,9 +355,22 @@
             window.setTimeout(finishRemoval, 220);
         }
 
-        function addProduct(productData) {
+        async function addProduct(productData) {
             const product = normalizeProduct(productData);
             if (!product) return;
+            if (product.color) colorCache.set(product.id, product.color);
+
+            if (isLoggedIn()) {
+                try {
+                    const serverCart = await apiRequest(`/usuarios/carrinho?productId=${encodeURIComponent(product.id)}`, { method: 'POST' });
+                    lastAddedId = product.id;
+                    applyServerCart(serverCart, { animate: true });
+                    announce(`${product.name} adicionado ao carrinho.`);
+                    return getCartSnapshot();
+                } catch (err) {
+                    console.warn('Não foi possível adicionar o item no servidor, adicionando localmente.', err);
+                }
+            }
 
             const currentItem = cart.get(product.id);
             cart.set(product.id, {
@@ -296,9 +384,20 @@
             return snapshot;
         }
 
-        function increaseProduct(productId) {
+        async function increaseProduct(productId) {
             const item = cart.get(productId);
             if (!item) return null;
+
+            if (isLoggedIn()) {
+                try {
+                    const serverCart = await apiRequest(`/usuarios/carrinho/${encodeURIComponent(productId)}?operation=ADD`, { method: 'PATCH' });
+                    applyServerCart(serverCart, { animate: true });
+                    announce(`Quantidade de ${item.product.name} atualizada.`);
+                    return getCartSnapshot();
+                } catch (err) {
+                    console.warn('Não foi possível atualizar a quantidade no servidor.', err);
+                }
+            }
 
             item.quantity += 1;
             const snapshot = syncCart(true);
@@ -306,13 +405,24 @@
             return snapshot;
         }
 
-        function decreaseProduct(productId, row = null) {
+        async function decreaseProduct(productId, row = null) {
             const item = cart.get(productId);
             if (!item) return null;
 
             if (item.quantity === 1) {
                 removeItem(productId, row);
                 return getCartSnapshot();
+            }
+
+            if (isLoggedIn()) {
+                try {
+                    const serverCart = await apiRequest(`/usuarios/carrinho/${encodeURIComponent(productId)}?operation=REMOVE`, { method: 'PATCH' });
+                    applyServerCart(serverCart, { animate: true });
+                    announce(`Quantidade de ${item.product.name} atualizada.`);
+                    return getCartSnapshot();
+                } catch (err) {
+                    console.warn('Não foi possível atualizar a quantidade no servidor.', err);
+                }
             }
 
             item.quantity -= 1;
@@ -405,8 +515,22 @@
             closeDrawer();
         });
 
-        restoreCart();
-        syncCart();
+        async function loadInitialCart() {
+            if (isLoggedIn()) {
+                try {
+                    const serverCart = await apiRequest('/usuarios/carrinho', { method: 'GET' });
+                    applyServerCart(serverCart);
+                    return;
+                } catch (err) {
+                    console.warn('Não foi possível carregar o carrinho do servidor, usando carrinho local.', err);
+                }
+            }
+
+            restoreCart();
+            syncCart();
+        }
+
+        loadInitialCart();
 
         window.brinkaCart = Object.freeze({
             storageKey: cartStorageKey,
@@ -416,6 +540,21 @@
             decrease: decreaseProduct,
             remove: removeProduct,
             clear() {
+                const idsToRemove = Array.from(cart.keys());
+
+                if (isLoggedIn()) {
+                    idsToRemove.forEach(id => {
+                        apiRequest(`/usuarios/carrinho/${encodeURIComponent(id)}`, { method: 'DELETE' })
+                            .catch(err => console.warn('Não foi possível remover item no servidor.', err));
+                    });
+                    cart.clear();
+                    renderCart(true);
+                    const snapshot = getCartSnapshot();
+                    document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: snapshot } }));
+                    announce('Carrinho esvaziado.');
+                    return snapshot;
+                }
+
                 cart.clear();
                 const snapshot = syncCart(true);
                 announce('Carrinho esvaziado.');
