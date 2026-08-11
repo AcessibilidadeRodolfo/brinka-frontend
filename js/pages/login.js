@@ -1,12 +1,16 @@
+import { login } from "../services/authService.js";
+import { setToken, clearToken } from "../utils/session.js";
+
 (() => {
   "use strict";
  
   const form = document.getElementById("login-form");
-  const feedback = document.getElementById("form-feedback");
+  const statusRegion = document.getElementById("login-status");
+  const feedback = document.getElementById("login-feedback");
   const emailInput = document.getElementById("email");
-  const emailError = document.getElementById("email-error");
+  const emailError = document.getElementById("email-erro");
   const passwordInput = document.getElementById("password");
-  const passwordError = document.getElementById("password-error");
+  const passwordError = document.getElementById("password-erro");
   const toggleBtn = document.getElementById("toggle-password");
  
   /**
@@ -28,11 +32,9 @@
     if (message) {
       input.setAttribute("aria-invalid", "true");
       errorEl.textContent = message;
-      errorEl.hidden = false;
     } else {
       input.removeAttribute("aria-invalid");
       errorEl.textContent = "";
-      errorEl.hidden = true;
     }
   }
  
@@ -73,15 +75,34 @@
     return true;
   }
  
-  form.addEventListener("submit", (event) => {
+  const submitBtn = form.querySelector("button[type=submit]");
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
  
     if (!validate()) {
       return;
     }
- 
-    // Ponto de integração: chamar o serviço de autenticação aqui.
-    // Ex.: js/services/auth.js -> login({ email, password })
-    console.log("Formulário válido, pronto para enviar ao serviço de login.");
+
+    submitBtn.disabled = true;
+    feedback.textContent = "";
+    statusRegion.textContent = "Realizando login...";
+
+    try {
+      clearToken();
+      
+      const { token } = await login(
+        emailInput.value.trim(),
+        passwordInput.value
+      );
+
+      setToken(token);
+      statusRegion.textContent = "Login realizado com sucesso!";
+      window.location.href = "../index.html";
+    } catch (error) {
+      console.error("Erro no login:", error);
+      feedback.textContent = error.message;
+      statusRegion.textContent = "Não foi possível realizar o login.";
+      submitBtn.disabled = false;
+    }
   });
 })();

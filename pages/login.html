@@ -6,14 +6,11 @@
   <title>Fazer Login | Brinka</title>
   <meta name="description" content="Faça login na Brinka e comece a explorar o seu vilarejo." />
 
-  <!-- Alternativas gratuitas: Nunito Sans (~Circular Std) e Fredoka (~Kumio) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&family=Fredoka:wght@600;700&display=swap"
-    rel="stylesheet"
-  />
-
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/components/cadastro/base.css" />
+  <link rel="stylesheet" href="/css/components/cadastro/buttons.css" />
+  <link rel="stylesheet" href="/css/components/cadastro/inputs.css" />
+  <link rel="stylesheet" href="/css/components/cadastro/auth-layout.css" />
   <link rel="stylesheet" href="/css/pages/login.css" />
 </head>
 <body>
@@ -21,93 +18,86 @@
   <!-- Skip link: permite que usuários de teclado pulem direto para o formulário -->
   <a class="skip-link" href="#login-form">Pular para o formulário de login</a>
 
-  <main class="login-page">
+  <div class="auth-layout">
+    <a href="cadastro.html" class="btn btn--pink auth-layout__switch-action">
+      Fazer Cadastro
+    </a>
 
-    <section class="login-panel" aria-labelledby="login-title">
-      <img
-        class="login-panel__logo"
-        src="/assets/images/image-removebg-preview (5) 2.png"
-        alt="Brinka"
-        width="250"
-        height="120"
-      />
+    <main class="auth-layout__content">
+      <div class="auth-layout__card">
+        <header class="auth-header">
+          <img
+            src="../assets/icons/logo.svg"
+            alt="Brinka"
+            class="auth-header__logo"
+            width="210"
+            height="150"
+          />
+          <h1 class="auth-header__title">Fazer Login</h1>
+          <p class="auth-header__subtitle">
+            Insira suas informações para prosseguirmos com seu login
+          </p>
+        </header>
 
-      <h1 id="login-title" class="login-panel__title">Fazer Login</h1>
-      <p class="login-panel__subtitle">
-        Insira suas informações para prosseguirmos com seu login
-      </p>
+        <p id="login-status" class="sr-only" role="status" aria-live="polite"></p>
+        <div id="login-feedback" class="form-feedback" role="alert" aria-live="assertive"></div>
 
-      <form id="login-form" class="login-form" novalidate>
+        <form id="login-form" class="cadastro-form" novalidate>
 
-        <!-- Região usada para anunciar erros de validação a leitores de tela -->
-        <div
-          id="form-feedback"
-          class="form-feedback"
-          role="alert"
-          aria-live="assertive"
-        ></div>
-
-        <div class="field">
-          <label for="email" class="field__label">E-mail</label>
-          <div class="field__control">
+          <div class="input-field">
+            <label class="input-field__label sr-only" for="email">E-mail</label>
             <input
+              class="input-field__control"
               type="email"
               id="email"
               name="email"
-              class="field__input"
               placeholder="E-mail"
               autocomplete="email"
-              required
-              aria-required="true"
-              aria-describedby="email-error"
+              aria-describedby="email-erro"
             />
-            <svg class="field__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24">
-              <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.4 0-8 2.2-8 5v1h16v-1c0-2.8-3.6-5-8-5Z"/>
-            </svg>
+            <p class="input-field__error" id="email-erro" role="alert"></p>
           </div>
-          <p id="email-error" class="field__error" hidden></p>
-        </div>
 
-        <div class="field">
-          <label for="password" class="field__label">Senha</label>
-          <div class="field__control">
+          <div class="input-field">
+            <label class="input-field__label sr-only" for="password">Senha</label>
             <input
+              class="input-field__control"
               type="password"
               id="password"
               name="password"
-              class="field__input"
               placeholder="Senha"
               autocomplete="current-password"
-              required
-              aria-required="true"
-              aria-describedby="password-error"
+              aria-describedby="password-erro"
             />
             <button
               type="button"
               id="toggle-password"
-              class="field__icon field__icon--button"
+              class="input-field__icon input-field__icon--button"
               aria-pressed="false"
               aria-label="Mostrar senha"
             >
               <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
-                <path d="M12 5c-5 0-9.3 3.1-11 7 1.7 3.9 6 7 11 7s9.3-3.1 11-7c-1.7-3.9-6-7-11-7Zm0 11.5A4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 0 1 0 9Z"/>
+                <path d="M12 5c-5 0-9.3 3.1-11 7 1.7 3.9 6 7 11 7s9.3-3.1 11-7c-1.7-3.9-6-7-11-7Zm0 11.5A4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 0 1 0 9Z" fill="currentColor"/>
               </svg>
             </button>
+            <p class="input-field__error" id="password-erro" role="alert"></p>
           </div>
-          <p id="password-error" class="field__error" hidden></p>
-        </div>
 
-        <button type="submit" class="btn-primary">Avançar</button>
+          <div class="cadastro-form__actions">
+            <button type="submit" class="btn btn--cyan cadastro-form__submit">Entrar</button>
+          </div>
 
-      </form>
-    </section>
+        </form>
+      </div>
+    </main>
 
-    <aside class="login-side" aria-hidden="true">
-      <span class="login-side__text">Seu vilarejo começa aqui!</span>
+    <aside class="auth-layout__brand-panel" aria-hidden="true">
+      <p class="auth-layout__brand-text">
+        <span class="auth-layout__brand-title">Seu Vilarejo COMEÇA AQUI!</span>
+      </p>
     </aside>
+  </div>
 
-  </main>
-
-  <script src="js/pages/login.js"></script>
+  <script type="module" src="../js/pages/login.js"></script>
 </body>
 </html>

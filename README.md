@@ -2,7 +2,7 @@
 
 Frontend do projeto **Brinka**, uma plataforma de e-commerce desenvolvida com HTML, CSS e JavaScript, projetada para oferecer uma experiência de compra acessível, inclusiva e intuitiva para todos os usuários.
 
-## ♿ Sobre o Projeto
+## Sobre o Projeto
 
 O Brinka é um e-commerce que tem a acessibilidade digital como um dos seus principais pilares.
 
