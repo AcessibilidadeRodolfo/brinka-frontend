@@ -1,17 +1,63 @@
 /*
  * Camada de acesso aos dados do catálogo.
- *
- * Sem uma API configurada, o site usa os dados locais e o localStorage.
- * Para conectar o backend futuramente, defina antes deste arquivo:
- * window.BRINKA_API_URL = 'https://seu-dominio.com/api';
- *
- * Contrato esperado da API:
- * GET  /products
- * GET  /products/:productId/reviews
- * POST /products/:productId/reviews  { name, text, rating }
  */
 (function () {
     const storagePrefix = 'brinka:reviews:';
+
+    /** Converte "Clássicos Especiais" em "classicos-especiais". */
+    function slugify(text) {
+        return String(text || '')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '');
+    }
+
+    /** Gera um gradiente determinístico (mesmo produto = mesmas cores sempre). */
+    function colorsFromSeed(seed) {
+        const palette = [
+            ['#DF7A96', '#F6356B'], ['#26AACE', '#287488'], ['#A9852C', '#D4B13A'],
+            ['#ADBF35', '#676F2C'], ['#AA4B19', '#FF823F'], ['#864ECE', '#4C2085'],
+            ['#AA1919', '#DC6767'], ['#0C9A93', '#0C7A75']
+        ];
+        let hash = 0;
+        const str = String(seed);
+        for (let i = 0; i < str.length; i += 1) {
+            hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
+        }
+        return palette[hash % palette.length];
+    }
+
+    function normalizeReview(review) {
+        return {
+            name: review.usuario ?? review.name ?? 'Cliente Brinka',
+            text: review.comentario ?? review.text ?? '',
+            rating: Number(review.nota ?? review.rating ?? 0)
+        };
+    }
+
+    /** Converte um produto no formato da brinka-api para o formato usado pelas telas. */
+    function normalizeProduct(raw) {
+        const id = String(raw.id);
+        const [colorFrom, colorTo] = colorsFromSeed(id);
+        const comments = Array.isArray(raw.avaliacoes) ? raw.avaliacoes.map(normalizeReview) : [];
+
+        return {
+            id,
+            name: raw.nome,
+            category: slugify(raw.categoria),
+            image: raw.imagem,
+            description: raw.descricao,
+            price: Number(raw.preco),
+            estoque: raw.estoque,
+            comments,
+            averageRating: calculateAverage(comments, 0),
+            colorFrom,
+            colorTo
+        };
+    }
 
     function getApiUrl() {
         return (window.BRINKA_API_URL || '').replace(/\/$/, '');
@@ -57,7 +103,9 @@
 
     async function listProducts(fallbackProducts) {
         const remoteProducts = await request('/products');
-        return Array.isArray(remoteProducts) ? remoteProducts : fallbackProducts;
+        if (!Array.isArray(remoteProducts)) return fallbackProducts;
+
+        return remoteProducts.map(normalizeProduct);
     }
 
     async function listReviews(productId, fallbackReviews = []) {
