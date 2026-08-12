@@ -95,6 +95,28 @@ export async function getUserAddress() {
 }
 
 /**
+ * @param {{ cep?: string, rua?: string, numero?: string, complemento?: string, cidade?: string, estado?: string }} dados
+ * @returns {Promise<{cep: string, rua: string, numero: number, complemento: string, cidade: string, estado: string}>}
+ * @throws {Error} com a mensagem de erro devolvida pela API.
+ */
+export async function updateUserAddress(dados) {
+  const response = await fetch(`${getUsersUrl()}/address`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeader(),
+    },
+    body: JSON.stringify(dados),
+  });
+
+  if (!response.ok) {
+    throw new Error(await extractErrorMessage(response));
+  }
+
+  return response.json();
+}
+
+/**
  * @returns {Promise<{id: number, numeroCartao: string, nomeTitular: string, cvc: string, dataValidade: string}>}
  * @throws {Error} com a mensagem de erro devolvida pela API.
  */

@@ -23,26 +23,29 @@
         <div class="profile-avatar" role="img" aria-label="Foto de perfil não cadastrada"></div>
 
         <div class="profile-details">
-          <h2 id="profile-name">Erick Santos Silva</h2>
+          <div class="profile-field profile-field--name">
+            <h2 id="profile-name">Erick Santos Silva</h2>
+            <button class="profile-edit-btn" type="button" data-edit-field="nome" aria-label="Editar nome">✎</button>
+          </div>
           <dl>
-            <div>
+            <div class="profile-field" data-field-row="email">
               <dt>E-mail:</dt>
               <dd id="profile-email">erickdasilva@gmail.com</dd>
+              <button class="profile-edit-btn" type="button" data-edit-field="email" aria-label="Editar e-mail">✎</button>
             </div>
-            <div>
+            <div class="profile-field" data-field-row="telefone">
               <dt>Telefone:</dt>
               <dd id="profile-phone">11950646508</dd>
+              <button class="profile-edit-btn" type="button" data-edit-field="telefone" aria-label="Editar telefone">✎</button>
             </div>
-            <div>
+            <div class="profile-field" data-field-row="address">
               <dt>Endereço:</dt>
               <dd id="profile-address">Osasco, Jardim das Flores, rua Açucena 424</dd>
+              <button class="profile-edit-btn" type="button" data-edit-field="address" aria-label="Editar endereço">✎</button>
             </div>
           </dl>
 
           <div class="profile-actions">
-            <button class="btn profile-button profile-button--light" type="button" data-profile-action="update-profile">
-              Atualizar Dados
-            </button>
             <button class="btn profile-button profile-button--danger" type="button" data-profile-action="logout">
               Sair da Conta
             </button>
