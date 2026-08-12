@@ -1,3 +1,6 @@
+import { isAuthenticated } from "../utils/session.js";
+import { createOrder } from "../services/orderService.js";
+
 const CART_STORAGE_KEY = "brinka:cart:v1";
 
 const moneyFormatter = new Intl.NumberFormat("pt-BR", {
@@ -6,6 +9,7 @@ const moneyFormatter = new Intl.NumberFormat("pt-BR", {
 });
 
 const form = document.getElementById("payment-form");
+const submitBtn = form.querySelector(".payment-submit");
 const itemCount = document.getElementById("payment-item-count");
 const total = document.getElementById("payment-total");
 const feedback = document.getElementById("payment-feedback");
@@ -124,9 +128,14 @@ cardFields.cvc.addEventListener("input", () => {
 
 methodInputs.forEach((input) => input.addEventListener("change", syncPaymentMethod));
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
   feedback.textContent = "";
+
+  if (!isAuthenticated()) {
+    feedback.textContent = "Você precisa estar logado para concluir a compra.";
+    return;
+  }
 
   const cart = renderCartSummary();
   if (!cart.totalQuantity) {
@@ -137,13 +146,28 @@ form.addEventListener("submit", (event) => {
   const selectedMethod = form.elements["payment-method"].value;
   if (selectedMethod === "credit-card" && !validateCreditCard()) return;
 
-  const methodName = {
-    pix: "Pix",
-    "credit-card": "cartão de crédito",
-    boleto: "boleto",
+  const metodoPagamento = {
+    pix: "PIX",
+    "credit-card": "CARTAO_CREDITO",
+    boleto: "BOLETO",
   }[selectedMethod];
 
-  statusRegion.textContent = `Pagamento por ${methodName} preparado. A integração com o backend ainda não está ativa.`;
+  submitBtn.disabled = true;
+  statusRegion.textContent = "Processando pagamento...";
+
+  try {
+    const pedido = await createOrder(metodoPagamento);
+    statusRegion.textContent = `Pedido #${pedido.id} confirmado! Pagamento aprovado.`;
+    feedback.textContent = "";
+    localStorage.removeItem(CART_STORAGE_KEY);
+    form.querySelectorAll("input, button").forEach((el) => {
+      el.disabled = true;
+    });
+  } catch (error) {
+    feedback.textContent = error.message;
+    statusRegion.textContent = "Não foi possível concluir o pagamento.";
+    submitBtn.disabled = false;
+  }
 });
 
 renderCartSummary();
