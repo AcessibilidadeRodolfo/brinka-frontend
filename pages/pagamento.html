@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagamento | Brinka</title>
+  <meta name="description" content="Escolha a forma de pagamento do seu pedido Brinka." />
+
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/components/cadastro/base.css" />
+  <link rel="stylesheet" href="/css/components/cadastro/buttons.css" />
+  <link rel="stylesheet" href="/css/pages/pagamento.css" />
+</head>
+<body>
+  <a class="payment-skip-link" href="#payment-title">Pular para as formas de pagamento</a>
+
+  <main class="payment-page">
+    <header class="payment-summary" aria-label="Resumo do carrinho">
+      <div class="payment-summary__navigation">
+        <a class="payment-summary__cart" href="../index.html#cart-drawer" aria-label="Voltar para o carrinho">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="20" r="1"></circle>
+            <circle cx="19" cy="20" r="1"></circle>
+            <path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6"></path>
+          </svg>
+          <span>Carrinho</span>
+        </a>
+        <a class="payment-summary__back" href="../index.html#personagens">
+          <span aria-hidden="true">←</span>
+          <span>Catálogo</span>
+        </a>
+      </div>
+
+      <p class="payment-summary__metric">
+        <span>Quantidade de Itens:</span>
+        <strong id="payment-item-count">0</strong>
+      </p>
+
+      <p class="payment-summary__metric payment-summary__total">
+        <span>Total a pagar:</span>
+        <strong id="payment-total">00,00</strong>
+      </p>
+    </header>
+
+    <form id="payment-form" class="payment-layout" novalidate>
+      <section class="payment-options" aria-labelledby="payment-title">
+        <h1 id="payment-title">Selecione a forma<br />de pagamento</h1>
+
+        <fieldset class="payment-methods">
+          <legend class="sr-only">Forma de pagamento</legend>
+
+          <label class="payment-method">
+            <input class="sr-only" type="radio" name="payment-method" value="pix" />
+            <span class="payment-method__name">Pix</span>
+            <img class="payment-method__pix" src="../assets/icons/pix.svg" alt="" />
+            <span class="payment-method__arrow" aria-hidden="true">→</span>
+          </label>
+
+          <label class="payment-method">
+            <input class="sr-only" type="radio" name="payment-method" value="credit-card" checked />
+            <span class="payment-method__name">Cartão de Crédito</span>
+            <span class="payment-method__brands" aria-label="Bandeiras aceitas: Mastercard, Visa e Nubank">
+              <img src="../assets/icons/mastercard.svg" alt="" />
+              <img src="../assets/icons/visa.svg" alt="" />
+              <img src="../assets/icons/nubank.svg" alt="" />
+            </span>
+            <span class="payment-method__arrow" aria-hidden="true">→</span>
+          </label>
+
+          <label class="payment-method">
+            <input class="sr-only" type="radio" name="payment-method" value="boleto" />
+            <span class="payment-method__name">Boleto</span>
+            <span class="payment-method__barcode" aria-hidden="true"></span>
+            <span class="payment-method__arrow" aria-hidden="true">→</span>
+          </label>
+        </fieldset>
+
+        <div id="payment-feedback" class="payment-feedback" role="alert" aria-live="assertive"></div>
+        <button class="btn payment-submit" type="submit">Prosseguir pagamento</button>
+        <p id="payment-status" class="sr-only" role="status" aria-live="polite"></p>
+      </section>
+
+      <section id="credit-card-panel" class="credit-card-panel" aria-labelledby="credit-card-title">
+        <h2 id="credit-card-title" class="sr-only">Dados do cartão de crédito</h2>
+        <img class="credit-card-panel__asset" src="../assets/icons/Card.svg" alt="" />
+
+        <div class="credit-card-fields">
+          <div class="credit-card-field credit-card-field--full">
+            <label class="sr-only" for="card-name">Nome completo</label>
+            <input
+              id="card-name"
+              name="card-name"
+              type="text"
+              placeholder="Nome completo"
+              autocomplete="cc-name"
+              aria-describedby="card-name-error"
+            />
+            <span id="card-name-error" class="sr-only"></span>
+          </div>
+
+          <div class="credit-card-field credit-card-field--full">
+            <label class="sr-only" for="card-number">Número do cartão</label>
+            <input
+              id="card-number"
+              name="card-number"
+              type="text"
+              placeholder="Número do cartão"
+              inputmode="numeric"
+              autocomplete="cc-number"
+              maxlength="19"
+              aria-describedby="card-number-error"
+            />
+            <span id="card-number-error" class="sr-only"></span>
+          </div>
+
+          <div class="credit-card-field">
+            <label class="sr-only" for="card-expiry">Data de validade</label>
+            <input
+              id="card-expiry"
+              name="card-expiry"
+              type="text"
+              placeholder="Data de validade"
+              inputmode="numeric"
+              autocomplete="cc-exp"
+              maxlength="5"
+              aria-describedby="card-expiry-error"
+            />
+            <span id="card-expiry-error" class="sr-only"></span>
+          </div>
+
+          <div class="credit-card-field">
+            <label class="sr-only" for="card-cvc">CVC</label>
+            <input
+              id="card-cvc"
+              name="card-cvc"
+              type="text"
+              placeholder="CVC"
+              inputmode="numeric"
+              autocomplete="cc-csc"
+              maxlength="4"
+              aria-describedby="card-cvc-error"
+            />
+            <span id="card-cvc-error" class="sr-only"></span>
+          </div>
+        </div>
+      </section>
+    </form>
+  </main>
+
+  <script type="module" src="../js/pages/pagamento.js"></script>
+</body>
+</html>
