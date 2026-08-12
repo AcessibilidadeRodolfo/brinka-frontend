@@ -2,6 +2,7 @@ import { isAuthenticated } from "../utils/session.js";
 import { createOrder } from "../services/orderService.js";
 
 const CART_STORAGE_KEY = "brinka:cart:v1";
+const LAST_ORDER_ID_KEY = "brinka:last-order-id";
 
 const moneyFormatter = new Intl.NumberFormat("pt-BR", {
   minimumFractionDigits: 2,
@@ -160,9 +161,14 @@ form.addEventListener("submit", async (event) => {
     statusRegion.textContent = `Pedido #${pedido.id} confirmado! Pagamento aprovado.`;
     feedback.textContent = "";
     localStorage.removeItem(CART_STORAGE_KEY);
-    form.querySelectorAll("input, button").forEach((el) => {
-      el.disabled = true;
-    });
+
+    if (pedido?.id !== undefined && pedido?.id !== null) {
+      sessionStorage.setItem(LAST_ORDER_ID_KEY, String(pedido.id));
+      window.location.href = `pagamento-concluido.html?pedido=${encodeURIComponent(pedido.id)}`;
+    } else {
+      sessionStorage.removeItem(LAST_ORDER_ID_KEY);
+      window.location.href = "pagamento-concluido.html";
+    }
   } catch (error) {
     feedback.textContent = error.message;
     statusRegion.textContent = "Não foi possível concluir o pagamento.";
