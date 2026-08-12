@@ -52,7 +52,8 @@ const total = document.getElementById("payment-total");
 const feedback = document.getElementById("payment-feedback");
 const statusRegion = document.getElementById("payment-status");
 const cardPanel = document.getElementById("credit-card-panel");
-
+const pixPanel = document.getElementById("pix-panel");
+const boletoPanel = document.getElementById("boleto-panel");
 const methodInputs = Array.from(
     document.querySelectorAll('input[name="payment-method"]')
 );
@@ -264,35 +265,42 @@ function validateCreditCard() {
 }
 
 function syncPaymentMethod() {
-    const selectedMethod =
-        form.elements["payment-method"].value;
+  const selectedMethod =
+    form.elements["payment-method"].value;
 
-    const isCreditCard =
-        selectedMethod === "credit-card";
+  const isCreditCard = selectedMethod === "credit-card";
+  const isPix = selectedMethod === "pix";
+  const isBoleto = selectedMethod === "boleto";
 
-    cardPanel.hidden = !isCreditCard;
+  cardPanel.hidden = !isCreditCard;
+  cardPanel.setAttribute("aria-hidden", String(!isCreditCard));
 
-    cardPanel.setAttribute(
-        "aria-hidden",
-        String(!isCreditCard)
-    );
+  pixPanel.hidden = !isPix;
+  pixPanel.setAttribute("aria-hidden", String(!isPix));
 
-    Object.values(cardFields).forEach((field) => {
-        field.disabled = !isCreditCard;
-    });
+  boletoPanel.hidden = !isBoleto;
+  boletoPanel.setAttribute("aria-hidden", String(!isBoleto));
 
-    feedback.textContent = "";
+  Object.values(cardFields).forEach((field) => {
+    field.disabled = !isCreditCard;
+  });
 
-    if (isCreditCard) {
-        statusRegion.textContent =
-            "Preencha os dados do cartão de crédito.";
-        return;
-    }
+  feedback.textContent = "";
 
+  if (isCreditCard) {
     statusRegion.textContent =
-        selectedMethod === "pix"
-            ? "Pix selecionado."
-            : "Boleto selecionado.";
+      "Preencha os dados do cartão de crédito.";
+    return;
+  }
+
+  if (isPix) {
+    statusRegion.textContent =
+      "Pix selecionado. Escaneie o QR Code para simular o pagamento.";
+    return;
+  }
+
+  statusRegion.textContent =
+    "Boleto selecionado. Copie a linha digitável ou escaneie o código de barras para simular o pagamento.";
 }
 
 function getPaymentMethod() {
