@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Perfil | Brinka</title>
+  <meta name="description" content="Consulte seus dados, compras e cartão cadastrado na Brinka." />
+
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/components/cadastro/base.css" />
+  <link rel="stylesheet" href="/css/components/cadastro/buttons.css" />
+  <link rel="stylesheet" href="/css/pages/perfil.css" />
+</head>
+<body>
+  <a class="profile-skip-link" href="#profile-title">Pular para as informações do perfil</a>
+
+  <main class="profile-page">
+    <section class="profile-info profile-panel" aria-labelledby="profile-title">
+      <h1 id="profile-title">Informações do perfil</h1>
+
+      <div class="profile-info__body">
+        <div class="profile-avatar" role="img" aria-label="Foto de perfil não cadastrada"></div>
+
+        <div class="profile-details">
+          <h2>Erick Santos Silva</h2>
+          <dl>
+            <div>
+              <dt>E-mail:</dt>
+              <dd>erickdasilva@gmail.com</dd>
+            </div>
+            <div>
+              <dt>Telefone:</dt>
+              <dd>11950646508</dd>
+            </div>
+            <div>
+              <dt>Endereço:</dt>
+              <dd>Osasco, Jardim das Flores, rua Açucena 424</dd>
+            </div>
+          </dl>
+
+          <div class="profile-actions">
+            <button class="btn profile-button profile-button--light" type="button" data-profile-action="update-profile">
+              Atualizar Dados
+            </button>
+            <button class="btn profile-button profile-button--danger" type="button" data-profile-action="logout">
+              Sair da Conta
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="purchase-history profile-panel" aria-labelledby="purchase-history-title">
+      <h2 id="purchase-history-title">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="20" r="1"></circle>
+          <circle cx="19" cy="20" r="1"></circle>
+          <path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 7H6"></path>
+        </svg>
+        <span>Minhas Compras</span>
+      </h2>
+
+      <p id="purchase-history-status" class="purchase-history__status" role="status" aria-live="polite">
+        Carregando histórico de compras...
+      </p>
+      <ol id="purchase-history-list" class="purchase-history__list" aria-label="Histórico de compras"></ol>
+    </section>
+
+    <aside class="profile-aside" aria-label="Navegação e pagamento">
+      <div class="profile-aside__topbar">
+        <a class="profile-catalog-link" href="../index.html#personagens">
+          <span aria-hidden="true">←</span>
+          <span>Catálogo</span>
+        </a>
+        <a class="profile-logo" href="../index.html" aria-label="Voltar para a página inicial da Brinka">
+          <img src="../assets/icons/logo.svg" alt="Brinka" />
+        </a>
+      </div>
+
+      <section class="stored-card profile-panel" aria-labelledby="stored-card-title">
+        <h2 id="stored-card-title">Cartão Cadastrado</h2>
+
+        <div class="stored-card__visual">
+          <img src="../assets/icons/Card.svg" alt="Cartão cadastrado" />
+          <div class="stored-card__fields" aria-label="Dados do cartão cadastrados">
+            <label class="sr-only" for="stored-card-name">Nome completo</label>
+            <input id="stored-card-name" class="stored-card__field stored-card__field--full" type="text" placeholder="Nome completo" readonly />
+
+            <label class="sr-only" for="stored-card-number">Número do cartão</label>
+            <input id="stored-card-number" class="stored-card__field stored-card__field--full" type="text" placeholder="Número do cartão" readonly />
+
+            <label class="sr-only" for="stored-card-expiry">Data de validade</label>
+            <input id="stored-card-expiry" class="stored-card__field" type="text" placeholder="Data de validade" readonly />
+
+            <label class="sr-only" for="stored-card-cvc">CVC</label>
+            <input id="stored-card-cvc" class="stored-card__field" type="text" placeholder="CVC" readonly />
+          </div>
+          <button class="stored-card__edit stored-card__edit--name" type="button" aria-label="Editar nome do cartão">✎</button>
+          <button class="stored-card__edit stored-card__edit--number" type="button" aria-label="Editar número do cartão">✎</button>
+          <button class="stored-card__edit stored-card__edit--expiry" type="button" aria-label="Editar validade e CVC">✎</button>
+        </div>
+
+        <button class="btn profile-button stored-card__update" type="button" data-profile-action="update-card">
+          Atualizar dados
+        </button>
+        <p class="stored-card__security"><span aria-hidden="true">ⓘ</span> Suas informações ficam guardadas de forma segura</p>
+      </section>
+    </aside>
+
+    <p id="profile-live-status" class="sr-only" role="status" aria-live="polite"></p>
+  </main>
+
+  <div id="logout-modal" class="logout-modal" aria-hidden="true" inert>
+    <button class="logout-modal__backdrop" type="button" tabindex="-1" aria-label="Continuar na conta" data-logout-cancel></button>
+
+    <section
+      class="logout-modal__dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="logout-modal-title"
+      aria-describedby="logout-modal-description"
+      tabindex="-1"
+    >
+      <h2 id="logout-modal-title">Deseja mesmo sair da conta?</h2>
+      <p id="logout-modal-description">Seus dados permaneceram salvos.</p>
+
+      <div class="logout-modal__warning" aria-hidden="true"><span>!</span></div>
+
+      <div class="logout-modal__actions">
+        <button class="btn logout-modal__confirm" type="button" data-logout-confirm>Sair</button>
+        <button class="btn logout-modal__continue" type="button" data-logout-cancel>Continuar</button>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="../js/pages/perfil.js"></script>
+</body>
+</html>
