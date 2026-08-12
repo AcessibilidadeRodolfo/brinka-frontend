@@ -266,13 +266,7 @@
   transition: opacity var(--transition-fast), transform var(--transition-fast);
 }
 
-.credit-card-panel[hidden] {
-  display: block !important;
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(var(--space-3));
-  pointer-events: none;
-}
+
 
 .credit-card-panel__asset {
   position: absolute;
@@ -338,20 +332,7 @@
   animation: payment-card-enter var(--transition-step) ease both;
   transition: opacity var(--transition-fast), transform var(--transition-fast);
 }
-.credit-card-panel,
-.pix-panel,
-.boleto-panel {
-  grid-column: 2;
-  grid-row: 1;
-}
 
-.pix-panel[hidden] {
-  display: block !important;
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(var(--space-3));
-  pointer-events: none;
-}
 
 .pix-panel__qrcode {
   inline-size: min(100%, 14rem);
@@ -382,13 +363,6 @@
   transition: opacity var(--transition-fast), transform var(--transition-fast);
 }
 
-.boleto-panel[hidden] {
-  display: block !important;
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(var(--space-3));
-  pointer-events: none;
-}
 
 .boleto-panel__barcode {
   inline-size: 100%;
@@ -408,6 +382,15 @@
   margin: var(--space-3) 0 0;
   color: var(--color-text-muted);
   font-size: 0.9rem;
+}
+
+@media (min-width: 64rem) {
+  .credit-card-panel,
+  .pix-panel,
+  .boleto-panel {
+    grid-column: 2;
+    grid-row: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -467,6 +450,24 @@
     inline-size: min(100%, 35rem);
     justify-self: start;
     margin-block-start: 0;
+  }
+  .credit-card-panel {
+    inline-size: min(100%, 35rem);
+    justify-self: start;
+    margin-block-start: 0;
+  }
+
+  .pix-panel {
+    inline-size: min(100%, 35rem);
+    justify-self: start;
+    margin-block-start: 0;
+  }
+
+  .boleto-panel {
+    grid-column: auto;
+    grid-row: auto;
+    justify-self: start;
+    margin-inline-end: 0;
   }
 }
 
