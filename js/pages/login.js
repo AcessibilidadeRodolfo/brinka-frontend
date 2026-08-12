@@ -97,7 +97,7 @@ import { setToken, clearToken } from "../utils/session.js";
 
       setToken(token);
       statusRegion.textContent = "Login realizado com sucesso!";
-      window.location.href = "../index.html";
+      window.location.href = "../index-logado.html";
     } catch (error) {
       console.error("Erro no login:", error);
       feedback.textContent = error.message;
