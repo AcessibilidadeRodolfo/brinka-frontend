@@ -1,0 +1,179 @@
+.auth-layout {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--auth-panel-width);
+    min-block-size: 100vh;
+    min-block-size: 100dvh;
+    background: var(--color-bg);
+}
+
+.auth-layout__content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-inline-size: 0;
+    padding-block: clamp(1.5rem, 7vh, 4rem);
+    padding-inline: clamp(3.75rem, 9.5vw, 8.5rem) clamp(2rem, 6vw, 6rem);
+}
+
+.auth-layout__card {
+    inline-size: min(100%, var(--auth-content-width));
+}
+
+.auth-layout__brand-panel {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-inline-size: 0;
+    block-size: 100%;
+    overflow: hidden;
+    background: var(--color-brand-pink);
+}
+
+.auth-layout__brand-title-image {
+    inline-size: clamp(15rem, 25vw, 24rem);
+    max-inline-size: none;
+    transform: rotate(-90deg);
+}
+
+.auth-layout__switch-action {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: calc(var(--auth-panel-width) - 3rem);
+    z-index: 2;
+    min-inline-size: 10rem;
+    padding: 0.9em 1.8em;
+    font-size: clamp(1rem, 1.45vw, 1.35rem);
+    transform: translateY(-50%);
+}
+
+.auth-layout__switch-label--mobile {
+    display: none;
+}
+
+.auth-header {
+    margin-block-end: var(--space-5);
+}
+
+.auth-header__logo {
+    inline-size: clamp(5.75rem, 8vw, 8.75rem);
+    margin-block-end: var(--space-4);
+}
+
+.auth-header__title {
+    margin: 0 0 var(--space-1);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.auth-header__subtitle {
+    max-inline-size: 31rem;
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-family: var(--font-body);
+    font-size: clamp(0.72rem, 1.05vw, 0.95rem);
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+@media (max-width: 47.9375rem) {
+    .auth-layout {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .auth-layout__content {
+        order: 1;
+        align-items: flex-start;
+        justify-content: center;
+        padding: clamp(3.25rem, 12vw, 4.5rem) clamp(2.75rem, 10vw, 4rem) 0;
+    }
+
+    .auth-layout__card {
+        inline-size: 100%;
+        max-inline-size: 23rem;
+    }
+
+    .auth-header {
+        margin-block-end: 1.5rem;
+    }
+
+    .auth-header__logo {
+        inline-size: clamp(9.25rem, 36vw, 10.25rem);
+        margin-block-end: clamp(2rem, 8vw, 2.75rem);
+    }
+
+    .auth-header__title {
+        font-size: clamp(2rem, 8vw, 2.25rem);
+        line-height: 1.15;
+    }
+
+    .auth-header__subtitle {
+        font-size: clamp(0.88rem, 3.5vw, 1rem);
+        line-height: 1.4;
+    }
+
+    .auth-layout__switch-action {
+        position: static;
+        order: 2;
+        flex-direction: column;
+        min-inline-size: 0;
+        margin: 1rem auto 1.5rem;
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        color: var(--color-text-primary);
+        font-family: var(--font-body);
+        font-size: 1.3rem;
+        font-weight: 500;
+        line-height: 1.2;
+        text-decoration: none;
+        transform: none;
+    }
+
+    .auth-layout__switch-action::before {
+        content: "ou";
+        margin-block-end: 0.5rem;
+        font-size: inherit;
+        line-height: inherit;
+        text-decoration: none;
+    }
+
+    .auth-layout__switch-label {
+        padding-block-end: 0.2rem;
+        border-block-end: 2px solid currentColor;
+    }
+
+    .auth-layout__switch-label--desktop {
+        display: none;
+    }
+
+    .auth-layout__switch-label--mobile {
+        display: inline;
+    }
+
+    .auth-layout__brand-panel {
+        order: 3;
+        place-items: center start;
+        min-block-size: 13.75rem;
+        block-size: 13.75rem;
+        margin-block-start: auto;
+    }
+
+    .auth-layout__brand-title-image {
+        inline-size: calc(100% - clamp(3rem, 10vw, 5.5rem));
+        max-inline-size: 25rem;
+        margin-inline: clamp(1.5rem, 5vw, 2.75rem);
+        transform: none;
+    }
+}
+
+@media (max-width: 22rem) {
+    .auth-layout__content {
+        padding-inline: var(--space-5);
+    }
+}

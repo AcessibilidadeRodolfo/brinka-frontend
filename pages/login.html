@@ -1,104 +1,112 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fazer Login | Brinka</title>
-  <meta name="description" content="Faça login na Brinka e comece a explorar o seu vilarejo." />
-
-  <link rel="stylesheet" href="/css/tokens.css" />
-  <link rel="stylesheet" href="/css/components/cadastro/base.css" />
-  <link rel="stylesheet" href="/css/components/cadastro/buttons.css" />
-  <link rel="stylesheet" href="/css/components/cadastro/inputs.css" />
-  <link rel="stylesheet" href="/css/components/cadastro/auth-layout.css" />
-  <link rel="stylesheet" href="/css/pages/login.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fazer login | Brinka</title>
+    <meta name="description" content="Faça login na Brinka e comece a explorar o seu vilarejo.">
+    <meta name="application-name" content="Brinka">
+    <meta name="theme-color" content="#272727">
+    <link rel="icon" href="../assets/icons/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/components/auth/base.css">
+    <link rel="stylesheet" href="../css/components/auth/layout.css">
+    <link rel="stylesheet" href="../css/components/auth/buttons.css">
+    <link rel="stylesheet" href="../css/components/auth/form.css">
+    <link rel="stylesheet" href="../css/pages/login.css">
 </head>
-<body>
+<body class="auth-page auth-page--login">
+    <a class="skip-link" href="#login-form">Pular para o formulário de login</a>
 
-  <!-- Skip link: permite que usuários de teclado pulem direto para o formulário -->
-  <a class="skip-link" href="#login-form">Pular para o formulário de login</a>
+    <div class="auth-layout">
+        <a href="cadastro.html" class="btn btn--pink auth-layout__switch-action">
+            <span class="auth-layout__switch-label auth-layout__switch-label--desktop">Cadastrar-se</span>
+            <span class="auth-layout__switch-label auth-layout__switch-label--mobile">Fazer Cadastro</span>
+        </a>
 
-  <div class="auth-layout">
-    <a href="cadastro.html" class="btn btn--pink auth-layout__switch-action">
-      Fazer Cadastro
-    </a>
+        <main id="conteudo-principal" class="auth-layout__content">
+            <div class="auth-layout__card">
+                <header class="auth-header">
+                    <img
+                        src="../assets/icons/logo.svg"
+                        alt="Brinka"
+                        class="auth-header__logo"
+                        width="210"
+                        height="150"
+                    >
+                    <h1 class="auth-header__title">Fazer Login</h1>
+                    <p class="auth-header__subtitle">
+                        Insira suas informações para prosseguirmos com seu login
+                    </p>
+                </header>
 
-    <main class="auth-layout__content">
-      <div class="auth-layout__card">
-        <header class="auth-header">
-          <img
-            src="../assets/icons/logo.svg"
-            alt="Brinka"
-            class="auth-header__logo"
-            width="210"
-            height="150"
-          />
-          <h1 class="auth-header__title">Fazer Login</h1>
-          <p class="auth-header__subtitle">
-            Insira suas informações para prosseguirmos com seu login
-          </p>
-        </header>
+                <p id="login-status" class="sr-only" role="status" aria-live="polite"></p>
+                <div id="login-feedback" class="form-feedback" role="alert" aria-live="assertive"></div>
 
-        <p id="login-status" class="sr-only" role="status" aria-live="polite"></p>
-        <div id="login-feedback" class="form-feedback" role="alert" aria-live="assertive"></div>
+                <form id="login-form" class="auth-form" novalidate>
+                    <div class="input-field">
+                        <label class="input-field__label sr-only" for="email">E-mail</label>
+                        <input
+                            class="input-field__control"
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="E-mail"
+                            autocomplete="email"
+                            aria-describedby="email-erro"
+                        >
+                        <span class="input-field__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" focusable="false">
+                                <circle cx="12" cy="8" r="4" fill="currentColor"></circle>
+                                <path d="M4 21a8 8 0 0 1 16 0H4Z" fill="currentColor"></path>
+                            </svg>
+                        </span>
+                        <p class="input-field__error" id="email-erro" role="alert"></p>
+                    </div>
 
-        <form id="login-form" class="cadastro-form" novalidate>
+                    <div class="input-field">
+                        <label class="input-field__label sr-only" for="password">Senha</label>
+                        <input
+                            class="input-field__control"
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Senha"
+                            autocomplete="current-password"
+                            aria-describedby="password-erro"
+                        >
+                        <button
+                            type="button"
+                            id="toggle-password"
+                            class="input-field__icon-button"
+                            aria-pressed="false"
+                            aria-label="Mostrar senha"
+                        >
+                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                                <path d="M7 10V8a5 5 0 0 1 10 0v2h1a2 2 0 0 1 2 2v8H4v-8a2 2 0 0 1 2-2h1Zm2 0h6V8a3 3 0 0 0-6 0v2Z" fill="currentColor"></path>
+                            </svg>
+                        </button>
+                        <p class="input-field__error" id="password-erro" role="alert"></p>
+                    </div>
 
-          <div class="input-field">
-            <label class="input-field__label sr-only" for="email">E-mail</label>
-            <input
-              class="input-field__control"
-              type="email"
-              id="email"
-              name="email"
-              placeholder="E-mail"
-              autocomplete="email"
-              aria-describedby="email-erro"
-            />
-            <p class="input-field__error" id="email-erro" role="alert"></p>
-          </div>
+                    <div class="auth-form__actions">
+                        <button type="submit" class="btn btn--cyan auth-form__submit">Avançar</button>
+                    </div>
+                </form>
+            </div>
+        </main>
 
-          <div class="input-field">
-            <label class="input-field__label sr-only" for="password">Senha</label>
-            <input
-              class="input-field__control"
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Senha"
-              autocomplete="current-password"
-              aria-describedby="password-erro"
-            />
-            <button
-              type="button"
-              id="toggle-password"
-              class="input-field__icon input-field__icon--button"
-              aria-pressed="false"
-              aria-label="Mostrar senha"
+        <aside class="auth-layout__brand-panel" aria-hidden="true">
+            <img
+                class="auth-layout__brand-title-image"
+                src="../assets/icons/title-home.svg"
+                alt=""
+                width="778"
+                height="172"
             >
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
-                <path d="M12 5c-5 0-9.3 3.1-11 7 1.7 3.9 6 7 11 7s9.3-3.1 11-7c-1.7-3.9-6-7-11-7Zm0 11.5A4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 0 1 0 9Z" fill="currentColor"/>
-              </svg>
-            </button>
-            <p class="input-field__error" id="password-erro" role="alert"></p>
-          </div>
+        </aside>
+    </div>
 
-          <div class="cadastro-form__actions">
-            <button type="submit" class="btn btn--cyan cadastro-form__submit">Entrar</button>
-          </div>
-
-        </form>
-      </div>
-    </main>
-
-    <aside class="auth-layout__brand-panel" aria-hidden="true">
-      <p class="auth-layout__brand-text">
-        <span class="auth-layout__brand-title">Seu Vilarejo COMEÇA AQUI!</span>
-      </p>
-    </aside>
-  </div>
-
-  <script src="../js/utils/config.js"></script>
-  <script type="module" src="../js/pages/login.js"></script>
+    <script type="module" src="../js/pages/login.js"></script>
 </body>
 </html>
