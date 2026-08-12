@@ -1,8 +1,34 @@
-import { isAuthenticated } from "../utils/session.js";
+import { isAuthenticated, authHeader } from "../utils/session.js";
 import { createOrder } from "../services/orderService.js";
 
 const CART_STORAGE_KEY = "brinka:cart:v1";
 const LAST_ORDER_ID_KEY = "brinka:last-order-id";
+
+/**
+ * Busca o carrinho salvo no servidor (Redis) para usuários logados.
+ * Usado porque, quando autenticado, o carrinho não fica no localStorage —
+ * ele é sincronizado direto com a API (ver cart-drawer.js / applyServerCart).
+ */
+async function fetchServerCart() {
+  const response = await fetch(`${window.BRINKA_CONFIG.API_BASE_URL}/usuarios/carrinho`, {
+    headers: { ...authHeader() },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Erro ${response.status} ao buscar carrinho.`);
+  }
+
+  const data = await response.json();
+  const items = data?.items || [];
+
+  const totalQuantity = items.reduce((sum, item) => sum + Number(item.quantidade || 0), 0);
+  const total = items.reduce(
+    (sum, item) => sum + Number(item.preco || 0) * Number(item.quantidade || 0),
+    0
+  );
+
+  return { totalQuantity, total };
+}
 
 const moneyFormatter = new Intl.NumberFormat("pt-BR", {
   minimumFractionDigits: 2,
@@ -27,7 +53,15 @@ const cardFields = {
   cvc: document.getElementById("card-cvc"),
 };
 
-function readCart() {
+async function readCart() {
+  if (isAuthenticated()) {
+    try {
+      return await fetchServerCart();
+    } catch (err) {
+      console.warn("Não foi possível carregar o carrinho do servidor, tentando localStorage.", err);
+    }
+  }
+
   try {
     const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY));
     return {
@@ -41,8 +75,8 @@ function readCart() {
   }
 }
 
-function renderCartSummary() {
-  const cart = readCart();
+async function renderCartSummary() {
+  const cart = await readCart();
   itemCount.textContent = String(cart.totalQuantity);
   total.textContent = moneyFormatter.format(cart.total);
   return cart;
@@ -138,7 +172,7 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
-  const cart = renderCartSummary();
+  const cart = await renderCartSummary();
   if (!cart.totalQuantity) {
     feedback.textContent = "Seu carrinho está vazio. Volte ao catálogo para adicionar personagens.";
     return;
@@ -176,5 +210,5 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-renderCartSummary();
+renderCartSummary().catch((err) => console.error("Erro ao carregar resumo do carrinho:", err));
 syncPaymentMethod();
