@@ -1,3 +1,22 @@
+.profile-page-body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+}
+
+.profile-page-body img {
+    display: block;
+    max-inline-size: 100%;
+    block-size: auto;
+}
+
+.profile-page-body button,
+.profile-page-body input {
+    font: inherit;
+}
+
 .profile-skip-link {
     position: fixed;
     inset-block-start: -100%;
@@ -59,8 +78,15 @@
 
 .profile-avatar {
     aspect-ratio: 1;
+    overflow: hidden;
     border-radius: 50%;
     background: var(--color-surface-border);
+}
+
+.profile-avatar img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
 }
 
 .profile-details {
