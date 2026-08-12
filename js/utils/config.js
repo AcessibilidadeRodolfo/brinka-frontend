@@ -1,4 +1,4 @@
 window.BRINKA_CONFIG = window.BRINKA_CONFIG || {
-    API_BASE_URL: "http://localhost:8080",
-    PURCHASE_HISTORY_URL: "http://localhost:8080/pedidos",
+    API_BASE_URL: "https://brinka-api.onrender.com",
+    PURCHASE_HISTORY_URL: "https://brinka-api.onrender.com/pedidos",
 };
