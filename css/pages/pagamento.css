@@ -339,7 +339,8 @@
   transition: opacity var(--transition-fast), transform var(--transition-fast);
 }
 .credit-card-panel,
-.pix-panel {
+.pix-panel,
+.boleto-panel {
   grid-column: 2;
   grid-row: 1;
 }
@@ -363,6 +364,56 @@
   margin: var(--space-4) 0 0;
   color: var(--color-text-muted);
   font-size: 0.9rem;
+}
+.boleto-panel {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1;
+  inline-size: min(100%, 26rem);
+  align-self: start;
+  justify-self: end;
+  margin-block-start: 4.75rem;
+  margin-inline-end: 2rem;
+  padding: var(--space-6);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--color-brand-pink) 7%, transparent);
+  text-align: center;
+  animation: payment-card-enter var(--transition-step) ease both;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.boleto-panel[hidden] {
+  display: block !important;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(var(--space-3));
+  pointer-events: none;
+}
+
+.boleto-panel__barcode {
+  inline-size: 100%;
+  block-size: auto;
+  border-radius: var(--radius-input);
+}
+
+.boleto-panel__number {
+  margin: var(--space-4) 0 0;
+  color: var(--color-text-primary);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.boleto-panel__hint {
+  margin: var(--space-3) 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boleto-panel {
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
