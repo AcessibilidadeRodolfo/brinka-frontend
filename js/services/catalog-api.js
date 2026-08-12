@@ -1,17 +1,60 @@
-/*
- * Camada de acesso aos dados do catálogo.
- *
- * Sem uma API configurada, o site usa os dados locais e o localStorage.
- * Para conectar o backend futuramente, defina antes deste arquivo:
- * window.BRINKA_API_URL = 'https://seu-dominio.com/api';
- *
- * Contrato esperado da API:
- * GET  /products
- * GET  /products/:productId/reviews
- * POST /products/:productId/reviews  { name, text, rating }
- */
 (function () {
     const storagePrefix = 'brinka:reviews:';
+
+    /** Converte "Clássicos Especiais" em "classicos-especiais". */
+    function slugify(text) {
+        return String(text || '')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '');
+    }
+
+    /** Gera um gradiente determinístico (mesmo produto = mesmas cores sempre). */
+    function colorsFromSeed(seed) {
+        const palette = [
+            ['#DF7A96', '#F6356B'], ['#26AACE', '#287488'], ['#A9852C', '#D4B13A'],
+            ['#ADBF35', '#676F2C'], ['#AA4B19', '#FF823F'], ['#864ECE', '#4C2085'],
+            ['#AA1919', '#DC6767'], ['#0C9A93', '#0C7A75']
+        ];
+        let hash = 0;
+        const str = String(seed);
+        for (let i = 0; i < str.length; i += 1) {
+            hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
+        }
+        return palette[hash % palette.length];
+    }
+
+    function normalizeReview(review) {
+        return {
+            name: review.usuario ?? review.name ?? 'Cliente Brinka',
+            text: review.comentario ?? review.text ?? '',
+            rating: Number(review.nota ?? review.rating ?? 0)
+        };
+    }
+
+    /** Converte um produto no formato da brinka-api para o formato usado pelas telas. */
+    function normalizeProduct(raw) {
+        const id = String(raw.id);
+        const [colorFrom, colorTo] = colorsFromSeed(id);
+        const comments = Array.isArray(raw.avaliacoes) ? raw.avaliacoes.map(normalizeReview) : [];
+
+        return {
+            id,
+            name: raw.nome,
+            category: slugify(raw.categoria),
+            image: raw.imagem,
+            description: raw.descricao,
+            price: Number(raw.preco),
+            estoque: raw.estoque,
+            comments,
+            averageRating: calculateAverage(comments, 0),
+            colorFrom,
+            colorTo
+        };
+    }
 
     function getApiUrl() {
         return (window.BRINKA_API_URL || '').replace(/\/$/, '');
@@ -57,37 +100,39 @@
 
     async function listProducts(fallbackProducts) {
         const remoteProducts = await request('/products');
-        return Array.isArray(remoteProducts) ? remoteProducts : fallbackProducts;
+        if (!Array.isArray(remoteProducts)) return fallbackProducts;
+
+        return remoteProducts.map(normalizeProduct);
     }
 
     async function listReviews(productId, fallbackReviews = []) {
-        const remoteReviews = await request(`/products/${encodeURIComponent(productId)}/reviews`);
-        if (Array.isArray(remoteReviews)) return remoteReviews;
+        const product = await request(`/products/${encodeURIComponent(productId)}?avaliacoes=true`);
+        if (product && Array.isArray(product.avaliacoes)) return product.avaliacoes.map(normalizeReview);
 
         return getStoredReviews(productId) || fallbackReviews;
     }
 
     async function createReview(productId, review, fallbackReviews = []) {
         const normalizedReview = {
-            name: review.name.trim(),
-            text: review.text.trim(),
-            rating: Number(review.rating)
+            text: String(review.text || '').trim(),
+            rating: Number(review.rating),
+            name: String(review.name || '').trim()
         };
 
-        if (!normalizedReview.name || !normalizedReview.text) {
-            throw new Error('Nome e comentário são obrigatórios.');
+        if (!normalizedReview.text) {
+            throw new Error('O comentário é obrigatório.');
         }
 
         if (!Number.isInteger(normalizedReview.rating) || normalizedReview.rating < 1 || normalizedReview.rating > 5) {
             throw new Error('A avaliação deve estar entre 1 e 5 estrelas.');
         }
 
-        const remoteReview = await request(`/products/${encodeURIComponent(productId)}/reviews`, {
-            method: 'POST',
-            body: JSON.stringify(normalizedReview)
-        });
+        if (!normalizedReview.name) {
+            throw new Error('Informe seu nome para avaliar.');
+        }
 
-        if (remoteReview) return remoteReview;
+        // Não existe endpoint de criação de avaliação na brinka-api — toda
+        // avaliação nova fica só local (localStorage) por enquanto.
 
         const reviews = [...(getStoredReviews(productId) || fallbackReviews), normalizedReview];
         saveStoredReviews(productId, reviews);

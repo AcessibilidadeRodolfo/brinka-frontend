@@ -187,6 +187,13 @@ async function submitCadastro(values) {
     telefone: values.telefone.replace(/\D/g, ""),
     email: values.email.trim(),
     senha: values.senha,
+    address: {
+      cep: values.cep.trim(),
+      rua: values.rua.trim(),
+      numero: values.numero.trim(),
+      cidade: values.cidade.trim(),
+      estado: values.uf.trim().toUpperCase(),
+    },
   };
 
   try {
