@@ -1,6 +1,3 @@
-/*
- * Camada de acesso aos dados do catálogo.
- */
 (function () {
     const storagePrefix = 'brinka:reviews:';
 
@@ -109,33 +106,33 @@
     }
 
     async function listReviews(productId, fallbackReviews = []) {
-        const remoteReviews = await request(`/products/${encodeURIComponent(productId)}/reviews`);
-        if (Array.isArray(remoteReviews)) return remoteReviews;
+        const product = await request(`/products/${encodeURIComponent(productId)}?avaliacoes=true`);
+        if (product && Array.isArray(product.avaliacoes)) return product.avaliacoes.map(normalizeReview);
 
         return getStoredReviews(productId) || fallbackReviews;
     }
 
     async function createReview(productId, review, fallbackReviews = []) {
         const normalizedReview = {
-            name: review.name.trim(),
-            text: review.text.trim(),
-            rating: Number(review.rating)
+            text: String(review.text || '').trim(),
+            rating: Number(review.rating),
+            name: String(review.name || '').trim()
         };
 
-        if (!normalizedReview.name || !normalizedReview.text) {
-            throw new Error('Nome e comentário são obrigatórios.');
+        if (!normalizedReview.text) {
+            throw new Error('O comentário é obrigatório.');
         }
 
         if (!Number.isInteger(normalizedReview.rating) || normalizedReview.rating < 1 || normalizedReview.rating > 5) {
             throw new Error('A avaliação deve estar entre 1 e 5 estrelas.');
         }
 
-        const remoteReview = await request(`/products/${encodeURIComponent(productId)}/reviews`, {
-            method: 'POST',
-            body: JSON.stringify(normalizedReview)
-        });
+        if (!normalizedReview.name) {
+            throw new Error('Informe seu nome para avaliar.');
+        }
 
-        if (remoteReview) return remoteReview;
+        // Não existe endpoint de criação de avaliação na brinka-api — toda
+        // avaliação nova fica só local (localStorage) por enquanto.
 
         const reviews = [...(getStoredReviews(productId) || fallbackReviews), normalizedReview];
         saveStoredReviews(productId, reviews);
