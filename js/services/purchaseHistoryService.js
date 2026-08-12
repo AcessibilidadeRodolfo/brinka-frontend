@@ -1,4 +1,3 @@
-import { BRINKA_CONFIG } from "../utils/config.js";
 import { authHeader } from "../utils/session.js";
 
 function normalizePurchases(data) {
@@ -15,7 +14,7 @@ function normalizePurchases(data) {
  * @returns {Promise<{purchases: Array, source: "api" | "fallback"}>}
  */
 export async function listPurchaseHistory(fallbackPurchases = []) {
-  const url = String(BRINKA_CONFIG.PURCHASE_HISTORY_URL || "").trim();
+  const url = String(window.BRINKA_CONFIG?.PURCHASE_HISTORY_URL || "").trim();
   if (!url) return { purchases: fallbackPurchases, source: "fallback" };
 
   const response = await fetch(url, {
