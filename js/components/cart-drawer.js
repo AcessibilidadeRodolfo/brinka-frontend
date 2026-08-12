@@ -378,6 +378,8 @@
                 detail: { order }
             }));
             announce(`Resumo da compra preparado. Total ${moneyFormatter.format(order.total)}.`);
+
+            window.location.href = 'pages/pagamento.html'
         });
 
         drawer.addEventListener('keydown', event => {
@@ -407,6 +409,10 @@
 
         restoreCart();
         syncCart();
+
+        if(window.location.hash === '#cart-drawer'){
+            openDrawer(openButton);
+        }
 
         window.brinkaCart = Object.freeze({
             storageKey: cartStorageKey,
