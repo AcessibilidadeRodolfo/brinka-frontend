@@ -1,48 +1,17 @@
-/* Skip link para acessibilidade */
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: var(--space-3);
-  background: var(--color-accent);
-  color: #04262b;
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-input);
-  font-weight: 700;
-  text-decoration: none;
-  z-index: 100;
-  transition: top 0.15s ease-in-out;
+.auth-page--login .auth-form {
+    gap: 1.2rem;
 }
 
-.skip-link:focus {
-  top: var(--space-3);
+.auth-page--login .auth-form__actions {
+    margin-block-start: 2.7rem;
 }
 
-/* Foco visível consistente */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible {
-  outline: 3px solid var(--color-focus-ring);
-  outline-offset: 2px;
-}
+@media (max-width: 47.9375rem) {
+    .auth-page--login .auth-form {
+        gap: 2rem;
+    }
 
-/* Ajustes específicos da página de login */
-.login-form {
-  max-width: 560px;
-}
-
-/* Botão de submit do login */
-.login-form .cadastro-form__submit {
-  flex: 1 1 auto;
-}
-
-@media (max-width: 420px) {
-  .login-form {
-    max-width: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-  }
+    .auth-page--login .auth-form__actions {
+        margin-block-start: 2.75rem;
+    }
 }

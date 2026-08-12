@@ -1,0 +1,28 @@
+.profile-button {
+    display: inline-grid;
+    flex: 0 0 auto;
+    place-items: center;
+    inline-size: clamp(2.75rem, 9vw, 3.25rem);
+    block-size: clamp(2.75rem, 9vw, 3.25rem);
+    padding: 0;
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--accent);
+    cursor: pointer;
+}
+
+.profile-button:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.profile-button:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+.profile-button svg {
+    inline-size: 1.4rem;
+    block-size: 1.4rem;
+}

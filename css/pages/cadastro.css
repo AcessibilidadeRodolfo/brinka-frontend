@@ -1,101 +1,38 @@
-.cadastro-form {
-
-  display: flex;
-  flex-direction: column;
+.auth-form__step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    animation: auth-step-in var(--transition-step) both;
 }
 
-.cadastro-step {
-  border: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
+.auth-form__step[hidden] {
+    display: none;
 }
 
-.cadastro-step[hidden] {
-  display: none;
+@keyframes auth-step-in {
+    from {
+        opacity: 0;
+        transform: translateX(0.75rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-/* Animação sutil de entrada ao trocar de etapa (desabilitada em prefers-reduced-motion via token) */
-.cadastro-step {
-  animation: cadastro-step-in var(--transition-step) ease both;
+@media (max-width: 47.9375rem) {
+    .auth-form__step {
+        gap: 1.5rem;
+    }
 }
 
-@keyframes cadastro-step-in {
-  from {
-    opacity: 0;
-    transform: translateX(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Linha "CEP" isolada + linha "SP / Cidade / N°" */
-.cadastro-form__row {
-  display: flex;
-  gap: var(--space-3);
-}
-
-.cadastro-form__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  margin-top: var(--space-3);
-}
-
-.cadastro-form__submit {
-  flex: 1 1 auto;
-}
-
-@media (max-width: 420px) {
-  .cadastro-form__row {
-    flex-wrap: wrap;
-  }
-
-  .input-field--sm {
-    flex: 1 1 90px;
-  }
-
-  .input-field--grow {
-    flex: 1 1 100%;
-    order: -1;
-  }
-}
-
-.input-field {
-  position: relative;
-}
-
-.input-field__control {
-  width: 100%;
-  padding-right: 38px;
-}
-
-.input-field__icon--button {
-  position: absolute;
-  right: var(--space-3);
-  top: 50%;
-  transform: translateY(-50%);
-
-  width: 14px;
-  height: 14px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  z-index: 10;
-
-  cursor: pointer;
-  pointer-events: auto;
-
-  border: 0;
-  background: transparent;
-}
-
-.input-field__icon--button svg {
-  pointer-events: none;
+@media (prefers-reduced-motion: reduce) {
+    .auth-form__step {
+        animation: none;
+    }
 }

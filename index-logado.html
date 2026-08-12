@@ -3,27 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brinka | Personagens para o seu vilarejo</title>
-    <meta name="description" content="Conheça os personagens da Brinka, monte sua coleção e encomende opções personalizadas para deixar seu vilarejo ainda mais divertido.">
-    <meta name="application-name" content="Brinka">
+    <title>Brinka | Minha conta</title>
+    <meta name="description" content="Conheça os personagens da Brinka, monte sua coleção e acesse sua conta.">
     <meta name="theme-color" content="#272727">
-    <meta property="og:title" content="Brinka | Personagens para o seu vilarejo">
-    <meta property="og:description" content="Conheça os personagens da Brinka, monte sua coleção e encomende opções personalizadas.">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="pt_BR">
-    <meta name="twitter:card" content="summary">
     <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml">
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "Brinka",
-            "description": "Personagens para colecionar, encomendar e dar vida ao seu vilarejo.",
-            "inLanguage": "pt-BR"
-        }
-    </script>
     <link rel="stylesheet" href="css/pages/index.css">
-    <link rel="stylesheet" href="css/components/header.css">     
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/profile-button.css">
     <link rel="stylesheet" href="css/components/character-card.css">
     <link rel="stylesheet" href="css/components/cart-drawer.css">
     <link rel="stylesheet" href="css/components/voice-navigation.css">
@@ -45,14 +31,16 @@
             <div class="logo-wrap">
                 <img src="assets/icons/logo.svg" alt="Brinka" class="logo">
             </div>
+
             <div class="actions-wrap">
-                <a class="btn btn-login" href="pages/login.html" aria-label="Entrar">
-                    <svg class="btn-icon" aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
+                <!-- O backend poderá inserir aqui o nome, foto e menu da conta autenticada. -->
+                <button class="profile-button" type="button" aria-label="Abrir minha conta" title="Minha conta" data-user-profile>
+                    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M4 21a8 8 0 0 1 16 0"></path>
                     </svg>
-                    <span class="btn-label">Entrar</span>
-                </a>
+                </button>
+
                 <button
                     class="btn btn-cart"
                     type="button"
@@ -93,7 +81,6 @@
                     <h3>Seu carrinho está vazio</h3>
                     <p>Adicione personagens incríveis para começar!</p>
                 </div>
-
                 <ul class="cart-items" aria-label="Produtos no carrinho" hidden></ul>
             </div>
 
@@ -111,13 +98,7 @@
 
     <section class="voice-navigation" data-state="inactive" aria-labelledby="voice-navigation-title">
         <h2 id="voice-navigation-title" class="ps-sr-only">Navegação por voz</h2>
-
-        <button
-            class="voice-toggle"
-            type="button"
-            aria-pressed="false"
-            aria-describedby="voice-status"
-        >
+        <button class="voice-toggle" type="button" aria-pressed="false" aria-describedby="voice-status">
             <svg class="voice-toggle-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="9" y="2" width="6" height="12" rx="3"></rect>
                 <path d="M5 10a7 7 0 0 0 14 0"></path>
@@ -128,20 +109,14 @@
         </button>
 
         <div class="voice-feedback">
-            <p id="voice-status" class="voice-status" role="status" aria-live="polite">
-                Comandos de voz desativados.
-            </p>
+            <p id="voice-status" class="voice-status" role="status" aria-live="polite">Comandos de voz desativados.</p>
             <p class="voice-transcript" hidden></p>
-
             <details class="voice-help">
                 <summary>Exemplos de comandos</summary>
                 <ul>
                     <li>“Adicionar Erick no carrinho”</li>
                     <li>“Abrir carrinho”</li>
                     <li>“Ver detalhes da Mari”</li>
-                    <li>“Aumentar quantidade do Erick”</li>
-                    <li>“Remover Erick do carrinho”</li>
-                    <li>“Desativar comandos de voz”</li>
                 </ul>
             </details>
         </div>
@@ -159,9 +134,8 @@
             </div>
             <img src="assets/icons/personagnes.svg" alt="" class="home-bottom-svg" aria-hidden="true">
         </section>
-        
-        <section id="personagens" class="personagens-section">
 
+        <section id="personagens" class="personagens-section">
             <header class="ps-header">
                 <h2 id="personagens-heading-1" class="ps-title">
                     <img src="assets/icons/nossosP.svg" alt="Nossos Personagens" class="ps-title-svg">
@@ -169,12 +143,7 @@
                 <span class="status-catalog">Disponível</span>
             </header>
 
-            <button
-                class="catalog-filter-toggle"
-                type="button"
-                aria-expanded="false"
-                aria-controls="catalog-filter-modal"
-            >
+            <button class="catalog-filter-toggle" type="button" aria-expanded="false" aria-controls="catalog-filter-modal">
                 <span>Filtrar por</span>
                 <svg class="catalog-filter-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                     <path d="M3 5h18"></path>
@@ -185,13 +154,11 @@
 
             <div id="catalog-filter-modal" class="catalog-filter-modal">
                 <button class="catalog-filter-backdrop" type="button" aria-label="Fechar filtros"></button>
-
                 <section class="catalog-filter-dialog" aria-labelledby="catalog-filter-title">
                     <div class="catalog-filter-dialog-header">
                         <h2 id="catalog-filter-title">Filtrar personagens</h2>
                         <button class="catalog-filter-close" type="button" aria-label="Fechar filtros">×</button>
                     </div>
-
                     <div id="catalog-tabs" role="group" aria-label="Categorias" class="catalog-tabs">
                         <button type="button" class="catalog-filter-option" data-filter="all" aria-pressed="true">Todos</button>
                         <button type="button" class="catalog-filter-option" data-filter="classicos" aria-pressed="false">Clássicos</button>
@@ -203,54 +170,38 @@
             </div>
 
             <div class="ps-live-region ps-sr-only" role="status" aria-live="polite"></div>
-
             <ul class="catalog-card-grid" aria-labelledby="personagens-heading-1"></ul>
-
         </section>
 
         <div class="product-details-overlay" aria-hidden="true" inert>
             <aside class="product-details-modal" role="dialog" aria-modal="true" aria-labelledby="product-details-title" aria-describedby="product-details-description" tabindex="-1">
                 <button class="product-details-close" type="button" aria-label="Fechar detalhes">×</button>
-
                 <div class="product-details-layout">
                     <div class="product-details-visual">
                         <img class="product-details-image" src="" alt="">
                     </div>
-
                     <div class="product-details-content">
                         <h2 id="product-details-title"></h2>
                         <p class="product-details-label">Descrição</p>
                         <p id="product-details-description" class="product-details-description"></p>
-
                         <div class="product-details-rating">
                             <span>Média de avaliações:</span>
                             <strong class="product-details-average"></strong>
                             <span class="product-details-stars" aria-label=""></span>
                         </div>
-
                         <hr>
-
                         <section class="product-details-comments" aria-labelledby="product-comments-title">
                             <h3 id="product-comments-title">Comentários sobre o produto</h3>
                             <div class="product-details-comments-list"></div>
                         </section>
-
                         <div class="product-details-purchase">
                             <div class="product-details-price">
                                 <span>Preço</span>
                                 <strong></strong>
                             </div>
-
                             <div class="product-details-purchase-actions">
-                                <button class="product-details-add" type="button">
-                                    Comprar
-                                </button>
-                                <button
-                                    class="product-details-add-and-open-cart"
-                                    type="button"
-                                    aria-label="Adicionar ao carrinho e abrir o carrinho"
-                                    title="Adicionar e abrir o carrinho"
-                                >
+                                <button class="product-details-add" type="button">Adicionar</button>
+                                <button class="product-details-add-and-open-cart" type="button" aria-label="Adicionar ao carrinho e abrir o carrinho" title="Adicionar e abrir o carrinho">
                                     <img src="assets/icons/cart.svg" alt="">
                                 </button>
                             </div>
@@ -277,20 +228,18 @@
         <footer class="site-footer">
             <div class="footer-content">
                 <div class="links-wrap">
-    
-                
-                <div class="footer-links">
-                    <h3>Links rápidos</h3>
-                    <a href="#topo">Home</a>
-                    <a href="#cart-drawer" class="footer-cart-link">Carrinho</a>
-                    <a href="#encomendar">Encomendar</a>
+                    <div class="footer-links">
+                        <h3>Links rápidos</h3>
+                        <a href="#topo">Home</a>
+                        <a href="#cart-drawer" class="footer-cart-link">Carrinho</a>
+                        <a href="#encomendar">Encomendar</a>
+                    </div>
+                    <div class="footer-contact">
+                        <h3>Contatos</h3>
+                        <p>📱 @brinka</p>
+                        <p>11950646508</p>
+                    </div>
                 </div>
-                <div class="footer-contact">
-                    <h3>Contatos</h3>
-                    <p>📱 @brinka</p>
-                    <p> 11950646508</p>
-                </div>
-            </div>
                 <div class="footer-logo">
                     <img src="assets/icons/logo.svg" alt="Brinka" class="footer-logo-img">
                 </div>
