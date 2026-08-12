@@ -1,3 +1,18 @@
+.payment-body {
+  min-block-size: 100vh;
+  min-block-size: 100dvh;
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.payment-body button,
+.payment-body input {
+  font: inherit;
+}
+
 .payment-skip-link {
   position: fixed;
   inset-block-start: -100%;
