@@ -52,7 +52,7 @@ const total = document.getElementById("payment-total");
 const feedback = document.getElementById("payment-feedback");
 const statusRegion = document.getElementById("payment-status");
 const cardPanel = document.getElementById("credit-card-panel");
-
+const pixPanel = document.getElementById("pix-panel");
 const methodInputs = Array.from(
     document.querySelectorAll('input[name="payment-method"]')
 );
@@ -265,34 +265,36 @@ function validateCreditCard() {
 
 function syncPaymentMethod() {
     const selectedMethod =
-        form.elements["payment-method"].value;
+    form.elements["payment-method"].value;
 
-    const isCreditCard =
-        selectedMethod === "credit-card";
+  const isCreditCard =
+    selectedMethod === "credit-card";
 
-    cardPanel.hidden = !isCreditCard;
+  const isPix =
+    selectedMethod === "pix";
 
-    cardPanel.setAttribute(
-        "aria-hidden",
-        String(!isCreditCard)
-    );
+  cardPanel.hidden = !isCreditCard;
+  cardPanel.setAttribute("aria-hidden", String(!isCreditCard));
 
-    Object.values(cardFields).forEach((field) => {
-        field.disabled = !isCreditCard;
-    });
+  pixPanel.hidden = !isPix;
+  pixPanel.setAttribute("aria-hidden", String(!isPix));
 
-    feedback.textContent = "";
+  Object.values(cardFields).forEach((field) => {
+    field.disabled = !isCreditCard;
+  });
 
-    if (isCreditCard) {
-        statusRegion.textContent =
-            "Preencha os dados do cartão de crédito.";
-        return;
-    }
+  feedback.textContent = "";
 
+  if (isCreditCard) {
     statusRegion.textContent =
-        selectedMethod === "pix"
-            ? "Pix selecionado."
-            : "Boleto selecionado.";
+        "Preencha os dados do cartão de crédito.";
+    return;
+  }
+
+  statusRegion.textContent =
+    isPix
+        ? "Pix selecionado. Escaneie o QR Code para simular o pagamento."
+        : "Boleto selecionado.";
 }
 
 function getPaymentMethod() {

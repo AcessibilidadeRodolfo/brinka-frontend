@@ -324,6 +324,52 @@
 .credit-card-field input[aria-invalid="true"] {
   border-block-end-color: var(--color-danger);
 }
+.pix-panel {
+  position: relative;
+  inline-size: min(100%, 22rem);
+  align-self: start;
+  justify-self: end;
+  margin-block-start: 4.75rem;
+  margin-inline-end: 6rem;
+  padding: var(--space-6);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--color-brand-pink) 7%, transparent);
+  text-align: center;
+  animation: payment-card-enter var(--transition-step) ease both;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+.credit-card-panel,
+.pix-panel {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.pix-panel[hidden] {
+  display: block !important;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(var(--space-3));
+  pointer-events: none;
+}
+
+.pix-panel__qrcode {
+  inline-size: min(100%, 14rem);
+  block-size: auto;
+  margin-inline: auto;
+  border-radius: var(--radius-input);
+}
+
+.pix-panel__hint {
+  margin: var(--space-4) 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pix-panel {
+    animation: none;
+  }
+}
 
 @keyframes payment-enter {
   from {
