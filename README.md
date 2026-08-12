@@ -1,93 +1,216 @@
 # Brinka Frontend
 
-Frontend do projeto **Brinka**, uma plataforma de e-commerce desenvolvida com HTML, CSS e JavaScript, projetada para oferecer uma experiência de compra acessível, inclusiva e intuitiva para todos os usuários.
+Frontend do projeto **Brinka**, uma plataforma de e-commerce desenvolvida com **HTML, CSS e JavaScript**, projetada para oferecer uma experiência de compra acessível, inclusiva e intuitiva.
 
-## Sobre o Projeto
+O projeto utiliza JavaScript moderno, módulos ES, `fetch`, `localStorage`, `sessionStorage` e APIs nativas do navegador. A integração com o backend é isolada em serviços, enquanto componentes reutilizáveis concentram comportamentos como carrinho, cards de personagens, stepper e navegação por voz.
 
-O Brinka é um e-commerce que tem a acessibilidade digital como um dos seus principais pilares.
+## Funcionalidades
 
-Nosso objetivo é garantir que pessoas com diferentes necessidades possam navegar, compreender e utilizar a plataforma de forma autônoma e eficiente.
+- Catálogo de personagens.
+- Busca e filtros de produtos.
+- Detalhes dos personagens.
+- Carrinho de compras persistido no navegador.
+- Sincronização do carrinho com a API quando o usuário está autenticado.
+- Login e cadastro.
+- Autenticação através de JWT.
+- Perfil do usuário.
+- Consulta e atualização de dados do usuário.
+- Consulta e atualização de cartão cadastrado.
+- Consulta de histórico de compras.
+- Checkout e criação de pedidos.
+- Consulta de CEP através do ViaCEP.
+- Avaliações locais enquanto o endpoint de criação de avaliações não está disponível.
+- Navegação por teclado.
+- Suporte a tecnologias assistivas.
+- Navegação por voz do sistema operacional.
+- Navegação por voz interna através de `SpeechRecognition`.
+- Design responsivo.
+- SEO básico e Open Graph.
 
-O desenvolvimento seguirá boas práticas de acessibilidade, promovendo uma experiência mais inclusiva para todos os usuários.
+## Stack
 
-### Princípios de Acessibilidade
+| Tecnologia | Uso |
+|---|---|
+| HTML5 | Estrutura das páginas |
+| CSS3 | Estilos, layout e responsividade |
+| JavaScript ES Modules | Lógica da aplicação |
+| Fetch API | Comunicação HTTP |
+| localStorage | Carrinho, token e avaliações locais |
+| sessionStorage | Dados temporários do checkout |
+| SpeechRecognition | Navegação por voz interna |
+| ViaCEP | Consulta de endereço por CEP |
+| SVG | Ícones e elementos gráficos |
 
-- Uso correto de HTML semântico.
-- Compatibilidade com leitores de tela.
-- Navegação completa por teclado.
-- Contraste adequado entre cores.
-- Textos alternativos para imagens.
-- Estrutura clara de títulos e conteúdos.
-- Formulários acessíveis.
-- Design responsivo e adaptável.
+Não há framework JavaScript ou bundler obrigatório. O navegador executa os módulos diretamente.
 
-## ♿ Diretrizes de Desenvolvimento
+## Estrutura
 
-Durante o desenvolvimento, toda nova funcionalidade deverá considerar requisitos de acessibilidade.
-
-### Checklist Básico
-
-- [ ] Utilizar tags HTML semânticas.
-- [ ] Garantir navegação por teclado.
-- [ ] Adicionar atributos `aria-*` quando necessário.
-- [ ] Definir textos alternativos em imagens.
-- [ ] Garantir contraste adequado.
-- [ ] Associar labels aos campos de formulário.
-- [ ] Evitar depender apenas de cores para transmitir informações.
-- [ ] Testar a navegação utilizando apenas teclado.
-
-## SEO básico
-
-O arquivo `index.html` contém a base de SEO do site:
-
-- título da aba (`<title>`) com o nome da marca e o assunto da página;
-- descrição curta (`meta description`), que pode aparecer no Google;
-- idioma definido como português do Brasil (`lang="pt-BR"`);
-- dados de compartilhamento para redes sociais (Open Graph);
-- dados estruturados do tipo `WebSite`, para ajudar buscadores a entenderem o projeto;
-- título principal (`h1`) e títulos de seção (`h2`) em uma ordem semântica;
-- ícone da aba do navegador (favicon).
-
-Quando o site estiver hospedado, ainda será necessário informar a URL pública
-para adicionar `canonical`, `og:url`, `og:image`, `sitemap.xml` e `robots.txt`.
-Esses arquivos não foram criados agora porque o projeto ainda não possui um
-domínio público para apontar corretamente.
-
-## Integração futura com backend
-
-O catálogo funciona sem backend usando os dados locais do projeto e o
-`localStorage` para avaliações adicionadas pelo navegador.
-
-Quando uma API estiver disponível, configure sua URL em
-`js/services/api-config.js`:
-
-```js
-window.BRINKA_API_URL = 'https://seu-dominio.com/api';
+```text
+brinka-frontend/
+├── assets/
+│   ├── icons/
+│   └── images/
+│
+├── css/
+│   ├── components/
+│   ├── pages/
+│   └── tokens.css
+│
+├── js/
+│   ├── components/
+│   ├── pages/
+│   ├── services/
+│   └── utils/
+│
+├── pages/
+│   ├── cadastro.html
+│   ├── login.html
+│   ├── pagamento.html
+│   ├── pagamento-concluido.html
+│   └── perfil.html
+│
+├── index.html
+├── index-logado.html
+└── README.md
 ```
 
-A camada `js/services/catalog-api.js` espera estas rotas:
+Consulte:
 
-- `GET /products`
-- `GET /products/:productId/reviews`
-- `POST /products/:productId/reviews`, com `{ name, text, rating }`
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+- [`docs/COMPONENTS.md`](docs/COMPONENTS.md)
+- [`docs/SERVICES.md`](docs/SERVICES.md)
+- [`docs/STATE.md`](docs/STATE.md)
+- [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md)
+- [`docs/API-INTEGRATION.md`](docs/API-INTEGRATION.md)
+- [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)
 
-O frontend nunca deve receber credenciais do banco de dados. Ele conversa com
-a API, e somente o backend acessa o banco.
+## Páginas
 
-## Carrinho e preparação do pedido
+### Público
 
-O carrinho é salvo automaticamente no `localStorage` com a chave
-`brinka:cart:v1`. Por isso, produtos, quantidades e total continuam disponíveis
-depois de atualizar a página.
+```text
+index.html
+pages/login.html
+pages/cadastro.html
+```
 
-O estado salvo tem este formato:
+### Autenticado
+
+```text
+index-logado.html
+pages/perfil.html
+pages/pagamento.html
+pages/pagamento-concluido.html
+```
+
+O front-end usa páginas HTML distintas em vez de uma SPA. A navegação ocorre através de links e carregamento de documentos.
+
+## Arquitetura
+
+A organização segue uma separação simples:
+
+```text
+HTML
+ │
+ ▼
+js/pages
+ │
+ ├──────────────┐
+ ▼              ▼
+js/components  js/services
+ │              │
+ ▼              ▼
+UI / estado    API / serviços externos
+ │
+ ▼
+js/utils
+```
+
+As páginas coordenam o fluxo da tela, os componentes encapsulam comportamentos reutilizáveis e os serviços concentram comunicação com backend e APIs externas.
+
+Mais detalhes em [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+
+## Configuração da API
+
+A configuração central fica em:
+
+```text
+js/utils/config.js
+```
+
+Atualmente:
+
+```js
+window.BRINKA_CONFIG = window.BRINKA_CONFIG || {
+    API_BASE_URL: "https://brinka-api.onrender.com",
+    PURCHASE_HISTORY_URL: "https://brinka-api.onrender.com/pedidos",
+};
+```
+
+`js/services/api-config.js` também expõe:
+
+```js
+window.BRINKA_API_URL
+```
+
+para o serviço de catálogo.
+
+Em produção, URLs de API devem ser configuradas de forma apropriada ao ambiente.
+
+**Nenhuma credencial de banco, Redis ou segredo JWT deve ser colocada no frontend.**
+
+## Integração com a Brinka API
+
+Os serviços do frontend utilizam principalmente:
+
+```text
+/auth
+/products
+/usuarios
+/usuarios/address
+/usuarios/cartao
+/usuarios/carrinho
+/pedidos
+```
+
+O token JWT é armazenado pelo `session.js` e enviado como:
+
+```http
+Authorization: Bearer <token>
+```
+
+Detalhes em [`docs/API-INTEGRATION.md`](docs/API-INTEGRATION.md).
+
+## Carrinho
+
+O carrinho possui uma camada própria em:
+
+```text
+js/components/cart-drawer.js
+```
+
+Ele mantém o estado local em:
+
+```text
+brinka:cart:v1
+```
+
+O estado inclui:
 
 ```js
 {
   version: 1,
-  currency: 'BRL',
+  currency: "BRL",
   items: [
-    { id, name, image, color, unitPrice, quantity, lineTotal }
+    {
+      id,
+      name,
+      image,
+      color,
+      unitPrice,
+      quantity,
+      lineTotal
+    }
   ],
   totalQuantity,
   subtotal,
@@ -95,59 +218,205 @@ O estado salvo tem este formato:
 }
 ```
 
-O estado atual pode ser lido com `window.brinkaCart.getSnapshot()`. Sempre que
-o carrinho muda, o documento dispara o evento `cart:updated`. Ao clicar em
-“Finalizar compra”, ele dispara `cart:checkout` com o rascunho do pedido em
-`event.detail.order`. Nenhuma compra ou requisição é realizada neste momento.
+A API pode ser utilizada para sincronizar o carrinho do usuário autenticado.
 
-O backend futuro deverá receber principalmente o `id` e a `quantity` de cada
-item e recalcular os preços no servidor. O total enviado pelo navegador serve
-para exibição e conferência, mas não deve ser considerado confiável para
-cobrança.
-
-## Navegação por voz
-
-O site usa controles HTML nativos e nomes acessíveis compatíveis com Controle
-por Voz do macOS/iPhone e Voice Access do Windows/Android. Não é necessário
-liberar o microfone para o próprio site.
-
-Exemplos de comandos disponíveis nas ferramentas do sistema:
-
-- “Clique em Carrinho”
-- “Clique em Ver coleção”
-- “Clique em Adicionar Mari Marrão ao carrinho”
-- “Clique em Ver detalhes de Mari Marrão”
-- “Clique em Fechar detalhes”
-- “Clique em Finalizar compra”
-
-Quando o modal de detalhes é aberto sobre o carrinho, apenas o modal ativo fica
-disponível para as tecnologias assistivas. Ao fechá-lo, o foco retorna ao
-produto selecionado no carrinho.
-
-### Comandos de voz internos
-
-O módulo `js/components/voice-navigation.js` adiciona um botão de microfone ao
-próprio site. Ele usa `SpeechRecognition`/`webkitSpeechRecognition` em
-`pt-BR`, sem bibliotecas externas. O reconhecimento só começa depois que o
-usuário ativa o botão e autoriza o microfone.
-
-O módulo reconhece comandos para:
-
-- adicionar, aumentar, diminuir e remover personagens do carrinho;
-- abrir e fechar o carrinho;
-- abrir e fechar detalhes;
-- navegar entre início, coleção e encomenda;
-- aplicar filtros;
-- limpar o carrinho ou preparar a compra mediante confirmação.
-
-Também é possível testar o interpretador pelo console, sem falar:
+O componente também expõe:
 
 ```js
-window.brinkaVoiceNavigation.execute('adicionar Erick no carrinho');
-window.brinkaVoiceNavigation.execute('abrir carrinho');
-window.brinkaVoiceNavigation.execute('ver detalhes da Mari');
+window.brinkaCart.getSnapshot()
 ```
 
-O reconhecimento de voz interno é um recurso adicional. Todos os controles
-continuam disponíveis por mouse, toque, teclado e ferramentas de acessibilidade
-do sistema operacional.
+e dispara:
+
+```text
+cart:updated
+cart:checkout
+```
+
+O evento `cart:checkout` fornece o rascunho do pedido em:
+
+```js
+event.detail.order
+```
+
+O backend deve recalcular preços e totais. Dados calculados pelo navegador não são uma fonte confiável para cobrança.
+
+## Autenticação
+
+`js/utils/session.js` gerencia o token:
+
+```text
+brinka_token
+```
+
+Funções disponíveis:
+
+```js
+setToken(token)
+getToken()
+clearToken()
+isAuthenticated()
+authHeader()
+```
+
+O objeto também é exposto como:
+
+```js
+window.brinkaSession
+```
+
+Isso permite que scripts clássicos utilizem a sessão.
+
+## Avaliações
+
+O catálogo tenta consultar:
+
+```text
+GET /products/{productId}?avaliacoes=true
+```
+
+Avaliações novas ainda são armazenadas localmente porque o frontend não possui um endpoint funcional de criação de avaliações na API atual.
+
+As chaves seguem:
+
+```text
+brinka:reviews:{productId}
+```
+
+Quando o backend disponibilizar criação de avaliações, o serviço `catalog-api.js` deve ser alterado para persistir a avaliação remotamente.
+
+## Checkout
+
+O fluxo principal é:
+
+```text
+Carrinho
+   ↓
+Pagamento
+   ↓
+POST /pedidos
+   ↓
+Pagamento concluído
+```
+
+Os métodos suportados pelo frontend são:
+
+```text
+PIX
+CARTAO_CREDITO
+BOLETO
+```
+
+O pedido é criado através de `orderService.js`.
+
+Após a criação, o ID do pedido pode ser mantido temporariamente em `sessionStorage` para a página de confirmação.
+
+## CEP
+
+O cadastro consulta o ViaCEP:
+
+```text
+https://viacep.com.br/ws/{cep}/json/
+```
+
+O serviço retorna:
+
+```text
+uf
+cidade
+bairro
+rua
+```
+
+A consulta é feita diretamente do navegador.
+
+## Acessibilidade
+
+O projeto considera:
+
+- HTML semântico;
+- labels associados a inputs;
+- `aria-label`, `aria-labelledby` e `aria-describedby`;
+- regiões com `aria-live`;
+- navegação por teclado;
+- skip links;
+- foco em modais;
+- `inert` em conteúdo inativo;
+- textos alternativos;
+- elementos decorativos com `aria-hidden`;
+- comandos acessíveis para controle por voz.
+
+Veja [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md).
+
+## SEO
+
+As páginas utilizam:
+
+- `lang="pt-BR"`;
+- `<title>`;
+- `meta description`;
+- Open Graph;
+- títulos semânticos;
+- favicon;
+- dados estruturados no `index.html`.
+
+Quando houver domínio definitivo, devem ser configurados:
+
+```text
+canonical
+og:url
+og:image
+sitemap.xml
+robots.txt
+```
+
+## Execução local
+
+O projeto não exige build obrigatório.
+
+Como os módulos JavaScript usam `import`, recomenda-se servir os arquivos por HTTP em vez de abrir `index.html` diretamente com `file://`.
+
+Exemplo com Python:
+
+```bash
+python -m http.server 5500
+```
+
+Depois:
+
+```text
+http://localhost:5500
+```
+
+Também é possível utilizar a extensão Live Server ou outro servidor HTTP local.
+
+## Desenvolvimento
+
+Consulte [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) para:
+
+- organização;
+- convenções;
+- adição de páginas;
+- criação de serviços;
+- manutenção do estado;
+- integração com API;
+- checklist antes de uma PR.
+
+## Segurança
+
+O frontend não é uma fronteira de confiança.
+
+Nunca confie no navegador para:
+
+- preços;
+- estoque;
+- permissões;
+- valores de pedido;
+- credenciais;
+- regras de autorização.
+
+A API deve validar e recalcular os dados importantes no servidor.
+
+## Licença
+
+Consulte [`LICENSE`](LICENSE).
