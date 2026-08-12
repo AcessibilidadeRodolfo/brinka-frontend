@@ -203,7 +203,7 @@ async function submitCadastro(values) {
 
     statusRegion.textContent = "Cadastro concluído com sucesso!";
 
-    window.location.href = "../index.html";
+    window.location.replace("../index-logado.html");
   } catch (error) {
     feedback.textContent = error.message;
     statusRegion.textContent = "Não foi possível concluir o cadastro.";
