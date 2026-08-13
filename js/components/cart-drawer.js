@@ -322,31 +322,36 @@
             lastOpenTrigger = openButton;
         }
 
-        function removeItem(productId, row) {
+        // Remove um item. Para usuários logados, só mexe no estado local
+        // depois que a API confirmar a remoção — se a chamada falhar, o
+        // item continua no carrinho e o usuário é avisado.
+        async function removeItem(productId, row) {
             const item = cart.get(productId);
             if (!item) return;
 
-            const finishRemoval = async () => {
-                cart.delete(productId);
-
+            async function finishRemoval() {
                 if (isLoggedIn()) {
                     try {
-                        await apiRequest(`/usuarios/carrinho/${encodeURIComponent(productId)}`, { method: 'DELETE' });
+                        const serverCart = await apiRequest(`/usuarios/carrinho/${encodeURIComponent(productId)}`, { method: 'DELETE' });
+                        applyServerCart(serverCart ?? { items: [] }, { animate: false });
+                        announce(`${item.product.name} removido do carrinho.`);
                     } catch (err) {
-                        console.warn('Não foi possível remover o item no servidor.', err);
+                        console.error('Não foi possível remover o item no servidor.', err);
+                        renderCart();
+                        row?.querySelectorAll('button').forEach(button => { button.disabled = false; });
+                        row?.classList.remove('is-removing');
+                        announce(`Não foi possível remover ${item.product.name}. Tente novamente.`);
                     }
-
-                    renderCart();
-                    document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: getCartSnapshot() } }));
-                } else {
-                    syncCart();
+                    return;
                 }
 
+                cart.delete(productId);
+                syncCart();
                 announce(`${item.product.name} removido do carrinho.`);
-            };
+            }
 
             if (reduceMotion.matches || !row) {
-                finishRemoval();
+                await finishRemoval();
                 return;
             }
 
@@ -355,9 +360,12 @@
             window.setTimeout(finishRemoval, 220);
         }
 
+        // Adiciona um produto. Para usuários logados, se a API falhar,
+        // NÃO cai no comportamento local/mock: mantém o carrinho como
+        // estava e avisa o erro.
         async function addProduct(productData) {
             const product = normalizeProduct(productData);
-            if (!product) return;
+            if (!product) return getCartSnapshot();
             if (product.color) colorCache.set(product.id, product.color);
 
             if (isLoggedIn()) {
@@ -366,10 +374,11 @@
                     lastAddedId = product.id;
                     applyServerCart(serverCart, { animate: true });
                     announce(`${product.name} adicionado ao carrinho.`);
-                    return getCartSnapshot();
                 } catch (err) {
-                    console.warn('Não foi possível adicionar o item no servidor, adicionando localmente.', err);
+                    console.error('Não foi possível adicionar o item no servidor.', err);
+                    announce(`Não foi possível adicionar ${product.name} ao carrinho. Tente novamente.`);
                 }
+                return getCartSnapshot();
             }
 
             const currentItem = cart.get(product.id);
@@ -393,10 +402,11 @@
                     const serverCart = await apiRequest(`/usuarios/carrinho/${encodeURIComponent(productId)}?operation=ADD`, { method: 'PATCH' });
                     applyServerCart(serverCart, { animate: true });
                     announce(`Quantidade de ${item.product.name} atualizada.`);
-                    return getCartSnapshot();
                 } catch (err) {
-                    console.warn('Não foi possível atualizar a quantidade no servidor.', err);
+                    console.error('Não foi possível atualizar a quantidade no servidor.', err);
+                    announce(`Não foi possível atualizar ${item.product.name}. Tente novamente.`);
                 }
+                return getCartSnapshot();
             }
 
             item.quantity += 1;
@@ -410,7 +420,7 @@
             if (!item) return null;
 
             if (item.quantity === 1) {
-                removeItem(productId, row);
+                await removeItem(productId, row);
                 return getCartSnapshot();
             }
 
@@ -419,10 +429,11 @@
                     const serverCart = await apiRequest(`/usuarios/carrinho/${encodeURIComponent(productId)}?operation=REMOVE`, { method: 'PATCH' });
                     applyServerCart(serverCart, { animate: true });
                     announce(`Quantidade de ${item.product.name} atualizada.`);
-                    return getCartSnapshot();
                 } catch (err) {
-                    console.warn('Não foi possível atualizar a quantidade no servidor.', err);
+                    console.error('Não foi possível atualizar a quantidade no servidor.', err);
+                    announce(`Não foi possível atualizar ${item.product.name}. Tente novamente.`);
                 }
+                return getCartSnapshot();
             }
 
             item.quantity -= 1;
@@ -524,7 +535,10 @@
                     applyServerCart(serverCart);
                     return;
                 } catch (err) {
-                    console.warn('Não foi possível carregar o carrinho do servidor, usando carrinho local.', err);
+                    console.error('Não foi possível carregar o carrinho do servidor.', err);
+                    announce('Não foi possível carregar seu carrinho. Tente recarregar a página.');
+                    renderCart();
+                    return;
                 }
             }
 
@@ -545,19 +559,29 @@
             increase: increaseProduct,
             decrease: decreaseProduct,
             remove: removeProduct,
-            clear() {
-                const idsToRemove = Array.from(cart.keys());
-
+            async clear() {
                 if (isLoggedIn()) {
-                    idsToRemove.forEach(id => {
-                        apiRequest(`/usuarios/carrinho/${encodeURIComponent(id)}`, { method: 'DELETE' })
-                            .catch(err => console.warn('Não foi possível remover item no servidor.', err));
-                    });
-                    cart.clear();
+                    const idsToRemove = Array.from(cart.keys());
+                    const failedIds = [];
+
+                    for (const id of idsToRemove) {
+                        try {
+                            await apiRequest(`/usuarios/carrinho/${encodeURIComponent(id)}`, { method: 'DELETE' });
+                            cart.delete(id);
+                        } catch (err) {
+                            console.error('Não foi possível remover item no servidor.', err);
+                            failedIds.push(id);
+                        }
+                    }
+
                     renderCart(true);
                     const snapshot = getCartSnapshot();
                     document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: snapshot } }));
-                    announce('Carrinho esvaziado.');
+
+                    announce(failedIds.length
+                        ? 'Alguns itens não puderam ser removidos. Tente novamente.'
+                        : 'Carrinho esvaziado.');
+
                     return snapshot;
                 }
 
