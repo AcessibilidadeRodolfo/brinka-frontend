@@ -318,7 +318,7 @@
         const serverItems = cartResponse?.items || [];
 
         serverItems.forEach(item => {
-            const id = String(item.productId);
+            const id = String(item.productId ?? item.id);
 
             const product = normalizeProduct({
                 id,
