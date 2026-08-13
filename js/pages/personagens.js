@@ -285,43 +285,70 @@
     }
 
     function initProductModal(section) {
-        const overlay = document.querySelector('.product-details-overlay');
-        const modal = {
-            overlay,
-            dialog: overlay?.querySelector('.product-details-modal'),
-            close: overlay?.querySelector('.product-details-close'),
-            visual: overlay?.querySelector('.product-details-visual'),
-            image: overlay?.querySelector('.product-details-image'),
-            title: overlay?.querySelector('#product-details-title'),
-            description: overlay?.querySelector('.product-details-description'),
-            average: overlay?.querySelector('.product-details-average'),
-            stars: overlay?.querySelector('.product-details-stars'),
-            comments: overlay?.querySelector('.product-details-comments-list'),
-            price: overlay?.querySelector('.product-details-price strong')
-        };
+    const overlay = document.querySelector('.product-details-overlay');
+    const modal = {
+        overlay,
+        dialog: overlay?.querySelector('.product-details-modal'),
+        close: overlay?.querySelector('.product-details-close'),
+        visual: overlay?.querySelector('.product-details-visual'),
+        image: overlay?.querySelector('.product-details-image'),
+        title: overlay?.querySelector('#product-details-title'),
+        description: overlay?.querySelector('.product-details-description'),
+        average: overlay?.querySelector('.product-details-average'),
+        stars: overlay?.querySelector('.product-details-stars'),
+        comments: overlay?.querySelector('.product-details-comments-list'),
+        price: overlay?.querySelector('.product-details-price strong'),
+        add: overlay?.querySelector('.product-details-add'),
+        addAndOpenCart: overlay?.querySelector('.product-details-add-and-open-cart')
+    };
 
-        if (!modal.overlay || !modal.close || !modal.dialog) return;
+    if (!modal.overlay || !modal.close || !modal.dialog) return;
 
-        document.addEventListener('character:open-details', event => {
-            const product = products.find(item => item.id === event.detail?.productId);
-            abrirModal(product, event.detail?.trigger || event.target, modal, event.detail?.source);
-        });
+    document.addEventListener('character:open-details', event => {
+        const product = products.find(item => item.id === event.detail?.productId);
+        abrirModal(product, event.detail?.trigger || event.target, modal, event.detail?.source);
+    });
 
-        modal.close.addEventListener('click', () => fecharModal(modal));
-        modal.dialog.addEventListener('keydown', event => trapFocus(modal.dialog, event));
+    function dispatchAddToCart() {
+        const product = products.find(item => item.id === modal.currentProductId);
+        if (!product) return;
 
-        modal.overlay.addEventListener('click', event => {
-            if (event.target === modal.overlay) {
-                fecharModal(modal);
+        document.dispatchEvent(new CustomEvent('cart:add', {
+            detail: {
+                product: {
+                    id: product.id,
+                    name: product.name,
+                    image: product.image,
+                    price: product.price,
+                    color: product.colorFrom
+                }
             }
-        });
-
-        document.addEventListener('keydown', event => {
-            if (event.key === 'Escape') {
-                fecharModal(modal);
-            }
-        });
+        }));
     }
+
+    modal.add?.addEventListener('click', dispatchAddToCart);
+
+    modal.addAndOpenCart?.addEventListener('click', () => {
+        dispatchAddToCart();
+        fecharModal(modal);
+        document.querySelector('.btn-cart')?.click();
+    });
+
+    modal.close.addEventListener('click', () => fecharModal(modal));
+    modal.dialog.addEventListener('keydown', event => trapFocus(modal.dialog, event));
+
+    modal.overlay.addEventListener('click', event => {
+        if (event.target === modal.overlay) {
+            fecharModal(modal);
+        }
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+            fecharModal(modal);
+        }
+    });
+}
 
     async function initPersonagensSection(section) {
         const filterGroup = section.querySelector('.catalog-tabs');
