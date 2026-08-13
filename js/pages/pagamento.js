@@ -162,15 +162,9 @@ async function prefillSavedCard() {
     try {
         const card = await getUserCard();
 
-        cardFields.name.value =
-            card?.nomeTitular || "";
-
-        cardFields.number.value = maskCardNumber(
-            String(card?.numeroCartao || "")
-        );
-
-        cardFields.expiry.value =
-            formatExpiryFromIso(card?.dataValidade);
+        cardFields.name.value = card?.nome_titular || "";
+        cardFields.number.value = maskCardNumber(String(card?.numero_cartao || ""));
+        cardFields.expiry.value = formatExpiryFromIso(card?.data_validade);
 
         cardFields.cvc.value =
             card?.cvc || "";

@@ -99,12 +99,11 @@ function renderAddress(address) {
 
 function renderCard(card) {
   currentCard = card;
-  cardFields.name.value = card.nomeTitular || "";
-  cardFields.number.value = maskCardNumber(card.numeroCartao);
-  cardFields.expiry.value = formatExpiry(card.dataValidade);
+  cardFields.name.value = card.nome_titular || "";
+  cardFields.number.value = maskCardNumber(card.numero_cartao);
+  cardFields.expiry.value = formatExpiry(card.data_validade);
   cardFields.cvc.value = "•••";
 }
-
 async function loadProfile() {
   try {
     const user = await getUserProfile();
@@ -421,11 +420,11 @@ document.querySelectorAll(".stored-card__edit").forEach((button) => {
   button.addEventListener("click", () => {
     if (button.classList.contains("stored-card__edit--name")) {
       cardFields.name.readOnly = false;
-      cardFields.name.value = currentCard?.nomeTitular || "";
+      cardFields.name.value = currentCard?.nome_titular || "";
       cardFields.name.focus();
     } else if (button.classList.contains("stored-card__edit--number")) {
       cardFields.number.readOnly = false;
-      cardFields.number.value = currentCard?.numeroCartao || "";
+      cardFields.number.value = currentCard?.numero_cartao || "";
       cardFields.number.focus();
     } else if (button.classList.contains("stored-card__edit--expiry")) {
       cardFields.expiry.readOnly = false;

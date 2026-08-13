@@ -117,8 +117,7 @@ export async function updateUserAddress(dados) {
 }
 
 /**
- * @returns {Promise<{id: number, numeroCartao: string, nomeTitular: string, cvc: string, dataValidade: string}>}
- * @throws {Error} com a mensagem de erro devolvida pela API.
+ * @returns {Promise<{id: number, numero_cartao: string, nome_titular: string, cvc: string, data_validade: string}>}
  */
 export async function getUserCard() {
   const response = await fetch(`${getUsersUrl()}/cartao`, {
@@ -134,7 +133,7 @@ export async function getUserCard() {
 
 /**
  * @param {{ numero_cartao?: string, nome_titular?: string, data_validade?: string, cvc?: string }} dados
- * @returns {Promise<{id: number, numeroCartao: string, nomeTitular: string, cvc: string, dataValidade: string}>}
+ * @returns {Promise<{id: number, numero_cartao: string, nome_titular: string, cvc: string, data_validade: string}>}
  * @throws {Error} com a mensagem de erro devolvida pela API.
  */
 export async function updateUserCard(dados) {
