@@ -152,20 +152,40 @@ function createPurchaseItem(order) {
     title.textContent = `Pedido #${order.id} — ${order.status}`;
     const dataPedido = order.dataPedido ? dateFormatter.format(new Date(order.dataPedido)) : "";
     details.textContent = `${order.itens.length} ite${order.itens.length === 1 ? "m" : "ns"} • ${moneyFormatter.format(order.total)}${dataPedido ? ` • ${dataPedido}` : ""}`;
+
+    const itemsPanel = document.createElement("ul");
+    itemsPanel.className = "purchase-card__items";
+    itemsPanel.hidden = true;
+    order.itens.forEach((i) => {
+      const li = document.createElement("li");
+      li.textContent = `${i.quantidade}x ${i.nome} — ${moneyFormatter.format(i.subtotal)}`;
+      itemsPanel.append(li);
+    });
+
     routeButton.textContent = "Ver detalhes";
+    routeButton.setAttribute("aria-expanded", "false");
     routeButton.setAttribute("aria-label", `Ver detalhes do pedido #${order.id}`);
     routeButton.addEventListener("click", () => {
+      const isOpen = !itemsPanel.hidden;
+      itemsPanel.hidden = isOpen;
+      routeButton.setAttribute("aria-expanded", String(!isOpen));
+      routeButton.textContent = isOpen ? "Ver detalhes" : "Ocultar detalhes";
       liveStatus.textContent = `Pedido #${order.id}: ${order.itens.map((i) => `${i.quantidade}x ${i.nome}`).join(", ")}.`;
     });
-  } else {
-    title.textContent = order.status;
-    details.textContent = order.address;
-    routeButton.textContent = "Ver rota";
-    routeButton.setAttribute("aria-label", `Ver rota da compra: ${order.status}`);
-    routeButton.addEventListener("click", () => {
-      liveStatus.textContent = "O rastreamento será aberto quando o backend de compras estiver conectado.";
-    });
+
+    content.append(title, details, itemsPanel);
+    card.append(content, routeButton);
+    item.append(card);
+    return item;
   }
+
+  title.textContent = order.status;
+  details.textContent = order.address;
+  routeButton.textContent = "Ver rota";
+  routeButton.setAttribute("aria-label", `Ver rota da compra: ${order.status}`);
+  routeButton.addEventListener("click", () => {
+    liveStatus.textContent = "O rastreamento será aberto quando o backend de compras estiver conectado.";
+  });
 
   content.append(title, details);
   card.append(content, routeButton);
