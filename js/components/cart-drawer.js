@@ -270,7 +270,7 @@
         cart.clear();
 
         (cartResponse?.items || []).forEach(item => {
-            const id = String(item.productId);
+            const id = String(item.product_id);
             const product = normalizeProduct({
                 id,
                 name: item.nome,
