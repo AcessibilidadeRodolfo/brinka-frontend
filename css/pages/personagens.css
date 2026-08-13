@@ -288,7 +288,7 @@ body.has-open-filter-modal {
     background-size: cover;
 
     position: absolute;
-    inset-block: 7rem;
+    inset-block: 1rem;
     inset-inline-start: 0;
     inline-size: min(92vw, 60rem);
     overflow-y: auto;
