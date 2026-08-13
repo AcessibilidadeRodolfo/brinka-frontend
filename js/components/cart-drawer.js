@@ -218,28 +218,7 @@
         return response.status === 204 ? null : response.json();
     }
 
-    /** Reconstrói o Map local a partir de um CartResponse vindo da API ({ items, total }). */
-    function applyServerCart(cartResponse, { animate = false } = {}) {
-        cart.clear();
-
-        (cartResponse?.items || []).forEach(item => {
-            const id = String(item.productId);
-            const product = normalizeProduct({
-                id,
-                name: item.nome,
-                image: item.imagem,
-                price: item.preco,
-                color: colorCache.get(id) || ''
-            });
-
-            if (product) cart.set(id, { product, quantity: item.quantidade });
-        });
-
-        renderCart(animate);
-        document.dispatchEvent(new CustomEvent('cart:updated', {
-            detail: { cart: getCartSnapshot() }
-        }));
-    }
+    
 
     function initCartDrawer() {
         const openButton = document.querySelector('.btn-cart');
@@ -285,6 +264,29 @@
             if (shouldAnimateCount) animateCounter();
             lastAddedId = null;
         }
+
+        /** Reconstrói o Map local a partir de um CartResponse vindo da API ({ items, total }). */
+    function applyServerCart(cartResponse, { animate = false } = {}) {
+        cart.clear();
+
+        (cartResponse?.items || []).forEach(item => {
+            const id = String(item.productId);
+            const product = normalizeProduct({
+                id,
+                name: item.nome,
+                image: item.imagem,
+                price: item.preco,
+                color: colorCache.get(id) || ''
+            });
+
+            if (product) cart.set(id, { product, quantity: item.quantidade });
+        });
+
+        renderCart(animate);
+        document.dispatchEvent(new CustomEvent('cart:updated', {
+            detail: { cart: getCartSnapshot() }
+        }));
+    }
 
         function syncCart(shouldAnimateCount = false) {
             const snapshot = saveCart();
