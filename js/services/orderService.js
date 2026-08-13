@@ -42,18 +42,18 @@ async function extractErrorMessage(response) {
 
 /**
  * Cria um pedido a partir do carrinho do usuário autenticado.
- * @param {"PIX" | "CARTAO_CREDITO" | "BOLETO"} metodoPagamento
+ * @param {"PIX" | "CARTAO_CREDITO" | "BOLETO"} metodo_pagamento
  * @returns {Promise<object>} o pedido criado, com itens, pagamento e total.
  * @throws {Error} com a mensagem de erro devolvida pela API.
  */
-export async function createOrder(metodoPagamento) {
+export async function createOrder(metodo_pagamento) {
   const response = await fetch(getOrdersUrl(), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       ...authHeader(),
     },
-    body: JSON.stringify({ metodoPagamento }),
+    body: JSON.stringify({ metodo_pagamento }),
   });
 
   if (!response.ok) {
