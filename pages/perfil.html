@@ -8,11 +8,11 @@
   <meta name="description" content="Consulte seus dados, compras e cartão cadastrado na Brinka." />
 
   <link rel="stylesheet" href="/css/tokens.css" />
-  <link rel="stylesheet" href="/css/components/cadastro/base.css" />
-  <link rel="stylesheet" href="/css/components/cadastro/buttons.css" />
+  <link rel="stylesheet" href="/css/components/auth/base.css" />
+  <link rel="stylesheet" href="/css/components/auth/buttons.css" />
   <link rel="stylesheet" href="/css/pages/perfil.css" />
 </head>
-<body>
+<body class="profile-page-body">
   <a class="profile-skip-link" href="#profile-title">Pular para as informações do perfil</a>
 
   <main class="profile-page">
@@ -20,29 +20,34 @@
       <h1 id="profile-title">Informações do perfil</h1>
 
       <div class="profile-info__body">
-        <div class="profile-avatar" role="img" aria-label="Foto de perfil não cadastrada"></div>
+        <div class="profile-avatar">
+          <img src="../assets/icons/avatar-padrao.svg" alt="Foto de perfil não cadastrada" />
+        </div>
 
         <div class="profile-details">
-          <h2>Erick Santos Silva</h2>
+          <div class="profile-field profile-field--name">
+            <h2 id="profile-name">Erick Santos Silva</h2>
+            <button class="profile-edit-btn" type="button" data-edit-field="nome" aria-label="Editar nome">✎</button>
+          </div>
           <dl>
-            <div>
+            <div class="profile-field" data-field-row="email">
               <dt>E-mail:</dt>
-              <dd>erickdasilva@gmail.com</dd>
+              <dd id="profile-email">erickdasilva@gmail.com</dd>
+              <button class="profile-edit-btn" type="button" data-edit-field="email" aria-label="Editar e-mail">✎</button>
             </div>
-            <div>
+            <div class="profile-field" data-field-row="telefone">
               <dt>Telefone:</dt>
-              <dd>11950646508</dd>
+              <dd id="profile-phone">11950646508</dd>
+              <button class="profile-edit-btn" type="button" data-edit-field="telefone" aria-label="Editar telefone">✎</button>
             </div>
-            <div>
+            <div class="profile-field" data-field-row="address">
               <dt>Endereço:</dt>
-              <dd>Osasco, Jardim das Flores, rua Açucena 424</dd>
+              <dd id="profile-address">Osasco, Jardim das Flores, rua Açucena 424</dd>
+              <button class="profile-edit-btn" type="button" data-edit-field="address" aria-label="Editar endereço">✎</button>
             </div>
           </dl>
 
           <div class="profile-actions">
-            <button class="btn profile-button profile-button--light" type="button" data-profile-action="update-profile">
-              Atualizar Dados
-            </button>
             <button class="btn profile-button profile-button--danger" type="button" data-profile-action="logout">
               Sair da Conta
             </button>
@@ -134,6 +139,7 @@
     </section>
   </div>
 
+  <script src="../js/utils/config.js"></script>
   <script type="module" src="../js/pages/perfil.js"></script>
 </body>
 </html>

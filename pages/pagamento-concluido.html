@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagamento concluído | Brinka</title>
+  <meta name="description" content="Seu pagamento foi concluído com sucesso na Brinka." />
+  <meta name="theme-color" content="#272727" />
+  <link rel="icon" href="../assets/icons/logo.svg" type="image/svg+xml" />
+
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/components/auth/base.css" />
+  <link rel="stylesheet" href="../css/components/auth/buttons.css" />
+  <link rel="stylesheet" href="../css/pages/pagamento-concluido.css" />
+</head>
+<body class="payment-success-body">
+  <a class="skip-link" href="#payment-success-title">Pular para a confirmação do pagamento</a>
+
+  <main class="payment-success-page">
+    <section class="payment-success" aria-labelledby="payment-success-title">
+      <h1 id="payment-success-title">Pagamento concluído<br />com sucesso!</h1>
+
+      <div class="payment-success__content">
+        <p>Obrigada por comprar conosco!</p>
+
+        <nav class="payment-success__actions" aria-label="Próximas ações">
+          <a class="btn payment-success__button payment-success__button--primary" href="../index-logado.html#personagens">
+            Voltar as compras
+          </a>
+          <a id="view-order-link" class="btn payment-success__button payment-success__button--secondary" href="perfil.html#purchase-history-title">
+            Ver o pedido
+          </a>
+        </nav>
+      </div>
+
+      <div class="payment-success__icon">
+        <img src="../assets/icons/confirmacao.svg" alt="Pagamento aprovado" />
+      </div>
+
+      <p id="payment-success-status" class="sr-only" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script type="module" src="../js/pages/pagamento-concluido.js"></script>
+</body>
+</html>
