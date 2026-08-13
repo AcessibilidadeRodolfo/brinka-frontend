@@ -281,14 +281,19 @@ body.has-open-filter-modal {
 }
 
 .product-details-modal {
+    background-color: #292929;
+    background-image: url("/assets/images/cool-line.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
     position: absolute;
-    inset-block: 1rem;
+    inset-block: 7rem;
     inset-inline-start: 0;
-    inline-size: min(92vw, 38rem);
+    inline-size: min(92vw, 60rem);
     overflow-y: auto;
     padding: clamp(1.25rem, 3vw, 2rem);
     border-radius: 0 2rem 2rem 0;
-    background: #292929;
     color: #fff;
     box-shadow: 1rem 0 2.5rem rgba(0, 0, 0, 0.42);
     transform: translateX(-105%);
@@ -385,6 +390,70 @@ body.has-open-filter-modal {
     color: #fff;
 }
 
+.product-details-purchase {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-block-start: 1rem;
+}
+
+.product-details-purchase-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.product-details-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 2rem;
+    padding-inline: 1rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 200ms ease;
+}
+
+.product-details-add:hover {
+    background: color-mix(in srgb, var(--accent) 85%, black);
+}
+
+.product-details-add-and-open-cart {
+    display: inline-grid;
+    flex: 0 0 auto;
+    place-items: center;
+    min-block-size: 2rem;
+    padding-inline: 1rem;
+    padding: 8px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    transition: background-color 200ms ease;
+}
+
+.product-details-add-and-open-cart:hover {
+    background: color-mix(in srgb, var(--accent) 85%, black);
+}
+
+.product-details-add-and-open-cart img {
+    inline-size: 1.35rem;
+    block-size: 1.35rem;
+}
+
+.product-details-add:focus-visible,
+.product-details-add-and-open-cart:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+}
+
 .product-details-stars,
 .product-comment-stars {
     color: #fff;
@@ -457,7 +526,6 @@ body.has-open-filter-modal {
 .product-details-price {
     display: grid;
     gap: 0.05rem;
-    margin-block-start: 1rem;
 }
 
 .product-details-price strong {
