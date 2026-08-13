@@ -218,12 +218,108 @@
         return response.status === 204 ? null : response.json();
     }
 
-    /** Reconstrói o Map local a partir de um CartResponse vindo da API ({ items, total }). */
+    function initCartDrawer() {
+    const openButton = document.querySelector('.btn-cart');
+    const overlay = document.querySelector('.cart-overlay');
+    const drawer = overlay?.querySelector('.cart-drawer');
+    const closeButton = overlay?.querySelector('.cart-drawer-close');
+    const emptyState = overlay?.querySelector('.cart-empty');
+    const itemList = overlay?.querySelector('.cart-items');
+    const totalValue = overlay?.querySelector('.cart-total');
+    const checkoutButton = overlay?.querySelector('.cart-checkout');
+    const count = document.querySelector('.cart-count');
+    const liveRegion = overlay?.querySelector('.cart-live-region');
+    const footerCartLink = document.querySelector('.footer-cart-link');
+
+    let lastOpenTrigger = openButton;
+
+    if (
+        !openButton ||
+        !overlay ||
+        !drawer ||
+        !closeButton ||
+        !emptyState ||
+        !itemList ||
+        !totalValue ||
+        !count
+    ) {
+        return;
+    }
+
+    function announce(message) {
+        if (liveRegion) {
+            liveRegion.textContent = message;
+        }
+    }
+
+    function animateCounter() {
+        count.classList.remove('is-bumping');
+        void count.offsetWidth;
+        count.classList.add('is-bumping');
+    }
+
+    function renderCart(shouldAnimateCount = false) {
+        const items = Array.from(cart.values());
+        const totalQuantity = getTotalQuantity();
+        const isEmpty = items.length === 0;
+
+        emptyState.hidden = !isEmpty;
+        itemList.hidden = isEmpty;
+
+        itemList.replaceChildren(
+            ...items.map(createCartItem)
+        );
+
+        totalValue.textContent = moneyFormatter.format(getTotalPrice());
+
+        count.textContent = String(totalQuantity);
+
+        openButton.setAttribute(
+            'aria-label',
+            `Carrinho, ${totalQuantity} ${
+                totalQuantity === 1 ? 'item' : 'itens'
+            }`
+        );
+
+        if (checkoutButton) {
+            checkoutButton.disabled = isEmpty;
+        }
+
+        if (shouldAnimateCount) {
+            animateCounter();
+        }
+
+        lastAddedId = null;
+    }
+
+    function syncCart(shouldAnimateCount = false) {
+        const snapshot = saveCart();
+
+        renderCart(shouldAnimateCount);
+
+        document.dispatchEvent(
+            new CustomEvent('cart:updated', {
+                detail: {
+                    cart: snapshot
+                }
+            })
+        );
+
+        return snapshot;
+    }
+
+    /*
+     * Recebe o carrinho do backend e transforma o retorno
+     * no estado local do carrinho.
+     */
     function applyServerCart(cartResponse, { animate = false } = {}) {
         cart.clear();
 
-        (cartResponse?.items || []).forEach(item => {
+        const serverItems = cartResponse?.items || [];
+
+        serverItems.forEach(item => {
             const id = String(item.productId);
+
             const product = normalizeProduct({
                 id,
                 name: item.nome,
@@ -232,366 +328,603 @@
                 color: colorCache.get(id) || ''
             });
 
-            if (product) cart.set(id, { product, quantity: item.quantidade });
-        });
+            const quantity = Number.parseInt(item.quantidade, 10);
 
-        renderCart(animate);
-        document.dispatchEvent(new CustomEvent('cart:updated', {
-            detail: { cart: getCartSnapshot() }
-        }));
-    }
-
-    function initCartDrawer() {
-        const openButton = document.querySelector('.btn-cart');
-        const overlay = document.querySelector('.cart-overlay');
-        const drawer = overlay?.querySelector('.cart-drawer');
-        const closeButton = overlay?.querySelector('.cart-drawer-close');
-        const emptyState = overlay?.querySelector('.cart-empty');
-        const itemList = overlay?.querySelector('.cart-items');
-        const totalValue = overlay?.querySelector('.cart-total');
-        const checkoutButton = overlay?.querySelector('.cart-checkout');
-        const count = document.querySelector('.cart-count');
-        const liveRegion = overlay?.querySelector('.cart-live-region');
-        const footerCartLink = document.querySelector('.footer-cart-link');
-        let lastOpenTrigger = openButton;
-
-        if (!openButton || !overlay || !drawer || !closeButton || !emptyState || !itemList || !totalValue || !count) {
-            return;
-        }
-
-        function announce(message) {
-            if (liveRegion) liveRegion.textContent = message;
-        }
-
-        function animateCounter() {
-            count.classList.remove('is-bumping');
-            void count.offsetWidth;
-            count.classList.add('is-bumping');
-        }
-
-        function renderCart(shouldAnimateCount = false) {
-            const items = Array.from(cart.values());
-            const totalQuantity = getTotalQuantity();
-            const isEmpty = items.length === 0;
-
-            emptyState.hidden = !isEmpty;
-            itemList.hidden = isEmpty;
-            itemList.replaceChildren(...items.map(createCartItem));
-            totalValue.textContent = moneyFormatter.format(getTotalPrice());
-            count.textContent = String(totalQuantity);
-            openButton.setAttribute('aria-label', `Carrinho, ${totalQuantity} ${totalQuantity === 1 ? 'item' : 'itens'}`);
-            if (checkoutButton) checkoutButton.disabled = isEmpty;
-
-            if (shouldAnimateCount) animateCounter();
-            lastAddedId = null;
-        }
-
-        function syncCart(shouldAnimateCount = false) {
-            const snapshot = saveCart();
-            renderCart(shouldAnimateCount);
-            document.dispatchEvent(new CustomEvent('cart:updated', {
-                detail: { cart: snapshot }
-            }));
-            return snapshot;
-        }
-
-        function openDrawer(trigger = openButton) {
-            if (overlay.classList.contains('is-open')) return;
-
-            lastOpenTrigger = trigger;
-            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-            document.body.style.setProperty('--cart-scrollbar-compensation', `${scrollbarWidth}px`);
-            document.body.classList.add('cart-drawer-open');
-            overlay.removeAttribute('inert');
-            overlay.classList.add('is-open');
-            overlay.setAttribute('aria-hidden', 'false');
-            openButton.setAttribute('aria-expanded', 'true');
-            requestAnimationFrame(() => closeButton.focus());
-        }
-
-        function closeDrawer() {
-            if (!overlay.classList.contains('is-open')) return;
-
-            overlay.classList.remove('is-open');
-            lastOpenTrigger?.focus();
-            overlay.setAttribute('aria-hidden', 'true');
-            overlay.setAttribute('inert', '');
-            openButton.setAttribute('aria-expanded', 'false');
-            document.body.classList.remove('cart-drawer-open');
-            document.body.style.removeProperty('--cart-scrollbar-compensation');
-            lastOpenTrigger = openButton;
-        }
-
-        // Remove um item. Para usuários logados, só mexe no estado local
-        // depois que a API confirmar a remoção — se a chamada falhar, o
-        // item continua no carrinho e o usuário é avisado.
-        async function removeItem(productId, row) {
-            const item = cart.get(productId);
-            if (!item) return;
-
-            async function finishRemoval() {
-                if (isLoggedIn()) {
-                    try {
-                        const serverCart = await apiRequest(`/usuarios/carrinho/${encodeURIComponent(productId)}`, { method: 'DELETE' });
-                        applyServerCart(serverCart ?? { items: [] }, { animate: false });
-                        announce(`${item.product.name} removido do carrinho.`);
-                    } catch (err) {
-                        console.error('Não foi possível remover o item no servidor.', err);
-                        renderCart();
-                        row?.querySelectorAll('button').forEach(button => { button.disabled = false; });
-                        row?.classList.remove('is-removing');
-                        announce(`Não foi possível remover ${item.product.name}. Tente novamente.`);
-                    }
-                    return;
-                }
-
-                cart.delete(productId);
-                syncCart();
-                announce(`${item.product.name} removido do carrinho.`);
-            }
-
-            if (reduceMotion.matches || !row) {
-                await finishRemoval();
+            if (
+                !product ||
+                !Number.isInteger(quantity) ||
+                quantity <= 0
+            ) {
                 return;
             }
 
-            row.classList.add('is-removing');
-            row.querySelectorAll('button').forEach(button => { button.disabled = true; });
-            window.setTimeout(finishRemoval, 220);
-        }
-
-        // Adiciona um produto. Para usuários logados, se a API falhar,
-        // NÃO cai no comportamento local/mock: mantém o carrinho como
-        // estava e avisa o erro.
-        async function addProduct(productData) {
-            const product = normalizeProduct(productData);
-            if (!product) return getCartSnapshot();
-            if (product.color) colorCache.set(product.id, product.color);
-
-            if (isLoggedIn()) {
-                try {
-                    const serverCart = await apiRequest(`/usuarios/carrinho?productId=${encodeURIComponent(product.id)}`, { method: 'POST' });
-                    lastAddedId = product.id;
-                    applyServerCart(serverCart, { animate: true });
-                    announce(`${product.name} adicionado ao carrinho.`);
-                } catch (err) {
-                    console.error('Não foi possível adicionar o item no servidor.', err);
-                    announce(`Não foi possível adicionar ${product.name} ao carrinho. Tente novamente.`);
-                }
-                return getCartSnapshot();
-            }
-
-            const currentItem = cart.get(product.id);
-            cart.set(product.id, {
+            cart.set(id, {
                 product,
-                quantity: currentItem ? currentItem.quantity + 1 : 1
+                quantity
             });
+        });
 
-            lastAddedId = product.id;
-            const snapshot = syncCart(true);
-            announce(`${product.name} adicionado ao carrinho.`);
-            return snapshot;
+        /*
+         * Atualiza a interface com o retorno real do backend.
+         */
+        renderCart(animate);
+
+        /*
+         * Salva o carrinho atualizado no localStorage.
+         * Assim páginas como pagamento.html conseguem
+         * recuperar o mesmo carrinho.
+         */
+        const snapshot = saveCart();
+
+        /*
+         * Notifica outros componentes do frontend.
+         */
+        document.dispatchEvent(
+            new CustomEvent('cart:updated', {
+                detail: {
+                    cart: snapshot
+                }
+            })
+        );
+
+        return snapshot;
+    }
+
+    function openDrawer(trigger = openButton) {
+        if (overlay.classList.contains('is-open')) {
+            return;
         }
 
-        async function increaseProduct(productId) {
-            const item = cart.get(productId);
-            if (!item) return null;
+        lastOpenTrigger = trigger;
 
+        const scrollbarWidth =
+            window.innerWidth -
+            document.documentElement.clientWidth;
+
+        document.body.style.setProperty(
+            '--cart-scrollbar-compensation',
+            `${scrollbarWidth}px`
+        );
+
+        document.body.classList.add('cart-drawer-open');
+
+        overlay.removeAttribute('inert');
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+
+        openButton.setAttribute('aria-expanded', 'true');
+
+        requestAnimationFrame(() => {
+            closeButton.focus();
+        });
+    }
+
+    function closeDrawer() {
+        if (!overlay.classList.contains('is-open')) {
+            return;
+        }
+
+        overlay.classList.remove('is-open');
+
+        lastOpenTrigger?.focus();
+
+        overlay.setAttribute('aria-hidden', 'true');
+        overlay.setAttribute('inert', '');
+
+        openButton.setAttribute('aria-expanded', 'false');
+
+        document.body.classList.remove('cart-drawer-open');
+        document.body.style.removeProperty(
+            '--cart-scrollbar-compensation'
+        );
+
+        lastOpenTrigger = openButton;
+    }
+
+    async function removeItem(productId, row) {
+        const item = cart.get(productId);
+
+        if (!item) {
+            return;
+        }
+
+        async function finishRemoval() {
             if (isLoggedIn()) {
                 try {
-                    const serverCart = await apiRequest(`/usuarios/carrinho/${encodeURIComponent(productId)}?operation=ADD`, { method: 'PATCH' });
-                    applyServerCart(serverCart, { animate: true });
-                    announce(`Quantidade de ${item.product.name} atualizada.`);
+                    const serverCart = await apiRequest(
+                        `/usuarios/carrinho/${encodeURIComponent(productId)}`,
+                        {
+                            method: 'DELETE'
+                        }
+                    );
+
+                    applyServerCart(serverCart, {
+                        animate: false
+                    });
+
+                    announce(
+                        `${item.product.name} removido do carrinho.`
+                    );
                 } catch (err) {
-                    console.error('Não foi possível atualizar a quantidade no servidor.', err);
-                    announce(`Não foi possível atualizar ${item.product.name}. Tente novamente.`);
+                    console.error(
+                        'Não foi possível remover o item no servidor.',
+                        err
+                    );
+
+                    renderCart();
+
+                    row?.querySelectorAll('button').forEach(button => {
+                        button.disabled = false;
+                    });
+
+                    row?.classList.remove('is-removing');
+
+                    announce(
+                        `Não foi possível remover ${item.product.name}. Tente novamente.`
+                    );
                 }
-                return getCartSnapshot();
+
+                return;
             }
 
-            item.quantity += 1;
-            const snapshot = syncCart(true);
-            announce(`Quantidade de ${item.product.name}: ${item.quantity}.`);
-            return snapshot;
+            cart.delete(productId);
+
+            syncCart();
+
+            announce(
+                `${item.product.name} removido do carrinho.`
+            );
         }
 
-        async function decreaseProduct(productId, row = null) {
-            const item = cart.get(productId);
-            if (!item) return null;
-
-            if (item.quantity === 1) {
-                await removeItem(productId, row);
-                return getCartSnapshot();
-            }
-
-            if (isLoggedIn()) {
-                try {
-                    const serverCart = await apiRequest(`/usuarios/carrinho/${encodeURIComponent(productId)}?operation=REMOVE`, { method: 'PATCH' });
-                    applyServerCart(serverCart, { animate: true });
-                    announce(`Quantidade de ${item.product.name} atualizada.`);
-                } catch (err) {
-                    console.error('Não foi possível atualizar a quantidade no servidor.', err);
-                    announce(`Não foi possível atualizar ${item.product.name}. Tente novamente.`);
-                }
-                return getCartSnapshot();
-            }
-
-            item.quantity -= 1;
-            const snapshot = syncCart(true);
-            announce(`Quantidade de ${item.product.name}: ${item.quantity}.`);
-            return snapshot;
+        if (reduceMotion.matches || !row) {
+            await finishRemoval();
+            return;
         }
 
-        function removeProduct(productId, row = null) {
-            if (!cart.has(productId)) return null;
+        row.classList.add('is-removing');
 
-            removeItem(productId, row);
+        row.querySelectorAll('button').forEach(button => {
+            button.disabled = true;
+        });
+
+        window.setTimeout(finishRemoval, 220);
+    }
+
+    async function addProduct(productData) {
+        const product = normalizeProduct(productData);
+
+        if (!product) {
             return getCartSnapshot();
         }
 
-        document.addEventListener('cart:add', event => {
-            const product = event.detail?.product;
-            if (product?.id) addProduct(product);
+        if (product.color) {
+            colorCache.set(product.id, product.color);
+        }
+
+        if (isLoggedIn()) {
+            try {
+                const serverCart = await apiRequest(
+                    `/usuarios/carrinho?productId=${encodeURIComponent(product.id)}`,
+                    {
+                        method: 'POST'
+                    }
+                );
+
+                lastAddedId = product.id;
+
+                /*
+                 * O backend retorna o carrinho atualizado.
+                 * Esse retorno agora alimenta o Map local.
+                 */
+                applyServerCart(serverCart, {
+                    animate: true
+                });
+
+                announce(
+                    `${product.name} adicionado ao carrinho.`
+                );
+            } catch (err) {
+                console.error(
+                    'Não foi possível adicionar o item no servidor.',
+                    err
+                );
+
+                announce(
+                    `Não foi possível adicionar ${product.name} ao carrinho. Tente novamente.`
+                );
+            }
+
+            return getCartSnapshot();
+        }
+
+        const currentItem = cart.get(product.id);
+
+        cart.set(product.id, {
+            product,
+            quantity: currentItem
+                ? currentItem.quantity + 1
+                : 1
         });
 
-        openButton.addEventListener('click', () => openDrawer(openButton));
-        footerCartLink?.addEventListener('click', event => {
-            event.preventDefault();
-            openDrawer(footerCartLink);
-        });
-        closeButton.addEventListener('click', closeDrawer);
+        lastAddedId = product.id;
 
-        overlay.addEventListener('click', event => {
-            if (event.target === overlay) closeDrawer();
-        });
+        const snapshot = syncCart(true);
 
-        itemList.addEventListener('click', event => {
-            const button = event.target.closest('button[data-action]');
-            if (!button) return;
+        announce(
+            `${product.name} adicionado ao carrinho.`
+        );
 
-            const { action, productId } = button.dataset;
-            const item = cart.get(productId);
-            if (!item) return;
+        return snapshot;
+    }
 
-            if (action === 'details') {
-                button.dispatchEvent(new CustomEvent('character:open-details', {
+    async function increaseProduct(productId) {
+        const item = cart.get(productId);
+
+        if (!item) {
+            return null;
+        }
+
+        if (isLoggedIn()) {
+            try {
+                const serverCart = await apiRequest(
+                    `/usuarios/carrinho/${encodeURIComponent(productId)}?operation=ADD`,
+                    {
+                        method: 'PATCH'
+                    }
+                );
+
+                applyServerCart(serverCart, {
+                    animate: true
+                });
+
+                announce(
+                    `Quantidade de ${item.product.name} atualizada.`
+                );
+            } catch (err) {
+                console.error(
+                    'Não foi possível atualizar a quantidade no servidor.',
+                    err
+                );
+
+                announce(
+                    `Não foi possível atualizar ${item.product.name}. Tente novamente.`
+                );
+            }
+
+            return getCartSnapshot();
+        }
+
+        item.quantity += 1;
+
+        const snapshot = syncCart(true);
+
+        announce(
+            `Quantidade de ${item.product.name}: ${item.quantity}.`
+        );
+
+        return snapshot;
+    }
+
+    async function decreaseProduct(productId, row = null) {
+        const item = cart.get(productId);
+
+        if (!item) {
+            return null;
+        }
+
+        if (item.quantity === 1) {
+            await removeItem(productId, row);
+            return getCartSnapshot();
+        }
+
+        if (isLoggedIn()) {
+            try {
+                const serverCart = await apiRequest(
+                    `/usuarios/carrinho/${encodeURIComponent(productId)}?operation=REMOVE`,
+                    {
+                        method: 'PATCH'
+                    }
+                );
+
+                applyServerCart(serverCart, {
+                    animate: true
+                });
+
+                announce(
+                    `Quantidade de ${item.product.name} atualizada.`
+                );
+            } catch (err) {
+                console.error(
+                    'Não foi possível atualizar a quantidade no servidor.',
+                    err
+                );
+
+                announce(
+                    `Não foi possível atualizar ${item.product.name}. Tente novamente.`
+                );
+            }
+
+            return getCartSnapshot();
+        }
+
+        item.quantity -= 1;
+
+        const snapshot = syncCart(true);
+
+        announce(
+            `Quantidade de ${item.product.name}: ${item.quantity}.`
+        );
+
+        return snapshot;
+    }
+
+    function removeProduct(productId, row = null) {
+        if (!cart.has(productId)) {
+            return null;
+        }
+
+        removeItem(productId, row);
+
+        return getCartSnapshot();
+    }
+
+    document.addEventListener('cart:add', event => {
+        const product = event.detail?.product;
+
+        if (product?.id) {
+            addProduct(product);
+        }
+    });
+
+    openButton.addEventListener('click', () => {
+        openDrawer(openButton);
+    });
+
+    footerCartLink?.addEventListener('click', event => {
+        event.preventDefault();
+        openDrawer(footerCartLink);
+    });
+
+    closeButton.addEventListener('click', closeDrawer);
+
+    overlay.addEventListener('click', event => {
+        if (event.target === overlay) {
+            closeDrawer();
+        }
+    });
+
+    itemList.addEventListener('click', event => {
+        const button = event.target.closest(
+            'button[data-action]'
+        );
+
+        if (!button) {
+            return;
+        }
+
+        const { action, productId } = button.dataset;
+        const item = cart.get(productId);
+
+        if (!item) {
+            return;
+        }
+
+        if (action === 'details') {
+            button.dispatchEvent(
+                new CustomEvent('character:open-details', {
                     bubbles: true,
                     detail: {
                         productId,
                         trigger: button,
                         source: 'cart'
                     }
-                }));
-            } else if (action === 'increase') {
-                increaseProduct(productId);
-            } else if (action === 'decrease') {
-                decreaseProduct(productId, button.closest('.cart-item'));
-            } else if (action === 'remove') {
-                removeProduct(productId, button.closest('.cart-item'));
-            }
-        });
+                })
+            );
+        } else if (action === 'increase') {
+            increaseProduct(productId);
+        } else if (action === 'decrease') {
+            decreaseProduct(
+                productId,
+                button.closest('.cart-item')
+            );
+        } else if (action === 'remove') {
+            removeProduct(
+                productId,
+                button.closest('.cart-item')
+            );
+        }
+    });
 
-        checkoutButton?.addEventListener('click', () => {
-            if (!cart.size) return;
+    checkoutButton?.addEventListener('click', () => {
+        if (!cart.size) {
+            return;
+        }
 
-            const order = getCartSnapshot();
-            document.dispatchEvent(new CustomEvent('cart:checkout', {
-                detail: { order }
-            }));
-            announce(`Resumo da compra preparado. Total ${moneyFormatter.format(order.total)}.`);
+        const order = getCartSnapshot();
 
-            window.location.href = 'pages/pagamento.html'
-        });
-
-        drawer.addEventListener('keydown', event => {
-            if (event.key !== 'Tab') return;
-
-            const focusable = Array.from(drawer.querySelectorAll('button:not(:disabled)'));
-            if (!focusable.length) return;
-
-            const first = focusable[0];
-            const last = focusable[focusable.length - 1];
-
-            if (event.shiftKey && document.activeElement === first) {
-                event.preventDefault();
-                last.focus();
-            } else if (!event.shiftKey && document.activeElement === last) {
-                event.preventDefault();
-                first.focus();
-            }
-        });
-
-        document.addEventListener('keydown', event => {
-            if (event.key !== 'Escape') return;
-            if (document.querySelector('.product-details-overlay.is-open')) return;
-
-            closeDrawer();
-        });
-
-        async function loadInitialCart() {
-            if (isLoggedIn()) {
-                try {
-                    const serverCart = await apiRequest('/usuarios/carrinho', { method: 'GET' });
-                    applyServerCart(serverCart);
-                    return;
-                } catch (err) {
-                    console.error('Não foi possível carregar o carrinho do servidor.', err);
-                    announce('Não foi possível carregar seu carrinho. Tente recarregar a página.');
-                    renderCart();
-                    return;
+        document.dispatchEvent(
+            new CustomEvent('cart:checkout', {
+                detail: {
+                    order
                 }
-            }
+            })
+        );
 
-            restoreCart();
-            syncCart();
+        announce(
+            `Resumo da compra preparado. Total ${moneyFormatter.format(order.total)}.`
+        );
+
+        window.location.href = 'pages/pagamento.html';
+    });
+
+    drawer.addEventListener('keydown', event => {
+        if (event.key !== 'Tab') {
+            return;
         }
 
-        loadInitialCart();
+        const focusable = Array.from(
+            drawer.querySelectorAll(
+                'button:not(:disabled)'
+            )
+        );
 
-        if(window.location.hash === '#cart-drawer'){
-            openDrawer(openButton);
+        if (!focusable.length) {
+            return;
         }
 
-        window.brinkaCart = Object.freeze({
-            storageKey: cartStorageKey,
-            getSnapshot: getCartSnapshot,
-            add: addProduct,
-            increase: increaseProduct,
-            decrease: decreaseProduct,
-            remove: removeProduct,
-            async clear() {
-                if (isLoggedIn()) {
-                    const idsToRemove = Array.from(cart.keys());
-                    const failedIds = [];
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
 
-                    for (const id of idsToRemove) {
-                        try {
-                            await apiRequest(`/usuarios/carrinho/${encodeURIComponent(id)}`, { method: 'DELETE' });
-                            cart.delete(id);
-                        } catch (err) {
-                            console.error('Não foi possível remover item no servidor.', err);
-                            failedIds.push(id);
-                        }
+        if (
+            event.shiftKey &&
+            document.activeElement === first
+        ) {
+            event.preventDefault();
+            last.focus();
+        } else if (
+            !event.shiftKey &&
+            document.activeElement === last
+        ) {
+            event.preventDefault();
+            first.focus();
+        }
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') {
+            return;
+        }
+
+        if (
+            document.querySelector(
+                '.product-details-overlay.is-open'
+            )
+        ) {
+            return;
+        }
+
+        closeDrawer();
+    });
+
+    async function loadInitialCart() {
+        if (isLoggedIn()) {
+            try {
+                const serverCart = await apiRequest(
+                    '/usuarios/carrinho',
+                    {
+                        method: 'GET'
                     }
+                );
 
-                    renderCart(true);
-                    const snapshot = getCartSnapshot();
-                    document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: snapshot } }));
+                /*
+                 * Aqui também pega o retorno do backend
+                 * e coloca no carrinho local.
+                 */
+                applyServerCart(serverCart);
 
-                    announce(failedIds.length
-                        ? 'Alguns itens não puderam ser removidos. Tente novamente.'
-                        : 'Carrinho esvaziado.');
+                return;
+            } catch (err) {
+                console.error(
+                    'Não foi possível carregar o carrinho do servidor.',
+                    err
+                );
 
-                    return snapshot;
+                announce(
+                    'Não foi possível carregar seu carrinho. Tente recarregar a página.'
+                );
+
+                renderCart();
+
+                return;
+            }
+        }
+
+        restoreCart();
+        syncCart();
+    }
+
+    loadInitialCart();
+
+    if (window.location.hash === '#cart-drawer') {
+        openDrawer(openButton);
+    }
+
+    window.brinkaCart = Object.freeze({
+        storageKey: cartStorageKey,
+
+        getSnapshot: getCartSnapshot,
+
+        add: addProduct,
+
+        increase: increaseProduct,
+
+        decrease: decreaseProduct,
+
+        remove: removeProduct,
+
+        async clear() {
+            if (isLoggedIn()) {
+                const idsToRemove = Array.from(cart.keys());
+                const failedIds = [];
+
+                for (const id of idsToRemove) {
+                    try {
+                        const serverCart = await apiRequest(
+                            `/usuarios/carrinho/${encodeURIComponent(id)}`,
+                            {
+                                method: 'DELETE'
+                            }
+                        );
+
+                        /*
+                         * Como DELETE também pode devolver
+                         * CartResponse, usamos o retorno.
+                         */
+                        applyServerCart(serverCart ?? {
+                            items: []
+                        });
+
+                    } catch (err) {
+                        console.error(
+                            'Não foi possível remover item no servidor.',
+                            err
+                        );
+
+                        failedIds.push(id);
+                    }
                 }
 
-                cart.clear();
-                const snapshot = syncCart(true);
-                announce('Carrinho esvaziado.');
+                renderCart(true);
+
+                const snapshot = saveCart();
+
+                document.dispatchEvent(
+                    new CustomEvent('cart:updated', {
+                        detail: {
+                            cart: snapshot
+                        }
+                    })
+                );
+
+                announce(
+                    failedIds.length
+                        ? 'Alguns itens não puderam ser removidos. Tente novamente.'
+                        : 'Carrinho esvaziado.'
+                );
+
                 return snapshot;
             }
-        });
-    }
+
+            cart.clear();
+
+            const snapshot = syncCart(true);
+
+            announce('Carrinho esvaziado.');
+
+            return snapshot;
+        }
+    });
+}
 
     document.addEventListener('DOMContentLoaded', initCartDrawer);
 })();
